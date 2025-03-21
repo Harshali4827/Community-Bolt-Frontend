@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import axiosInstance from "src/axiosInstance";
 const GOOGLE_MAPS_API_KEY = "AIzaSyAyufpVzzQOm5-z0H___ZEG9pN-P-aAA8M";
 
-function AddProperty(){
+function UpdateProperty(){
   const [formData, setFormData] = useState({
     property_name: '',
     logo: '',
@@ -581,4 +581,4 @@ return(
 </div>
   )
 };
-export default AddProperty;
+export default UpdateProperty;

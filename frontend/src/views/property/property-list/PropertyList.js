@@ -7,7 +7,7 @@ import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import '../../../css/table.css';
 import Swal from 'sweetalert2';
 import axiosInstance from 'src/axiosInstance';
-
+import config from 'src/config';
 
 const PropertyList = () => {
   const [data, setData] = useState([]);
@@ -23,7 +23,7 @@ const PropertyList = () => {
 
   const fetchData = async () => {
     try {
-      const response = await axiosInstance.get(`/vehicles`);
+      const response = await axiosInstance.get(`/property`);
       setData(response.data);
       setFilterRecords(response.data);
     } catch (error) {
@@ -54,19 +54,27 @@ const PropertyList = () => {
 
   //Filter
   const handleFilter = (event) => {
+    const searchValue = event.target.value.toLowerCase();
+  
     const filteredData = data.filter((row) =>
-      (row.VehicleType && row.VehicleType.toLowerCase().includes(event.target.value.toLowerCase())) ||
-      (row.RegistrationNo && row.RegistrationNo.toLowerCase().includes(event.target.value.toLowerCase())) ||
-      (row.UsageType && row.UsageType.toLowerCase().includes(event.target.value.toLowerCase())) ||
-      (row. Capacity  && row. Capacity .toLowerCase().includes(event.target.value.toLowerCase())) ||
-      (row. FuelType && row. FuelType .toLowerCase().includes(event.target.value.toLowerCase())) ||
-      (row.Availability && row. Availability .toLowerCase().includes(event.target.value.toLowerCase()))
+      String(row.property_name || "").toLowerCase().includes(searchValue) ||
+      String(row.address || "").toLowerCase().includes(searchValue) ||
+      String(row.country_id || "").toLowerCase().includes(searchValue) ||
+      String(row.city_id || "").toLowerCase().includes(searchValue) ||
+      String(row.state_id || "").toLowerCase().includes(searchValue) || 
+      String(row.google_location || "").toLowerCase().includes(searchValue) ||
+      String(row.gst_number || "").toLowerCase().includes(searchValue) ||
+      String(row.total_sectors || "").toLowerCase().includes(searchValue) ||
+      String(row.total_blocks || "").toLowerCase().includes(searchValue) ||
+      String(row.total_units  || "").toLowerCase().includes(searchValue) ||
+      String(row.total_offices || "").toLowerCase().includes(searchValue)
     );
+  
     setFilterRecords(filteredData);
     setCurrentPage(1);
   };
   
-  const handleDelete = async (VehicleID) => {
+  const handleDelete = async (id) => {
     Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
@@ -78,8 +86,8 @@ const PropertyList = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          await axiosInstance.delete(`/vehicles/${VehicleID}`);
-          setData(data.filter((vehicle) => vehicle.VehicleID !== VehicleID));
+          await axiosInstance.delete(`/property/${id}`);
+          setData(data.filter((vehicle) => vehicle.id !== id));
           fetchData(); 
           Swal.fire({
             title: "Deleted!",
@@ -96,32 +104,6 @@ const PropertyList = () => {
         }
       }
     });
-  };
-
-  const handleStatusUpdate = async (VehicleID, currentStatus) => {
-    const newStatus = currentStatus === "Available" ? "Unavailable" : "Available";
-  
-    try {
-      await axiosInstance.put(`/vehicles/availability/${VehicleID}`, { Availability: newStatus });
-      setData((prevData) =>
-        prevData.map((vehicle) =>
-          vehicle.VehicleID === VehicleID ? { ...vehicle, Availability: newStatus } : vehicle
-        )
-      );
-      fetchData(); 
-      Swal.fire({
-        title: "Updated!",
-        text: `Status changed to ${newStatus}.`,
-        icon: "success"
-      });
-    } catch (error) {
-      console.error("Error updating status:", error);
-      Swal.fire({
-        title: "Error!",
-        text: "Something went wrong while updating status.",
-        icon: "error"
-      });
-    }
   };
   
   const renderPagination = () => {
@@ -153,7 +135,7 @@ const PropertyList = () => {
           <input type="text" placeholder="Search..." onChange={handleFilter}/>
           <SearchOutlinedIcon />
         </div>
-        <Link to='/basic/add-vehicle'>
+        <Link to='/property/add-property'>
           <button className="new-user-btn" >+ New Property</button>
         </Link>
       </div>
@@ -169,10 +151,11 @@ const PropertyList = () => {
             <th>City ID</th>
             <th>State ID</th>
             <th>Google Location</th>
-            <th>Latitude</th>
-            <th>Longitude</th>
             <th>GST Number</th>
-            <th>Total Sector</th>
+            <th>Total Sectors</th>
+            <th>Total Blocks</th>
+            <th>Total Units</th>
+            <th>Total Offices</th>
             <th>Status</th>
             <th>Action</th>
           </tr>
@@ -181,49 +164,53 @@ const PropertyList = () => {
           {
             currentRecords.length === 0 ? (
               <tr>
-                <td colSpan='4'>No vehicles available</td>
+                <td colSpan='4'>No Property available</td>
               </tr>
             ) : (
-              currentRecords.map((vehicle, index) => (
+              currentRecords.map((property, index) => (
                 <tr key={index}>
                   <td>{index+1}</td>
-                  <td>{vehicle.VehicleType}</td>
-                  <td>{vehicle.VehicleName}</td>
-                  <td>{vehicle.RegistrationNo}</td>
-                  <td>{vehicle.UsageType}</td>
-                  <td>{vehicle.Capacity}</td>
-                  <td>{vehicle.FuelType}</td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
+                  <td>{property.property_name }</td>
                   <td>
-                 <span className={`status-text ${vehicle.Availability}`}>{vehicle.Availability}</span>
+                       {property.logo ? (
+                          <img
+                            src={`${config.baseURL}/uploads/${property.logo}`}
+                            alt="Property Logo"
+                            style={{ width: '50px', height: '50px', objectFit: 'cover' }}
+                          />
+                        ) : (
+                        'No Logo'
+                       )}
+                   </td>
+
+                  <td>{property.address}</td>
+                  <td>{property.country_id}</td>
+                  <td>{property.city_id}</td>
+                  <td>{property.state_id}</td>
+                  <td>{property.google_location}</td>
+                  <td>{property.gst_number}</td>
+                  <td>{property.total_sectors}</td>
+                  <td>{property.total_blocks}</td>
+                  <td>{property.total_units}</td>
+                  <td>{property.total_offices}</td>
+                  <td>
+                 <span className={`status-text ${property.status}`}>{property.status}</span>
                 </td>
                    <td>
                     <button
                     className="action-button"
-                    onClick={(event) => handleClick(event, vehicle.VehicleID)}>
+                    onClick={(event) => handleClick(event, property.id)}>
                     Action
                   </button>
                   <Menu
-                    id={`action-menu-${vehicle.VehicleID}`}
+                    id={`action-menu-${property.id}`}
                     anchorEl={anchorEl}
-                    open={menuId === vehicle.VehicleID}
+                    open={menuId === property.id}
                     onClose={handleClose}>
-                     <Link to={`/vehicles/update-vehicle/${vehicle.VehicleID}`}>
+                     <Link to={`/property/update-property/${property.id}`}>
                          <MenuItem style={{ color: 'black' }}>Edit</MenuItem>
                      </Link>
-                     <MenuItem
-                      onClick={(event) => {
-                      event.stopPropagation();
-                      handleStatusUpdate(vehicle.VehicleID, vehicle.Availability);
-                      handleClose();
-                      }}
-                        
-                     > {vehicle.Availability === "Available" ? "Mark as Unavailable" : "Mark as Available"}</MenuItem>
-                    <MenuItem onClick={() => handleDelete(vehicle.VehicleID)}>Delete</MenuItem>
+                    <MenuItem onClick={() => handleDelete(property.id)}>Delete</MenuItem>
                   </Menu>
                 </td>
                 </tr>
