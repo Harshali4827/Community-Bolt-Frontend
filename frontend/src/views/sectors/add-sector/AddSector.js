@@ -16,6 +16,7 @@ const [formData, setFormData] = useState({
       });
     
       const [errors, setErrors] = useState({});
+      const [properties, setProperties] = useState([]);
       const navigate = useNavigate();
 
       const getIPAddress = async () => {
@@ -53,7 +54,25 @@ const [formData, setFormData] = useState({
         fetchUserData();
     }, []);
     
-    
+    useEffect(() => {
+      const fetchProperty = async () => {
+        try {
+          const response = await axiosInstance.get('/property');
+          setProperties(response.data);
+        } catch (error) {
+          console.error("Error fetching property:", error);
+          Swal.fire({
+            title: 'Error!',
+            text: 'Failed to load property',
+            icon: 'error',
+            confirmButtonText: 'OK',
+          });
+        }
+      };
+  
+      fetchProperty ();
+    }, []);
+
       const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData((prevData) => ({ ...prevData, [name]: value }));
@@ -132,26 +151,32 @@ const [formData, setFormData] = useState({
       <div className="form-note" style={{ textAlign: "right", marginBottom: "10px" }}>
             <span className="required">*</span> Field is mandatory
           </div>
-   <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit}>
     <div className="user-details">
        <div className="input-box">
-          <div className="details-container">
-          <span className="details">Property ID</span>
-          <span className="required">*</span>
-          </div>
-          <input type="text" name="property_id" 
-                 value={formData.property_id} onChange={handleChange}/>
-          {errors.property_id && <p className="error">{errors.property_id}</p>}
-        </div>
-
-        <div className="input-box">
+              <div className="details-container">
+                <span className="details">Property ID</span>
+                <span className="required">*</span>
+              </div>
+              <select name="property_id" value={formData.property_id} onChange={handleChange}>
+                <option value="">-Select Property-</option>
+                {properties.map((property) => (
+                  <option key={property.id} value={property.id}>
+                    {property.property_id} (ID: {property.id})
+                  </option>
+                ))}
+              </select>
+              {errors.property_id && <p className="error">{errors.property_id}</p>}
+            </div>
+          
+          <div className="input-box">
           <div className="details-container">
               <span className="details">Sector Name</span>
               <span className="required">*</span>
-        </div>
+           </div>
              <input type="text" name="sector_name" value={formData.sector_name} onChange={handleChange} />
              {errors.sector_name && <p className="error">{errors.sector_name}</p>}
-        </div>
+          </div>
       
          <div className="input-box">
             <div className="details-container">

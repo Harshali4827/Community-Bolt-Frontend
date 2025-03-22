@@ -31,6 +31,7 @@ const [formData, setFormData] = useState({
       });
     
       const [errors, setErrors] = useState({});
+      const [properties, setProperties] = useState([]);
       const navigate = useNavigate();
       const {id} = useParams();
       
@@ -49,6 +50,25 @@ const [formData, setFormData] = useState({
             console.error('Error fetching bank details:', error);
           }
         };
+       
+        useEffect(() => {
+          const fetchProperty = async () => {
+            try {
+              const response = await axiosInstance.get('/property');
+              setProperties(response.data);
+            } catch (error) {
+              console.error("Error fetching property:", error);
+              Swal.fire({
+                title: 'Error!',
+                text: 'Failed to load property',
+                icon: 'error',
+                confirmButtonText: 'OK',
+              });
+            }
+          };
+      
+          fetchProperty ();
+        }, []);
 
       const handleChange = (e) => {
         const { name, value } = e.target;
@@ -162,15 +182,21 @@ const [formData, setFormData] = useState({
           </div>
    <form onSubmit={handleSubmit}>
     <div className="user-details">
-       <div className="input-box">
-          <div className="details-container">
-          <span className="details">Property ID</span>
-          <span className="required">*</span>
-          </div>
-          <input type="text" name="property_id" 
-                 value={formData.property_id} onChange={handleChange}/>
-          {errors.property_id && <p className="error">{errors.property_id}</p>}
-        </div>
+    <div className="input-box">
+              <div className="details-container">
+                <span className="details">Property ID</span>
+                <span className="required">*</span>
+              </div>
+              <select name="property_id" value={formData.property_id} onChange={handleChange}>
+                <option value="">-Select Property-</option>
+                {properties.map((property) => (
+                  <option key={property.id} value={property.id}>
+                    {property.property_id} (ID: {property.id})
+                  </option>
+                ))}
+              </select>
+              {errors.property_id && <p className="error">{errors.property_id}</p>}
+            </div>
 
         <div className="input-box">
           <div className="details-container">
@@ -353,12 +379,12 @@ const [formData, setFormData] = useState({
               <span className="details">Payment Gateway Status</span>
               <span className="required">*</span>
             </div>
-            <select name="status" value={formData.status} onChange={handleChange} >
+            <select name="payment_gateway_status" value={formData.payment_gateway_status} onChange={handleChange} >
          <option value="">-Select-</option>
          <option value="enable">Enable</option>
          <option value="disable">Disable</option>
        </select>
-            {errors.sector_description && <p className="error">{errors.sector_description}</p>}
+            {errors.payment_gateway_status && <p className="error">{errors.payment_gateway_status}</p>}
         </div>
         
       <div className="input-box">

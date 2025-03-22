@@ -6,10 +6,6 @@ import {
   CContainer,
   CForm,
   CFormInput,
-  CDropdown,
-  CDropdownItem,
-  CDropdownMenu,
-  CDropdownToggle,
   CHeader,
   CHeaderNav,
   CHeaderToggler,
@@ -19,16 +15,9 @@ import {
 } from '@coreui/react-pro'
 import CIcon from '@coreui/icons-react'
 import {
-  cilContrast,
   cilApplicationsSettings,
   cilMenu,
-  cilMoon,
-  cilSearch,
-  cilSun,
-  cilLanguage,
-  cifGb,
-  cifEs,
-  cifPl,
+  cilSearch
 } from '@coreui/icons'
 
 import {
@@ -66,6 +55,7 @@ const AppHeader = () => {
         >
           <CIcon icon={cilMenu} size="lg" />
         </CHeaderToggler>
+        
         <CForm className="d-none d-sm-flex">
           <CInputGroup className="border border-light border-opacity-25 rounded">
             <CInputGroupText id="search-addon" className="bg-transparent border-0 px-1">
@@ -87,12 +77,6 @@ const AppHeader = () => {
         <CHeaderNav className="ms-auto ms-md-0">
           <AppHeaderDropdown />
         </CHeaderNav>
-        <CHeaderToggler
-          onClick={() => dispatch({ type: 'set', asideShow: !asideShow })}
-          style={{ marginInlineEnd: '-12px' }}
-        >
-          <CIcon icon={cilApplicationsSettings} size="lg" />
-        </CHeaderToggler>
       </CContainer>
     </CHeader>
   )

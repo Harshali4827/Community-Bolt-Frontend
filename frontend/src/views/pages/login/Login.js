@@ -16,6 +16,7 @@ import {
 } from '@coreui/react-pro'
 import CIcon from '@coreui/icons-react'
 import { cilLockLocked, cilUser } from '@coreui/icons'
+import config from 'src/config'
 
 const Login = () => {
   const [email, setEmail] = useState('')
@@ -25,7 +26,7 @@ const Login = () => {
   const handleLogin = async (e) => {
     e.preventDefault()
     try {
-      const response = await axios.post('http://localhost:5000/check-email', { email, mobileNumber })
+      const response = await axios.post(`${config.baseURL}/check-email`, { email, mobileNumber })
 
       if (response.status === 200) {
         console.log("Email sent to verify OTP:", email);

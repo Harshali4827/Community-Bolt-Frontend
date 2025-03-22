@@ -14,6 +14,7 @@ import {
   CFormInput,
   CRow,
 } from '@coreui/react-pro';
+import config from 'src/config';
 
 const VerifyOTP = () => {
   const [otp, setOtp] = useState('');
@@ -24,7 +25,7 @@ const VerifyOTP = () => {
   const handleVerifyOTP = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:5000/verify-otp', { email, otp });
+      const response = await axios.post(`${config.baseURL}/verify-otp`, { email, otp });
 
       if (response.status === 200) {
         toast.success('OTP Verified Successfully!', { position: "top-right" });

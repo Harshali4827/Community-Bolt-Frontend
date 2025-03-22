@@ -12,72 +12,101 @@ const [formData, setFormData] = useState({
         property_unit_id:'',
         amenity_id: '',
         amenity_details:'',
-        status:'',
+        status:''
       });
     
       const [errors, setErrors] = useState({});
       const [sectors, setSectors] = useState([]);
       const [blocks, setBlocks] = useState([]);
       const [units, setUnits] = useState([]);
+      const [properties, setProperties] = useState([]);
       const [amenityMasters, setAmenityMasters] = useState([]);
-      const {id} = useParams();
       const navigate = useNavigate();
+      const {id} = useParams();
 
       useEffect(() => {
-        const fetchSectors = async () => {
-          try {
-            const response = await axiosInstance.get('/sectors');
-            setSectors(response.data);
-          } catch (error) {
-            console.error("Error fetching sectors:", error);
-            Swal.fire({
-              title: 'Error!',
-              text: 'Failed to load sectors',
-              icon: 'error',
-              confirmButtonText: 'OK',
-            });
-          }
-        };
+        fetchAmenityData();
+      }, [id])
     
-        fetchSectors();
-      }, []);
 
-      useEffect(() => {
-        const fetchBlocks = async () => {
+    const fetchAmenityData = async () => {
           try {
-            const response = await axiosInstance.get('/blocks');
-            setBlocks(response.data);
+            const response = await axiosInstance.get(`/amenity/${id}`);
+            console.log('Fetched data:', response.data);
+            if (response.data) {
+                setFormData(response.data);
+              }
           } catch (error) {
-            console.error("Error fetching blocks:", error);
-            Swal.fire({
-              title: 'Error!',
-              text: 'Failed to load blocks',
-              icon: 'error',
-              confirmButtonText: 'OK',
-            });
+            console.error('Error fetching property amenities data:', error);
           }
         };
+
+    useEffect(() => {
+      const fetchProperty = async () => {
+        try {
+          const response = await axiosInstance.get('/property');
+          setProperties(response.data);
+        } catch (error) {
+          console.error("Error fetching property:", error);
+          Swal.fire({
+            title: 'Error!',
+            text: 'Failed to load property',
+            icon: 'error',
+            confirmButtonText: 'OK',
+          });
+        }
+      };
+  
+      fetchProperty ();
+    }, []);
+
+     useEffect(() => {
+        if (formData.property_id) {
+          const fetchSectorsByProperty = async () => {
+            try {
+              const response = await axiosInstance.get(`/sectors/property/${formData.property_id}`);
+              setSectors(response.data);
+              setFormData(prev => ({ ...prev, property_sector_id: "", property_block_id: "" })); 
+            } catch (error) {
+              console.error("Error fetching sectors:", error);
+            }
+          };
+          fetchSectorsByProperty();
+        }
+      }, [formData.property_id]);
+      
+
+       useEffect(() => {
+        if (formData.property_sector_id) {
+          const fetchBlocksBySector = async () => {
+            try {
+              const response = await axiosInstance.get(`/blocks/sectors/${formData.property_sector_id}`);
+              setBlocks(response.data);
+              setFormData(prev => ({ ...prev, property_block_id: "" }));
+            } catch (error) {
+              console.error("Error fetching blocks:", error);
+            }
+          };
+          fetchBlocksBySector();
+        }
+      }, [formData.property_sector_id]);
     
-        fetchBlocks();
-      }, []);
 
       useEffect(() => {
-        const fetchUnits = async () => {
-          try {
-            const response = await axiosInstance.get('/units');
-            setUnits(response.data);
-          } catch (error) {
-            console.error("Error fetching units:", error);
-            Swal.fire({
-              title: 'Error!',
-              text: 'Failed to load blocks',
-              icon: 'error',
-              confirmButtonText: 'OK',
-            });
-          }
-        };
-        fetchUnits();
-      }, []);
+        if (formData.property_block_id) {
+          const fetchUnitsByBlock = async () => {
+            try {
+              const response = await axiosInstance.get(`/units/blocks/${formData.property_block_id}`);
+              setUnits(response.data);
+              setFormData(prev => ({ ...prev, property_unit_id: "" }));
+            } catch (error) {
+              console.error("Error fetching units:", error);
+            }
+          };
+          fetchUnitsByBlock();
+        }
+      }, [formData.property_block_id]);
+    
     
       useEffect(() => {
         const fetchAmenityMasters = async () => {
@@ -97,27 +126,22 @@ const [formData, setFormData] = useState({
         fetchAmenityMasters();
       }, []);
 
-      useEffect(() => {
-        fetchAmenityData();
-      }, [id])
-    
-
-    const fetchAmenityData = async () => {
-          try {
-            const response = await axiosInstance.get(`/amenity/${id}`);
-            console.log('Fetched data:', response.data);
-            if (response.data) {
-                setFormData(response.data);
-              }
-          } catch (error) {
-            console.error('Error fetching property amenities data:', error);
-          }
-        };
-
       const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData((prevData) => ({ ...prevData, [name]: value }));
         setErrors((prevErrors) => ({ ...prevErrors, [name]: '' }));
+         if (name === "property_id") {
+          setSectors([]);
+          setBlocks([]);
+          setUnits([]);
+        }
+        if (name === "property_sector_id") {
+          setBlocks([]);
+          setUnits([]);
+        }
+        if (name === "property_block_id") {
+          setUnits([]);
+        }
       };
     
       const handleSubmit = async (e) => {
@@ -133,7 +157,7 @@ const [formData, setFormData] = useState({
         if (!formData.amenity_id) formErrors.amenity_id = 'Amenity id is required';
         if (!formData.amenity_details) formErrors.amenity_details = 'Amenity details are required';
         if (!formData.status) formErrors.status = 'Status is required'
-        
+
         if (Object.keys(formErrors).length > 0) {
           setErrors(formErrors);
           return;
@@ -181,29 +205,35 @@ return(
    <form onSubmit={handleSubmit}>
   
     <div className="user-details">
-       <div className="input-box">
-          <div className="details-container">
-          <span className="details">Property ID</span>
-          <span className="required">*</span>
-          </div>
-          <input type="text" name="property_id" 
-                 value={formData.property_id} onChange={handleChange}/>
-          {errors.property_id && <p className="error">{errors.property_id}</p>}
-        </div>
+    <div className="input-box">
+              <div className="details-container">
+                <span className="details">Property ID</span>
+                <span className="required">*</span>
+              </div>
+               <select name="property_id" value={formData.property_id} onChange={handleChange}>
+                    <option value="">-Select Property-</option>
+                    {properties.map((property) => (
+                    <option key={property.id} value={property.id}>
+                        {property.property_id} (ID: {property.id})
+                    </option>
+                    ))}
+              </select>
+              {errors.property_id && <p className="error">{errors.property_id}</p>}
+            </div>
 
         <div className="input-box">
               <div className="details-container">
                 <span className="details">Property Sector ID</span>
                 <span className="required">*</span>
               </div>
-              <select name="property_sector_id" value={formData.property_sector_id} onChange={handleChange}>
-                <option value="">-Select Sector-</option>
-                {sectors.map((sector) => (
-                  <option key={sector.id} value={sector.id}>
-                    {sector.sector_name} (ID: {sector.id})
-                  </option>
-                ))}
-              </select>
+              <select name="property_sector_id" value={formData.property_sector_id} onChange=        {handleChange}>
+                 <option value="">-Select Sector-</option>
+                    {sectors.map((sector) => (
+                    <option key={sector.id} value={sector.id}>
+                      {sector.sector_name} (ID: {sector.id})
+                    </option>
+                    ))}
+                 </select>
               {errors.property_sector_id && <p className="error">{errors.property_sector_id}</p>}
             </div>
 
@@ -212,14 +242,14 @@ return(
                 <span className="details">Property Block ID</span>
                 <span className="required">*</span>
               </div>
-              <select name="property_block_id" value={formData.property_block_id} onChange={handleChange}>
-                <option value="">-Select Block-</option>
-                {blocks.map((block) => (
-                  <option key={block.id} value={block.id}>
-                    {block.block_name} (ID: {block.id})
-                  </option>
-                ))}
-              </select>
+             <select name="property_block_id" value={formData.property_block_id} onChange={handleChange}>
+                    <option value="">-Select Block-</option>
+                    {blocks.map((block) => (
+                    <option key={block.id} value={block.id}>
+                           {block.block_name} (ID: {block.id})
+                    </option>
+                    ))}
+                 </select>
               {errors.property_block_id && <p className="error">{errors.property_block_id}</p>}
             </div>
 

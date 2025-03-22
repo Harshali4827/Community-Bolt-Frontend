@@ -8,7 +8,6 @@ import {
 
 const AppHeaderDropdownNotif = () => {
   const { t } = useTranslation()
-  const itemsCount = 5
   return (
     <CDropdown variant="nav-item" alignment="end">
 

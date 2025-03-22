@@ -13,21 +13,15 @@ const [formData, setFormData] = useState({
      });
     
       const [errors, setErrors] = useState({});
+      const [properties, setProperties] = useState([]);
       const navigate = useNavigate();
       const {id} = useParams();
-    
-      const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData((prevData) => ({ ...prevData, [name]: value }));
-        setErrors((prevErrors) => ({ ...prevErrors, [name]: '' }));
-      };
-
+      
       useEffect(() => {
         fetchSectorData();
       }, [id])
-    
-
-    const fetchSectorData = async () => {
+      
+      const fetchSectorData = async () => {
           try {
             const response = await axiosInstance.get(`/sectors/${id}`);
             console.log('Fetched data:', response.data);
@@ -38,7 +32,31 @@ const [formData, setFormData] = useState({
             console.error('Error fetching sector data:', error);
           }
         };
+        useEffect(() => {
+          const fetchProperty = async () => {
+            try {
+              const response = await axiosInstance.get('/property');
+              setProperties(response.data);
+            } catch (error) {
+              console.error("Error fetching property:", error);
+              Swal.fire({
+                title: 'Error!',
+                text: 'Failed to load property',
+                icon: 'error',
+                confirmButtonText: 'OK',
+              });
+            }
+          };
+      
+          fetchProperty ();
+        }, []);
     
+        const handleChange = (e) => {
+          const { name, value } = e.target;
+          setFormData((prevData) => ({ ...prevData, [name]: value }));
+          setErrors((prevErrors) => ({ ...prevErrors, [name]: '' }));
+        };
+  
     const handleSubmit = async (e) => {
         e.preventDefault();
         let formErrors = {};
@@ -110,15 +128,21 @@ const [formData, setFormData] = useState({
    <form onSubmit={handleSubmit}>
     <hr/>
     <div className="user-details">
-       <div className="input-box">
-          <div className="details-container">
-          <span className="details">Property ID</span>
-          <span className="required">*</span>
-          </div>
-          <input type="text" name="property_id" 
-                 value={formData.property_id} onChange={handleChange} required />
-          {errors.property_id && <p className="error">{errors.property_id}</p>}
-        </div>
+    <div className="input-box">
+              <div className="details-container">
+                <span className="details">Property ID</span>
+                <span className="required">*</span>
+              </div>
+              <select name="property_id" value={formData.property_id} onChange={handleChange}>
+                <option value="">-Select Property-</option>
+                {properties.map((property) => (
+                  <option key={property.id} value={property.id}>
+                    {property.property_id} (ID: {property.id})
+                  </option>
+                ))}
+              </select>
+              {errors.property_id && <p className="error">{errors.property_id}</p>}
+            </div>
 
         <div className="input-box">
           <div className="details-container">
