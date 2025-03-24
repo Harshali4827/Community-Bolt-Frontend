@@ -153,18 +153,11 @@ const [formData, setFormData] = useState({
         if (!formData.property_id) formErrors.property_id = 'Property id is required';
         if (!formData.property_sector_id) formErrors.property_sector_id = 'sectord id is required';
         if (!formData.property_block_id ) formErrors.property_block_id  = 'Block ID is required';
-
         if (!formData.property_unit_id) formErrors.property_unit_id = 'Unit id is required';
-
         if (!formData.office_name) formErrors.office_name = 'Office name is required';
-
-        if (!formData.office_description) formErrors.office_description = 'This fileld are required';
-        
         if (!formData.office_contact) formErrors.office_contact = 'This fileld are required';
-
         if (!formData.status) formErrors.status = 'Status is required'
         
-    
         if (Object.keys(formErrors).length > 0) {
           setErrors(formErrors);
           return;
@@ -223,7 +216,7 @@ return(
        <div className="user-details">
        <div className="input-box">
               <div className="details-container">
-                <span className="details">Property ID</span>
+                <span className="details">Property</span>
                 <span className="required">*</span>
               </div>
                <select name="property_id" value={formData.property_id} onChange={handleChange}>
@@ -239,7 +232,7 @@ return(
 
         <div className="input-box">
               <div className="details-container">
-                <span className="details">Property Sector ID</span>
+                <span className="details">Property Sector</span>
                 <span className="required">*</span>
               </div>
               <select name="property_sector_id" value={formData.property_sector_id} onChange=        {handleChange}>
@@ -255,7 +248,7 @@ return(
 
           <div className="input-box">
               <div className="details-container">
-                <span className="details">Property Block ID</span>
+                <span className="details">Property Block</span>
                 <span className="required">*</span>
               </div>
              <select name="property_block_id" value={formData.property_block_id} onChange={handleChange}>
@@ -271,7 +264,7 @@ return(
 
             <div className="input-box">
               <div className="details-container">
-                <span className="details">Property Unit ID</span>
+                <span className="details">Property Unit</span>
                 <span className="required">*</span>
               </div>
               <select name="property_unit_id" value={formData.property_unit_id} onChange={handleChange}>
@@ -289,15 +282,13 @@ return(
         <span className="details">Office Name</span>
         <span className="required">*</span>
         </div>
-        <input type="text"  name="office_name" value={formData.office_name} onChange={handleChange} required />
+        <input type="text"  name="office_name" value={formData.office_name} onChange={handleChange}/>
+        {errors.office_name && <p className="error">{errors.office_name}</p>}
       </div>
 
       <div className="input-box">
-      <div className="details-container">
         <span className="details">Description</span>
-        <span className="required">*</span>
-        </div>
-        <textarea name="office_description" value={formData.office_description} onChange={handleChange} required />
+        <textarea name="office_description" value={formData.office_description} onChange={handleChange}  />
       </div>
       
       <div className="input-box">
@@ -305,7 +296,8 @@ return(
         <span className="details">Contact</span>
         <span className="required">*</span>
         </div>
-        <input type="tel" name="office_contact" value={formData.office_contact} onChange={handleChange} required />
+        <input type="tel" name="office_contact" value={formData.office_contact} onChange={handleChange}  />
+        {errors.office_contact && <p className="error">{errors.office_contact}</p>}
       </div>
 
       <div className="input-box">
@@ -313,11 +305,12 @@ return(
         <span className="details">Status</span>
         <span className="required">*</span>
         </div>
-       <select name="status" value={formData.status} onChange={handleChange} required>
+       <select name="status" value={formData.status} onChange={handleChange}>
          <option value="">-Select-</option>
          <option value="active">Active</option>
          <option value="inactive">Inactive</option>
        </select>
+       {errors.status && <p className="error">{errors.status}</p>}
       </div>
      </div>
      <hr/>

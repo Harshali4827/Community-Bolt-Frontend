@@ -88,8 +88,6 @@ const [formData, setFormData] = useState({
 
         if (!formData.gate_name) formErrors.gate_name = 'gate name is required';
 
-        if (!formData.gate_description ) formErrors.gate_description  = 'Gate Description is required';
-
         if (!formData.is_main_gate ) formErrors.is_main_gate  = 'This field is required';
 
         if (!formData.status) formErrors.status = 'Status is required';
@@ -158,7 +156,7 @@ const [formData, setFormData] = useState({
        <div className="user-details">
           <div className="input-box">
               <div className="details-container">
-                <span className="details">Property ID</span>
+                <span className="details">Property</span>
                 <span className="required">*</span>
               </div>
               <select name="property_id" value={formData.property_id} onChange={handleChange}>
@@ -183,11 +181,8 @@ const [formData, setFormData] = useState({
         </div>
       
          <div className="input-box">
-            <div className="details-container">
               <span className="details">Description</span>
-              <span className="required">*</span>
-            </div>
-            <textarea 
+              <textarea 
             name="gate_description"  value={formData.gate_description} onChange={handleChange} />
             {errors.gate_description && <p className="error">{errors.gate_description}</p>}
         </div>

@@ -107,7 +107,7 @@ const [formData, setFormData] = useState({
 
         if (!formData.bank_branch ) formErrors.bank_branch  = 'Sector Description is required';
         
-        if (!formData.bank_ifsc) formErrors.bank_branch = 'This field is required';
+        if (!formData.bank_ifsc) formErrors.bank_ifsc = 'This field is required';
 
         if (!formData.bank_account_number ) formErrors.bank_account_number  = 'This field is required';
 
@@ -127,19 +127,19 @@ const [formData, setFormData] = useState({
 
         if (!formData.payment_gateway_mode) formErrors.payment_gateway_mode = 'This field is required';
 
-        if (!formData.live_key_id) formErrors.live_key_id = 'This field is required';
+        // if (!formData.live_key_id) formErrors.live_key_id = 'This field is required';
 
-        if (!formData.live_secret_key) formErrors.live_secret_key = 'This field is required';
+        // if (!formData.live_secret_key) formErrors.live_secret_key = 'This field is required';
 
-        if (!formData.live_account_number) formErrors.live_account_number  = 'This field is required';
+        // if (!formData.live_account_number) formErrors.live_account_number  = 'This field is required';
 
-        if (!formData.test_key_id) formErrors.test_key_id = 'This field is required';
+        // if (!formData.test_key_id) formErrors.test_key_id = 'This field is required';
 
-        if (!formData.test_secret_key) formErrors.test_secret_key = 'This field is required';
+        // if (!formData.test_secret_key) formErrors.test_secret_key = 'This field is required';
 
-        if (!formData.test_account_number) formErrors.test_account_number = 'This field is required';
+        // if (!formData.test_account_number) formErrors.test_account_number = 'This field is required';
         
-        if (!formData.currency) formErrors.currency = 'This field is required';
+        // if (!formData.currency) formErrors.currency = 'This field is required';
 
         if (!formData.payment_gateway_status) formErrors.payment_gateway_status = 'This field is required';
         
@@ -209,7 +209,7 @@ const [formData, setFormData] = useState({
     <div className="user-details">
     <div className="input-box">
               <div className="details-container">
-                <span className="details">Property ID</span>
+                <span className="details">Property</span>
                 <span className="required">*</span>
               </div>
               <select name="property_id" value={formData.property_id} onChange={handleChange}>
@@ -343,61 +343,36 @@ const [formData, setFormData] = useState({
             </>
           )}
         <div className="input-box">
-            <div className="details-container">
-              <span className="details">Live Key ID</span>
-              <span className="required">*</span>
-            </div>
+            <span className="details">Live Key ID</span>
             <input type="text" name="live_key_id"  value={formData.live_key_id} onChange={handleChange} />
-            {errors.live_key_id && <p className="error">{errors.live_key_id}</p>}
-        </div>
-        <div className="input-box">
-            <div className="details-container">
-              <span className="details">Live Secret Key</span>
-              <span className="required">*</span>
-            </div>
-            <input type="text" name="live_secret_key "  value={formData.live_secret_key } onChange={handleChange} />
-            {errors.live_secret_key && <p className="error">{errors.live_secret_key}</p>}
         </div>
 
         <div className="input-box">
-            <div className="details-container">
+              <span className="details">Live Secret Key</span>
+            <input type="text" name="live_secret_key "  value={formData.live_secret_key } onChange={handleChange} />
+        </div>
+
+        <div className="input-box">
               <span className="details">Live Account Number</span>
-              <span className="required">*</span>
-            </div>
             <input type="text" name=" live_account_number"  value={formData. live_account_number} onChange={handleChange} />
-            {errors.live_account_number && <p className="error">{errors. live_account_number}</p>}
         </div>
+
         <div className="input-box">
-            <div className="details-container">
               <span className="details">Test Key ID</span>
-              <span className="required">*</span>
-            </div>
             <input type="text" name="test_key_id"  value={formData.test_key_id} onChange={handleChange} />
-            {errors.test_key_id && <p className="error">{errors.test_key_id}</p>}
         </div>
+
         <div className="input-box">
-            <div className="details-container">
               <span className="details">Test Secret Key</span>
-              <span className="required">*</span>
-            </div>
             <input type="text" name="test_secret_key"  value={formData.test_secret_key} onChange={handleChange} />
-            {errors.test_secret_key && <p className="error">{errors.test_secret_key}</p>}
         </div>
         <div className="input-box">
-            <div className="details-container">
               <span className="details">Test Account Number</span>
-              <span className="required">*</span>
-            </div>
             <input type="text" name="test_account_number"  value={formData.test_account_number} onChange={handleChange} />
-            {errors.test_account_number && <p className="error">{errors.test_account_number}</p>}
         </div>
         <div className="input-box">
-            <div className="details-container">
               <span className="details">Currency</span>
-              <span className="required">*</span>
-            </div>
             <input type="text" name="currency"  value={formData.currency} onChange={handleChange} />
-            {errors.currency && <p className="error">{errors.currency}</p>}
         </div>
         <div className="input-box">
             <div className="details-container">

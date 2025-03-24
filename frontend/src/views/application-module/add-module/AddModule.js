@@ -64,18 +64,8 @@ const [formData, setFormData] = useState({
         let formErrors = {};
       
         if (!formData.module_name) formErrors.module_name = 'module name id is required';
-
-        if (!formData.module_description) formErrors.module_description = 'This field is required';
-
         if (!formData.parent_module_id ) formErrors.parent_module_id  = 'This field is required';
-
         if (!formData.status) formErrors.status = 'Status is required';
-
-        if (!formData.ip_address) formErrors.ip_address = 'This field is required';
-
-        if (!formData.user_id) formErrors.user_id   = 'This field is required';
-
-        
         if (Object.keys(formErrors).length > 0) {
           setErrors(formErrors);
           return;
@@ -145,12 +135,8 @@ const [formData, setFormData] = useState({
         </div>
 
         <div className="input-box">
-          <div className="details-container">
               <span className="details">Description</span>
-              <span className="required">*</span>
-        </div>
-             <textarea name="module_description" value={formData.module_description} onChange={handleChange} />
-             {errors.module_description && <p className="error">{errors.module_description}</p>}
+              <textarea name="module_description" value={formData.module_description} onChange={handleChange} />
         </div>
       
          <div className="input-box">

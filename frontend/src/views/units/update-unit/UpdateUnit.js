@@ -4,7 +4,7 @@ import Swal from "sweetalert2";
 import { useNavigate, useParams } from "react-router-dom";
 import axiosInstance from "src/axiosInstance";
 
-function AddUnit(){
+function UpdateUnit(){
 const [formData, setFormData] = useState({
         property_id: '',
         property_sector_id: '',
@@ -175,7 +175,7 @@ const [formData, setFormData] = useState({
            <div className="user-details">
             <div className="input-box">
               <div className="details-container">
-                <span className="details">Property ID</span>
+                <span className="details">Property</span>
                 <span className="required">*</span>
               </div>
               <select name="property_id" value={formData.property_id} onChange={handleChange}>
@@ -191,7 +191,7 @@ const [formData, setFormData] = useState({
 
             <div className="input-box">
               <div className="details-container">
-                <span className="details">Property Sector ID</span>
+                <span className="details">Property Sector</span>
                 <span className="required">*</span>
               </div>
               <select name="property_sector_id" value={formData.property_sector_id} onChange=        {handleChange}>
@@ -209,7 +209,7 @@ const [formData, setFormData] = useState({
       
             <div className="input-box">
               <div className="details-container">
-                <span className="details">Property Block ID</span>
+                <span className="details">Property Block</span>
                 <span className="required">*</span>
               </div>
               <select name="property_block_id" value={formData.property_block_id} onChange={handleChange}>
@@ -251,4 +251,4 @@ const [formData, setFormData] = useState({
 </div>
   )
 };
-export default AddUnit;
+export default UpdateUnit;

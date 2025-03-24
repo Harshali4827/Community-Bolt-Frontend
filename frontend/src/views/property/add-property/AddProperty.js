@@ -19,14 +19,14 @@ function AddProperty(){
     latitude:'',
     longitude :'',
     gst_number:'',
-    total_sectors:'',
-    total_blocks:'',
-    total_units:'',
-    total_offices:'',
-    total_amenities:'',
-    total_gates:'',
-    total_parkings:'',
-    total_guest_parking:'',
+    total_sectors: '0',
+    total_blocks: '0',
+    total_units: '0',
+    total_offices: '0',
+    total_amenities: '0',
+    total_gates: '0',
+    total_parkings: '0',
+    total_guest_parking: '0',
     min_sub_members_allow:'',
     min_cars_allow:'',
     min_bikes_allow:'',
@@ -127,32 +127,6 @@ const handleSubmit = async (e) => {
 
   if (!formData.state_id) formErrors.state_id  = 'This field is required';
 
-  if (!formData.google_location) formErrors.google_location = 'This field is required';
-
-  if (!formData.latitude) formErrors.latitude = 'This field is required';
-
-  if (!formData.longitude) formErrors.longitude = 'This field is required';
-
-  if (!formData.gst_number) formErrors.gst_number = 'This field is required';
-
-  if (!formData.total_sectors) formErrors.total_sectors = 'This field is required';
-
-  if (!formData.total_blocks) formErrors.total_blocks = 'This field is required';
-
-  if (!formData.total_units) formErrors.total_units = 'This field is required';
-
-  if (!formData.total_offices) formErrors.total_offices = 'This field is required';
-
-  if (!formData.total_amenities) formErrors.total_amenities = 'This field is required';
-
-  if (!formData.total_gates) formErrors.total_gates = 'This field is required';
-
-  if (!formData.total_parkings) formErrors.total_parkings = 'This field is required';
-
-  if (!formData.total_guest_parking) formErrors.total_guest_parking = 'This field is required';
-
-  if (!formData.total_guest_parking) formErrors.total_guest_parking = 'This field is required';
-
   if (!formData.min_sub_members_allow) formErrors.min_sub_members_allow = 'This field is required';
 
   if (!formData.min_cars_allow ) formErrors.min_cars_allow = 'This field is required';
@@ -162,7 +136,11 @@ const handleSubmit = async (e) => {
   if (!formData.min_house_helps_allow ) formErrors.min_house_helps_allow = 'This field is required';
 
   if (!formData.chairman_name) formErrors.chairman_name = 'This field is required';
+  
+  if (!formData.chairman_contact_no) formErrors.chairman_contact_no = 'This field is required';
 
+  if (!formData.chairman_email) formErrors.chairman_email = 'This field is required';
+  
   if (!formData.emergency_name) formErrors.emergency_name = 'This field is required';
 
   if (!formData.emergency_contact_no) formErrors.emergency_contact_no = 'This field is required';
@@ -254,13 +232,8 @@ return(
           </div>
 
         <div className="input-box">
-          <div className="details-container">
               <span className="details">Logo</span>
-              <span className="required">*</span>
-                          </div>
           <input type="file" name="logo" onChange={handleChange} />
-
-          {errors.logo && <p className="error">{errors.logo}</p>}
           </div>
       
           <div className="input-box">
@@ -275,7 +248,7 @@ return(
 
       <div className="input-box">
       <div className="details-container">
-        <span className="details">Country ID</span>
+        <span className="details">Country</span>
         <span className="required">*</span>
         </div>
         <input type="text" name="country_id" 
@@ -285,7 +258,7 @@ return(
 
       <div className="input-box">
       <div className="details-container">
-        <span className="details">City ID</span>
+        <span className="details">City</span>
         <span className="required">*</span>
         </div>
         <input type="text" name="city_id" 
@@ -294,22 +267,18 @@ return(
       </div>
       <div className="input-box">
       <div className="details-container">
-        <span className="details">State ID</span>
+        <span className="details">State</span>
         <span className="required">*</span>
         </div>
         <input type="text" name="state_id" 
                  value={formData.state_id} onChange={handleChange}/>
-          {errors.property_id && <p className="error">{errors.property_id}</p>}
+          {errors.state_id && <p className="error">{errors.state_id}</p>}
       </div>
       
       <div className="input-box">
-      <div className="details-container">
         <span className="details">Google Location</span>
-        <span className="required">*</span>
-        </div>
         <input type="text" name="google_location" 
                  value={formData.google_location} onChange={handleChange}/>
-          {errors.google_location && <p className="error">{errors.google_location}</p>}
       </div>
 {/* 
            <div className="input-box">
@@ -325,111 +294,68 @@ return(
           </div> */}
 
           <div className="input-box">
-            <div className="details-container">
               <span className="details">Latitude</span>
-              <span className="required">*</span>
-            </div>
             <input type="text" name="latitude" 
                  value={formData.latitude} onChange={handleChange}/>
-          {errors.latitude && <p className="error">{errors.latitude}</p>}
           </div>
 
           <div className="input-box">
-            <div className="details-container">
               <span className="details">Longitude</span>
-              <span className="required">*</span>
-            </div>
             <input type="text" name="longitude" 
                  value={formData.longitude} onChange={handleChange}/>
-          {errors.longitude && <p className="error">{errors.longitude}</p>}
           </div>
      </div>
      <hr/>
      <div className="user-details">
       <div className="input-box">
-      <div className="details-container">
         <span className="details">GST Number</span>
-        <span className="required">*</span>
-        </div>
         <input type="text" name="gst_number" 
                  value={formData.gst_number} onChange={handleChange}/>
-          {errors.gst_number && <p className="error">{errors.gst_number}</p>}
       </div>
       <div className="input-box">
-      <div className="details-container">
         <span className="details">Total Sectors</span>
-        <span className="required">*</span>
-        </div>
         <input type="text" name="total_sectors" 
                  value={formData.total_sectors} onChange={handleChange}/>
-          {errors.total_sectors && <p className="error">{errors.total_sectors}</p>}
       </div>
 
       <div className="input-box">
-      <div className="details-container">
         <span className="details">Total Blocks</span>
-        <span className="required">*</span>
-        </div>
         <input type="text" name="total_blocks" 
                  value={formData.total_blocks} onChange={handleChange}/>
-          {errors.total_blocks && <p className="error">{errors.total_blocks}</p>}
       </div>
+
       <div className="input-box">
-      <div className="details-container">
         <span className="details">Total Units</span>
-        <span className="required">*</span>
-        </div>
         <input type="text" name="total_units" 
                  value={formData.total_units} onChange={handleChange}/>
-          {errors.total_units && <p className="error">{errors.total_units}</p>}
       </div>
       <div className="input-box">
-      <div className="details-container">
         <span className="details">Total Offices</span>
-        <span className="required">*</span>
-        </div>
         <input type="text" name="total_offices" 
                  value={formData.total_offices} onChange={handleChange}/>
-          {errors.total_offices && <p className="error">{errors.total_offices}</p>}
       </div>
       <div className="input-box">
-      <div className="details-container">
         <span className="details">Total Amenities</span>
-        <span className="required">*</span>
-        </div>
         <input type="text" name="total_amenities" 
                  value={formData.total_amenities} onChange={handleChange}/>
-          {errors.total_amenities && <p className="error">{errors.total_amenities}</p>}
       </div>
 
       <div className="input-box">
-      <div className="details-container">
         <span className="details">Total Gates</span>
-        <span className="required">*</span>
-        </div>
         <input type="text" name="total_gates" 
                  value={formData.total_gates} onChange={handleChange}/>
-          {errors.total_gates && <p className="error">{errors.total_gates}</p>}
       </div>
 
       <div className="input-box">
-      <div className="details-container">
         <span className="details">Total Parkings</span>
-        <span className="required">*</span>
-        </div>
         <input type="text" name="total_parkings" 
                  value={formData.total_parkings} onChange={handleChange}/>
-          {errors.total_parkings && <p className="error">{errors.total_parkings}</p>}
       </div>
 
       <div className="input-box">
-      <div className="details-container">
         <span className="details">Total Guest Parking</span>
-        <span className="required">*</span>
-        </div>
         <input type="text" name="total_guest_parking" 
                  value={formData.total_guest_parking} onChange={handleChange}/>
-          {errors.total_guest_parking && <p className="error">{errors.total_guest_parking}</p>}
       </div>
       <div className="input-box">
       <div className="details-container">
@@ -553,11 +479,11 @@ return(
         </div>
        <select name="is_payment_gateway_visible" 
                  value={formData.is_payment_gateway_visible} onChange={handleChange}>
-       {errors.is_payment_gateway_visible && <p className="error">{errors.is_payment_gateway_visible}</p>}
         <option value="">-Select-</option>
         <option value="yes">Yes</option>
         <option value="no">No</option>
        </select>
+       {errors.is_payment_gateway_visible && <p className="error">{errors.is_payment_gateway_visible}</p>}
       </div>
       <div className="input-box">
       <div className="details-container">
@@ -565,11 +491,11 @@ return(
         <span className="required">*</span>
         </div>
        <select name="status" value={formData.status} onChange={handleChange}>
-       {errors.status && <p className="error">{errors.status}</p>}
          <option value="">-Select-</option>
          <option value="active">Active</option>
          <option value="inactive">Inactive</option>
        </select>
+       {errors.status && <p className="error">{errors.status}</p>}
       </div>
     </div>
     <div className="button-row">

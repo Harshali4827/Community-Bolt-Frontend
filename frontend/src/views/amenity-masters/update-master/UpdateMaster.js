@@ -43,9 +43,7 @@ const [formData, setFormData] = useState({
         let formErrors = {};
       
         if (!formData.amenity_name) formErrors.amenity_name = 'amenity name id is required';
-
-        if (!formData.amenity_details) formErrors.amenity_details = 'amenity details is required';
-
+        
         if (!formData.icon_url ) formErrors.icon_url  = 'icon url is required';
 
         if (!formData.status) formErrors.status = 'Status is required';
@@ -120,12 +118,8 @@ const [formData, setFormData] = useState({
         </div>
 
         <div className="input-box">
-          <div className="details-container">
               <span className="details">Amenity Details</span>
-              <span className="required">*</span>
-        </div>
              <input type="text" name="amenity_details" value={formData.amenity_details} onChange={handleChange} />
-             {errors.amenity_details && <p className="error">{errors.amenity_details}</p>}
         </div>
       
          <div className="input-box">

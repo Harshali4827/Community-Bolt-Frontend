@@ -65,8 +65,6 @@ const [formData, setFormData] = useState({
 
         if (!formData.sector_name) formErrors.sector_name = 'Sector name is required';
 
-        if (!formData.sector_description ) formErrors.sector_description  = 'Sector Description is required';
-
         if (!formData.status) formErrors.status = 'Status is required';
 
         if (Object.keys(formErrors).length > 0) {
@@ -130,7 +128,7 @@ const [formData, setFormData] = useState({
     <div className="user-details">
     <div className="input-box">
               <div className="details-container">
-                <span className="details">Property ID</span>
+                <span className="details">Property</span>
                 <span className="required">*</span>
               </div>
               <select name="property_id" value={formData.property_id} onChange={handleChange}>
@@ -154,10 +152,7 @@ const [formData, setFormData] = useState({
         </div>
       
          <div className="input-box">
-            <div className="details-container">
               <span className="details">Sector Description</span>
-              <span className="required">*</span>
-            </div>
             <input type="text" name="sector_description"  value={formData.sector_description} onChange={handleChange} required/>
             {errors.sector_description && <p className="error">{errors.sector_description}</p>}
         </div>

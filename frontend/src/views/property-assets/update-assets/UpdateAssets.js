@@ -10,7 +10,6 @@ const [formData, setFormData] = useState({
         asset_name: '',
         asset_description: '',
         status:''
-    
       });
     
       const [errors, setErrors] = useState({});
@@ -67,8 +66,6 @@ const [formData, setFormData] = useState({
         if (!formData.property_id) formErrors.property_id = 'Property id is required';
 
         if (!formData.asset_name) formErrors.asset_name = 'Asset name is required';
-
-        if (!formData.asset_description) formErrors.asset_description = 'Asset Description is required';
 
         if (!formData.status) formErrors.status = 'Status is required';
 
@@ -132,7 +129,7 @@ const [formData, setFormData] = useState({
      <div className="user-details">
      <div className="input-box">
               <div className="details-container">
-                <span className="details">Property ID</span>
+                <span className="details">Property</span>
                 <span className="required">*</span>
               </div>
               <select name="property_id" value={formData.property_id} onChange={handleChange}>
@@ -156,12 +153,8 @@ const [formData, setFormData] = useState({
         </div>
       
          <div className="input-box">
-            <div className="details-container">
               <span className="details">Asset Description</span>
-              <span className="required">*</span>
-            </div>
             <input type="text" name="asset_description"  value={formData.asset_description} onChange={handleChange} />
-            {errors.asset_description && <p className="error">{errors.asset_description}</p>}
         </div>
       <div className="input-box">
       <div className="details-container">

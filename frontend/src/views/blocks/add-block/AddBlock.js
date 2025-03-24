@@ -128,10 +128,6 @@ const [formData, setFormData] = useState({
         
         if (!formData.unit_number_end_to) formErrors.unit_number_end_to = 'Total Units is required';
 
-        if (!formData.ip_address) formErrors.ip_address = 'IP address is required';
-
-        if (!formData.created_by) formErrors.created_by = 'Created by is required';
-
         if (!formData.status) formErrors.status = 'Status is required';
 
         if (Object.keys(formErrors).length > 0) {
@@ -194,7 +190,7 @@ const [formData, setFormData] = useState({
       <div className="user-details">
       <div className="input-box">
               <div className="details-container">
-                <span className="details">Property ID</span>
+                <span className="details">Property</span>
                 <span className="required">*</span>
               </div>
               <select name="property_id" value={formData.property_id} onChange={handleChange}>
@@ -209,7 +205,7 @@ const [formData, setFormData] = useState({
             </div>
              <div className="input-box">
             <div className="details-container">
-              <span className="details">Property Sector ID</span>
+              <span className="details">Property Sector</span>
               <span className="required">*</span>
             </div>
             <select name="property_sector_id" value={formData.property_sector_id} onChange={handleChange}>

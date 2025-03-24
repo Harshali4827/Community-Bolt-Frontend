@@ -133,9 +133,7 @@ const [formData, setFormData] = useState({
         if (!formData.floor_number ) formErrors.floor_number = 'Floor Number is required';
         
         if (!formData.unit_number) formErrors.unit_number = 'This Field is required';
-        
-        if (!formData.ip_address) formErrors.ip_address = 'IP address is required';
-        
+      
         if (Object.keys(formErrors).length > 0) {
           setErrors(formErrors);
           return;
@@ -196,7 +194,7 @@ const [formData, setFormData] = useState({
            <div className="user-details">
             <div className="input-box">
               <div className="details-container">
-                <span className="details">Property ID</span>
+                <span className="details">Property</span>
                 <span className="required">*</span>
               </div>
               <select name="property_id" value={formData.property_id} onChange={handleChange}>
@@ -212,7 +210,7 @@ const [formData, setFormData] = useState({
 
             <div className="input-box">
               <div className="details-container">
-                <span className="details">Property Sector ID</span>
+                <span className="details">Property Sector</span>
                 <span className="required">*</span>
               </div>
               <select name="property_sector_id" value={formData.property_sector_id} onChange=        {handleChange}>
@@ -230,7 +228,7 @@ const [formData, setFormData] = useState({
       
             <div className="input-box">
               <div className="details-container">
-                <span className="details">Property Block ID</span>
+                <span className="details">Property Block</span>
                 <span className="required">*</span>
               </div>
               <select name="property_block_id" value={formData.property_block_id} onChange={handleChange}>

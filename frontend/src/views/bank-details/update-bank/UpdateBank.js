@@ -174,238 +174,213 @@ const [formData, setFormData] = useState({
     }
     
   return(
-  
     <div className="form-container">
-      <div className="page-header">
-      <div className="form-note" style={{ textAlign: "right", marginBottom: "10px" }}>
-            <span className="required">*</span> Field is mandatory
+    <div className="page-header">
+    <div className="form-note" style={{ textAlign: "right", marginBottom: "10px" }}>
+          <span className="required">*</span> Field is mandatory
+        </div>
+ <form onSubmit={handleSubmit}>
+  <div className="user-details">
+  <div className="input-box">
+            <div className="details-container">
+              <span className="details">Property</span>
+              <span className="required">*</span>
+            </div>
+            <select name="property_id" value={formData.property_id} onChange={handleChange}>
+              <option value="">-Select Property-</option>
+              {properties.map((property) => (
+                <option key={property.id} value={property.id}>
+                  {property.property_id} (ID: {property.id})
+                </option>
+              ))}
+            </select>
+            {errors.property_id && <p className="error">{errors.property_id}</p>}
           </div>
-   <form onSubmit={handleSubmit}>
-    <div className="user-details">
-    <div className="input-box">
+
+      <div className="input-box">
+        <div className="details-container">
+            <span className="details">Bank Name</span>
+            <span className="required">*</span>
+      </div>
+           <input type="text" name="bank_name" value={formData.bank_name} onChange={handleChange} />
+           {errors.bank_name && <p className="error">{errors.bank_name}</p>}
+      </div>
+    
+       <div className="input-box">
+          <div className="details-container">
+            <span className="details">Branch</span>
+            <span className="required">*</span>
+          </div>
+          <input type="text" name="bank_branch"  value={formData.bank_branch} onChange={handleChange} />
+          {errors.bank_branch && <p className="error">{errors.bank_branch}</p>}
+      </div> 
+      <div className="input-box">
+          <div className="details-container">
+            <span className="details">IFSC</span>
+            <span className="required">*</span>
+          </div>
+          <input type="text" name="bank_ifsc"  value={formData.bank_ifsc} onChange={handleChange} />
+          {errors.bank_ifsc && <p className="error">{errors.bank_ifsc}</p>}
+      </div>
+      <div className="input-box">
+          <div className="details-container">
+            <span className="details">Account Number</span>
+            <span className="required">*</span>
+          </div>
+          <input type="text" name="bank_account_number"  value={formData.bank_account_number} onChange={handleChange} />
+          {errors.bank_account_number && <p className="error">{errors.bank_account_number}</p>}
+      </div>
+
+      <div className="input-box">
+          <div className="details-container">
+            <span className="details">Account Type</span>
+            <span className="required">*</span>
+          </div>
+          <input type="text" name="bank_account_type"  value={formData.bank_account_type} onChange={handleChange} />
+          {errors.bank_account_type && <p className="error">{errors.bank_account_type}</p>}
+      </div>
+      <div className="input-box">
+          <div className="details-container">
+            <span className="details">Account Name</span>
+            <span className="required">*</span>
+          </div>
+          <input type="text" name="bank_account_name"  value={formData.bank_account_name} onChange={handleChange} />
+          {errors.bank_account_name && <p className="error">{errors.bank_account_name}</p>}
+      </div>
+      <div className="input-box">
+          <div className="details-container">
+            <span className="details">Account Holder</span>
+            <span className="required">*</span>
+          </div>
+          <input type="text" name="bank_account_holder"  value={formData.bank_account_holder} onChange={handleChange} />
+          {errors.bank_account_holder && <p className="error">{errors.bank_account_holder}</p>}
+      </div>
+      <div className="input-box">
+          <div className="details-container">
+            <span className="details">Is Primary</span>
+            <span className="required">*</span>
+          </div>
+          <select name="status" value={formData.is_primary} onChange={handleChange} >
+            <option value="">-Select-</option>
+            <option value="yes">Yes</option>
+            <option value="no">No</option>
+        </select>
+          {errors.is_primary && <p className="error">{errors.is_primary}</p>}
+      </div>
+
+     
+      <div className="input-box">
+          <div className="details-container">
+            <span className="details">Is Payment Gateway</span>
+            <span className="required">*</span>
+          </div>
+          <select name="is_payment_gateway" value={formData.is_payment_gateway} onChange={handleChange}>
+            <option value="">-Select-</option>
+            <option value="yes">Yes</option>
+            <option value="no">No</option>
+          </select>
+          {errors.is_payment_gateway && <p className="error">{errors.is_payment_gateway}</p>}
+        </div>
+
+      {formData.is_payment_gateway === "yes" && (
+          <>
+            <div className="input-box">
               <div className="details-container">
-                <span className="details">Property ID</span>
+                <span className="details">Payment Gateway Name</span>
                 <span className="required">*</span>
               </div>
-              <select name="property_id" value={formData.property_id} onChange={handleChange}>
-                <option value="">-Select Property-</option>
-                {properties.map((property) => (
-                  <option key={property.id} value={property.id}>
-                    {property.property_id} (ID: {property.id})
-                  </option>
-                ))}
+              <input type="text" name="payment_gateway_name" value={formData.payment_gateway_name} onChange={handleChange} />
+              {errors.payment_gateway_name && <p className="error">{errors.payment_gateway_name}</p>}
+            </div>
+
+            <div className="input-box">
+              <div className="details-container">
+                <span className="details">Merchant Name</span>
+                <span className="required">*</span>
+              </div>
+              <input type="text" name="merchant_name" value={formData.merchant_name} onChange={handleChange} />
+              {errors.merchant_name && <p className="error">{errors.merchant_name}</p>}
+            </div>
+
+            <div className="input-box">
+              <div className="details-container">
+                <span className="details">Payment Gateway Mode</span>
+                <span className="required">*</span>
+              </div>
+              <select name="payment_gateway_mode" value={formData.payment_gateway_mode} onChange={handleChange}>
+                <option value="">-Select-</option>
+                <option value="test">Test</option>
+                <option value="live">Live</option>
               </select>
-              {errors.property_id && <p className="error">{errors.property_id}</p>}
+              {errors.payment_gateway_mode && <p className="error">{errors.payment_gateway_mode}</p>}
             </div>
-
-        <div className="input-box">
-          <div className="details-container">
-              <span className="details">Bank Name</span>
-              <span className="required">*</span>
-        </div>
-             <input type="text" name="bank_name" value={formData.bank_name} onChange={handleChange} />
-             {errors.bank_name && <p className="error">{errors.bank_name}</p>}
-        </div>
-      
-         <div className="input-box">
-            <div className="details-container">
-              <span className="details">Branch</span>
-              <span className="required">*</span>
-            </div>
-            <input type="text" name="bank_branch"  value={formData.bank_branch} onChange={handleChange} />
-            {errors.bank_branch && <p className="error">{errors.bank_branch}</p>}
-        </div> 
-        <div className="input-box">
-            <div className="details-container">
-              <span className="details">IFSC</span>
-              <span className="required">*</span>
-            </div>
-            <input type="text" name="bank_ifsc"  value={formData.bank_ifsc} onChange={handleChange} />
-            {errors.bank_ifsc && <p className="error">{errors.bank_ifsc}</p>}
-        </div>
-        <div className="input-box">
-            <div className="details-container">
-              <span className="details">Account Number</span>
-              <span className="required">*</span>
-            </div>
-            <input type="text" name="bank_account_number"  value={formData.bank_account_number} onChange={handleChange} />
-            {errors.bank_account_number && <p className="error">{errors.bank_account_number}</p>}
-        </div>
-
-        <div className="input-box">
-            <div className="details-container">
-              <span className="details">Account Type</span>
-              <span className="required">*</span>
-            </div>
-            <input type="text" name="bank_account_type"  value={formData.bank_account_type} onChange={handleChange} />
-            {errors.bank_account_type && <p className="error">{errors.bank_account_type}</p>}
-        </div>
-        <div className="input-box">
-            <div className="details-container">
-              <span className="details">Account Name</span>
-              <span className="required">*</span>
-            </div>
-            <input type="text" name="bank_account_name"  value={formData.bank_account_name} onChange={handleChange} />
-            {errors.bank_account_name && <p className="error">{errors.bank_account_name}</p>}
-        </div>
-        <div className="input-box">
-            <div className="details-container">
-              <span className="details">Account Holder</span>
-              <span className="required">*</span>
-            </div>
-            <input type="text" name="bank_account_holder"  value={formData.bank_account_holder} onChange={handleChange} />
-            {errors.bank_account_holder && <p className="error">{errors.bank_account_holder}</p>}
-        </div>
-        <div className="input-box">
-            <div className="details-container">
-              <span className="details">Is Primary</span>
-              <span className="required">*</span>
-            </div>
-            <select name="status" value={formData.is_primary} onChange={handleChange} >
-              <option value="">-Select-</option>
-              <option value="yes">Yes</option>
-              <option value="no">No</option>
-          </select>
-            {errors.is_primary && <p className="error">{errors.is_primary}</p>}
-        </div>
-
-       
-        <div className="input-box">
-            <div className="details-container">
-              <span className="details">Is Payment Gateway</span>
-              <span className="required">*</span>
-            </div>
-            <select name="is_payment_gateway" value={formData.is_payment_gateway} onChange={handleChange}>
-              <option value="">-Select-</option>
-              <option value="yes">Yes</option>
-              <option value="no">No</option>
-            </select>
-            {errors.is_payment_gateway && <p className="error">{errors.is_payment_gateway}</p>}
-          </div>
-
-        {formData.is_payment_gateway === "yes" && (
-            <>
-              <div className="input-box">
-                <div className="details-container">
-                  <span className="details">Payment Gateway Name</span>
-                  <span className="required">*</span>
-                </div>
-                <input type="text" name="payment_gateway_name" value={formData.payment_gateway_name} onChange={handleChange} />
-                {errors.payment_gateway_name && <p className="error">{errors.payment_gateway_name}</p>}
-              </div>
-
-              <div className="input-box">
-                <div className="details-container">
-                  <span className="details">Merchant Name</span>
-                  <span className="required">*</span>
-                </div>
-                <input type="text" name="merchant_name" value={formData.merchant_name} onChange={handleChange} />
-                {errors.merchant_name && <p className="error">{errors.merchant_name}</p>}
-              </div>
-
-              <div className="input-box">
-                <div className="details-container">
-                  <span className="details">Payment Gateway Mode</span>
-                  <span className="required">*</span>
-                </div>
-                <select name="payment_gateway_mode" value={formData.payment_gateway_mode} onChange={handleChange}>
-                  <option value="">-Select-</option>
-                  <option value="test">Test</option>
-                  <option value="live">Live</option>
-                </select>
-                {errors.payment_gateway_mode && <p className="error">{errors.payment_gateway_mode}</p>}
-              </div>
-            </>
-          )}
-        <div className="input-box">
-            <div className="details-container">
-              <span className="details">Live Key ID</span>
-              <span className="required">*</span>
-            </div>
-            <input type="text" name="live_key_id"  value={formData.live_key_id} onChange={handleChange} />
-            {errors.live_key_id && <p className="error">{errors.live_key_id}</p>}
-        </div>
-        <div className="input-box">
-            <div className="details-container">
-              <span className="details">Live Secret Key</span>
-              <span className="required">*</span>
-            </div>
-            <input type="text" name="live_secret_key "  value={formData.live_secret_key } onChange={handleChange} />
-            {errors.live_secret_key && <p className="error">{errors.live_secret_key}</p>}
-        </div>
-
-        <div className="input-box">
-            <div className="details-container">
-              <span className="details">Live Account Number</span>
-              <span className="required">*</span>
-            </div>
-            <input type="text" name=" live_account_number"  value={formData. live_account_number} onChange={handleChange} />
-            {errors.live_account_number && <p className="error">{errors. live_account_number}</p>}
-        </div>
-        <div className="input-box">
-            <div className="details-container">
-              <span className="details">Test Key ID</span>
-              <span className="required">*</span>
-            </div>
-            <input type="text" name="test_key_id"  value={formData.test_key_id} onChange={handleChange} />
-            {errors.test_key_id && <p className="error">{errors.test_key_id}</p>}
-        </div>
-        <div className="input-box">
-            <div className="details-container">
-              <span className="details">Test Secret Key</span>
-              <span className="required">*</span>
-            </div>
-            <input type="text" name="test_secret_key"  value={formData.test_secret_key} onChange={handleChange} />
-            {errors.test_secret_key && <p className="error">{errors.test_secret_key}</p>}
-        </div>
-        <div className="input-box">
-            <div className="details-container">
-              <span className="details">Test Account Number</span>
-              <span className="required">*</span>
-            </div>
-            <input type="text" name="test_account_number"  value={formData.test_account_number} onChange={handleChange} />
-            {errors.test_account_number && <p className="error">{errors.test_account_number}</p>}
-        </div>
-        <div className="input-box">
-            <div className="details-container">
-              <span className="details">Currency</span>
-              <span className="required">*</span>
-            </div>
-            <input type="text" name="currency"  value={formData.currency} onChange={handleChange} />
-            {errors.currency && <p className="error">{errors.currency}</p>}
-        </div>
-        <div className="input-box">
-            <div className="details-container">
-              <span className="details">Payment Gateway Status</span>
-              <span className="required">*</span>
-            </div>
-            <select name="payment_gateway_status" value={formData.payment_gateway_status} onChange={handleChange} >
-         <option value="">-Select-</option>
-         <option value="enable">Enable</option>
-         <option value="disable">Disable</option>
-       </select>
-            {errors.payment_gateway_status && <p className="error">{errors.payment_gateway_status}</p>}
-        </div>
-        
+          </>
+        )}
       <div className="input-box">
-      <div className="details-container">
-        <span className="details">Status</span>
-        <span className="required">*</span>
-        </div>
-       <select name="status" value={formData.status} onChange={handleChange} >
-         <option value="">-Select-</option>
-         <option value="active">Active</option>
-         <option value="inactive">Inactive</option>
-       </select>
-       {errors.status && <p className="error">{errors.status}</p>}
+          <span className="details">Live Key ID</span>
+          <input type="text" name="live_key_id"  value={formData.live_key_id} onChange={handleChange} />
       </div>
-     </div>
-     <hr/>
-    <div className="button-row">
-      <button type="submit" className="simple-button primary-button">Save</button>
-      <button type="button" className="simple-button secondary-button" onClick={handleCancel} >Cancel</button>
-     </div>
-  </form>
+
+      <div className="input-box">
+            <span className="details">Live Secret Key</span>
+          <input type="text" name="live_secret_key "  value={formData.live_secret_key } onChange={handleChange} />
+      </div>
+
+      <div className="input-box">
+            <span className="details">Live Account Number</span>
+          <input type="text" name=" live_account_number"  value={formData. live_account_number} onChange={handleChange} />
+      </div>
+
+      <div className="input-box">
+            <span className="details">Test Key ID</span>
+          <input type="text" name="test_key_id"  value={formData.test_key_id} onChange={handleChange} />
+      </div>
+
+      <div className="input-box">
+            <span className="details">Test Secret Key</span>
+          <input type="text" name="test_secret_key"  value={formData.test_secret_key} onChange={handleChange} />
+      </div>
+      <div className="input-box">
+            <span className="details">Test Account Number</span>
+          <input type="text" name="test_account_number"  value={formData.test_account_number} onChange={handleChange} />
+      </div>
+      <div className="input-box">
+            <span className="details">Currency</span>
+          <input type="text" name="currency"  value={formData.currency} onChange={handleChange} />
+      </div>
+      <div className="input-box">
+          <div className="details-container">
+            <span className="details">Payment Gateway Status</span>
+            <span className="required">*</span>
+          </div>
+          <select name="payment_gateway_status" value={formData.payment_gateway_status} onChange={handleChange} >
+       <option value="">-Select-</option>
+       <option value="enable">Enable</option>
+       <option value="disable">Disable</option>
+     </select>
+          {errors.payment_gateway_status && <p className="error">{errors.payment_gateway_status}</p>}
+      </div>
+      
+    <div className="input-box">
+    <div className="details-container">
+      <span className="details">Status</span>
+      <span className="required">*</span>
+      </div>
+     <select name="status" value={formData.status} onChange={handleChange} >
+       <option value="">-Select-</option>
+       <option value="active">Active</option>
+       <option value="inactive">Inactive</option>
+     </select>
+     {errors.status && <p className="error">{errors.status}</p>}
+    </div>
+
+   </div>
+   <hr/>
+  <div className="button-row">
+    <button type="submit" className="simple-button primary-button">Save</button>
+    <button type="button" className="simple-button secondary-button" onClick={handleCancel} >Cancel</button>
+   </div>
+</form>
 </div>
 </div>
   )

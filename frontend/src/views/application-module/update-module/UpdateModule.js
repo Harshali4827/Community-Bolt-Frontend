@@ -118,12 +118,8 @@ const [formData, setFormData] = useState({
         </div>
 
         <div className="input-box">
-          <div className="details-container">
               <span className="details">Description</span>
-              <span className="required">*</span>
-        </div>
              <textarea name="module_description" value={formData.module_description} onChange={handleChange} />
-             {errors.module_description && <p className="error">{errors.module_description}</p>}
         </div>
       
          <div className="input-box">
