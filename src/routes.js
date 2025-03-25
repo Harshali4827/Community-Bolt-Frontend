@@ -1,8 +1,10 @@
-
 import React from 'react'
 import { Translation } from 'react-i18next'
 
 const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'))
+
+const UsersList = React.lazy(() => import('./views/users/users-list/UsersList')) 
+const AddUser = React.lazy(() => import('./views/users/add-users/AddUser'))
 
 const AddGate = React.lazy(() => import('./views/gates/add-gate/AddGate'))
 const GateList = React.lazy(() => import('./views/gates/gate-list/GateList'))
@@ -63,6 +65,12 @@ const routes = [
     name: <Translation>{(t) => t('dashboard')}</Translation>,
     element: Dashboard,
   },
+  {
+    path: '/users',
+    name: <Translation>{(t) => t('Users')}</Translation>,
+    element: UsersList,
+  },
+  { path: '/users/add-user', name: 'Add User', element: AddUser },
   {
     path: '/property',
     name: <Translation>{(t) => t('property')}</Translation>,

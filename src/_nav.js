@@ -12,7 +12,7 @@ import {
   cilApps,
   cilBank,
   cilIndustry,
-  cilStar,
+  cilUser
 } from '@coreui/icons'
 import { CNavGroup, CNavItem, CNavTitle } from '@coreui/react-pro'
 import { Translation } from 'react-i18next'
@@ -133,6 +133,60 @@ const _nav = [
           }
         ],
       },
+      {
+        component: CNavGroup,
+        name: <Translation>{(t) => t('Amenities')}</Translation>,
+        to: '/amenity',
+        icon: <CIcon icon={cilBuilding} customClassName="nav-icon" />,
+        items: [
+          {
+            component: CNavItem,
+            name: 'Add Amenity',
+            to: '/amenity/add-amenity',
+          },
+          {
+            component: CNavItem,
+            name: 'Amenity List',
+            to: '/amenity/amenity-list',
+          }
+        ],
+      },
+      {
+        component: CNavGroup,
+        name: <Translation>{(t) => t('Bank Details')}</Translation>,
+        to: '/bank-details',
+        icon: <CIcon icon={cilBank} customClassName="nav-icon" />,
+        items: [
+          {
+            component: CNavItem,
+            name: 'Bank Details',
+            to: '/bank-details/add-bank',
+          },
+          {
+            component: CNavItem,
+            name: 'Bank List',
+            to: '/bank-details/bank-list',
+          }
+        ],
+      },
+      {
+        component: CNavGroup,
+        name: <Translation>{(t) => t('Office')}</Translation>,
+        to: '/office-details',
+        icon: <CIcon icon={cilIndustry} customClassName="nav-icon" />,
+        items: [
+          {
+            component: CNavItem,
+            name: 'Office Details',
+            to: '/office-details/add-office',
+          },
+          {
+            component: CNavItem,
+            name: 'Office List',
+            to: '/office-details/office-list',
+          }
+        ],
+      },
     ],
   },
 
@@ -158,24 +212,7 @@ const _nav = [
       }
     ],
   },
-  {
-    component: CNavGroup,
-    name: <Translation>{(t) => t('Amenities')}</Translation>,
-    to: '/amenity',
-    icon: <CIcon icon={cilBuilding} customClassName="nav-icon" />,
-    items: [
-      {
-        component: CNavItem,
-        name: 'Add Amenity',
-        to: '/amenity/add-amenity',
-      },
-      {
-        component: CNavItem,
-        name: 'Amenity List',
-        to: '/amenity/amenity-list',
-      }
-    ],
-  },
+  
   {
     component: CNavGroup,
     name: <Translation>{(t) => t('Application Module')}</Translation>,
@@ -194,42 +231,12 @@ const _nav = [
       }
     ],
   },
-  {
-    component: CNavGroup,
-    name: <Translation>{(t) => t('Bank Details')}</Translation>,
-    to: '/bank-details',
-    icon: <CIcon icon={cilBank} customClassName="nav-icon" />,
-    items: [
-      {
-        component: CNavItem,
-        name: 'Bank Details',
-        to: '/bank-details/add-bank',
-      },
-      {
-        component: CNavItem,
-        name: 'Bank List',
-        to: '/bank-details/bank-list',
-      }
-    ],
-  },
 
   {
-    component: CNavGroup,
-    name: <Translation>{(t) => t('Office')}</Translation>,
-    to: '/office-details',
-    icon: <CIcon icon={cilIndustry} customClassName="nav-icon" />,
-    items: [
-      {
-        component: CNavItem,
-        name: 'Office Details',
-        to: '/office-details/add-office',
-      },
-      {
-        component: CNavItem,
-        name: 'Office List',
-        to: '/office-details/office-list',
-      }
-    ],
+    component: CNavItem,
+    name: <Translation>{(t) => t('Users')}</Translation>,
+    to: '/users',
+    icon: <CIcon icon={cilUser} customClassName="nav-icon" />,
   },
 ]
 

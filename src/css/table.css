@@ -43,6 +43,27 @@
     border-radius: 5px;
   }
   
+  .buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+  
+  .btn2 {
+    margin: 5px;
+    width: 50px;
+    background-color: #ffffff;
+    border-radius: 5px;
+    padding: 1px;
+    box-shadow: inset 2px 2px 5px rgb(24 161 54);
+    border: none;
+    font-size: 25px;
+    color: black;
+  }
+  
+  .btn2:hover {
+    background-color: #6fbe72;
+  }
   .table-responsive {
     width: 100%;
     overflow-x: auto;
