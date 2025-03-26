@@ -11,15 +11,9 @@
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
-    gap: 15px; 
+    /* gap: 15px;  */
     margin-bottom: 10px;
   }
-  
-  .table-header h3 {
-    margin: 0;
-    flex-grow: 1;
-  }
-  
   .new-user-btn {
     padding: 8px 16px;
     background-color: #006cb5;
@@ -47,6 +41,7 @@
     display: flex;
     flex-wrap: wrap;
     gap: 5px;
+    margin-right: 375px;
   }
   
   .btn2 {
@@ -55,15 +50,24 @@
     background-color: #ffffff;
     border-radius: 5px;
     padding: 1px;
-    box-shadow: inset 2px 2px 5px rgb(24 161 54);
+    box-shadow: inset 2px 2px 5px rgb(17 72 155);
     border: none;
     font-size: 25px;
     color: black;
   }
   
   .btn2:hover {
-    background-color: #6fbe72;
+    background-color: #006cb5;
+    color:#ffffff
   }
+  .csv-link{
+    color: black !important;
+  }
+  
+  .csv-link:hover {
+    color: white !important;
+  }
+  
   .table-responsive {
     width: 100%;
     overflow-x: auto;

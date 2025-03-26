@@ -1,19 +1,20 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef} from 'react';
 import { Link } from 'react-router-dom';
 import { Menu, MenuItem } from "@mui/material";
 import { ChevronLeft, ChevronRight } from "@mui/icons-material";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCopy, faFileExcel, faFilePdf, faPrint, faFileCsv } from '@fortawesome/free-solid-svg-icons';
+import { CSVLink } from 'react-csv';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
+import * as XLSX from 'xlsx';
 import '../../../css/table.css';
 import Swal from 'sweetalert2';
 import axiosInstance from 'src/axiosInstance';
 import config from 'src/config';
-import { CSVLink } from 'react-csv';
-import { CopyToClipboard } from 'react-copy-to-clipboard';
-import jsPDF from 'jspdf';
-import 'jspdf-autotable';
-import * as XLSX from 'xlsx';
+
 
 const UsersList = () => {
   const [data, setData] = useState([]);
@@ -22,7 +23,7 @@ const UsersList = () => {
   const [filterRecords, setFilterRecords] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(7);
-
+  const printableRef = useRef();
   useEffect(() => {
     fetchData();
   }, []);
@@ -86,20 +87,19 @@ const UsersList = () => {
   // PDF
   const exportPdf = () => {
     const doc = new jsPDF({ orientation: 'landscape' });
-    const columns = ["Title", "Full Name","Email","Contact Number"];
-    const rows = data.map(item => [
-      item.title,
-      item.full_name,
-      item.email,
-      item.contact_number
-    ]);
-
-    doc.autoTable({
-      head: [columns],
-      body: rows,
+    autoTable(doc, {
+      head: [["Title", "Full Name", "Contact Number", "Email", "Pan Number", "Aadhar Number"]],
+      body: data.map(item => [
+        item.title,
+        item.full_name,
+        item.mobile_number,
+        item.email,
+        item.pan_number,
+        item.aadhar_number
+      ]),
     });
-
-    doc.save("FarmersDetails.pdf");
+  
+    doc.save("UserDetails.pdf");
   };
   
 const handleDelete = async (id) => {
@@ -133,7 +133,19 @@ const handleDelete = async (id) => {
       }
     });
   };
+  
 
+  // Print
+  const handlePrint = () => {
+    const printContent = printableRef.current.innerHTML;
+    const originalContent = document.body.innerHTML;
+
+    document.body.innerHTML = printContent;
+    window.print();
+    document.body.innerHTML = originalContent;
+    window.location.reload();
+  };
+  
   const renderPagination = () => {
     return (
       <div className="pagination">
@@ -163,7 +175,7 @@ const handleDelete = async (id) => {
           <input type="text" placeholder="Search..." onChange={handleFilter}/>
           <SearchOutlinedIcon />
         </div>
-        {/* <div className="buttons">
+        <div className="buttons">
           <CopyToClipboard
             text={JSON.stringify(data, null, 2)}
             onCopy={() => {
@@ -189,10 +201,10 @@ const handleDelete = async (id) => {
           <button className="btn2" title="Excel" onClick={exportExcel}><FontAwesomeIcon icon={faFileExcel} /></button>
           <button className="btn2" title="PDF" onClick={exportPdf}><FontAwesomeIcon icon={faFilePdf} /></button>
           <button className="btn2" title="Print" onClick={handlePrint}><FontAwesomeIcon icon={faPrint} /></button>
-          <button className="btn2"><CSVLink style={{color:"black"}} data={data} filename="UserData.csv" title="CSV"><FontAwesomeIcon icon={faFileCsv} />
+          <button className="btn2"><CSVLink data={data} filename="UserData.csv" title="CSV" className="csv-link"><FontAwesomeIcon icon={faFileCsv} />
           </CSVLink>
           </button>
-        </div> */}
+        </div>
         <Link to='/users/add-user'>
           <button className="new-user-btn" >+ New User</button>
         </Link>
@@ -221,7 +233,7 @@ const handleDelete = async (id) => {
               </tr>
             ) : (
               currentRecords.map((user, index) => (
-                <tr key={index}>
+                 <tr key={index}>
                   <td>{index+1}</td>
                   <td>{user.title}</td>
                   <td>{user.full_name}</td>
@@ -288,7 +300,38 @@ const handleDelete = async (id) => {
           {renderPagination()}
         </div>
      </div>
+
+     <div id="printableTable" ref={printableRef} style={{ display: 'none',border:'1 px solid black' }}>
+        <h3>Users List</h3>
+        <table>
+          <thead>
+            <tr>
+            <th>SR.NO</th>
+            <th>Title</th>
+            <th>Full Name</th>
+            <th>Mobile Number</th>
+            <th>Email</th>
+            <th>Pan Number</th>
+            <th>Aadhar Number</th>
+            </tr>
+          </thead>
+          <tbody>
+            {data.map((user,index) => (
+              <tr key={index}>
+                <td>{index+1}</td>
+                  <td>{user.title}</td>
+                  <td>{user.full_name}</td>
+                  <td>{user.mobile_number}</td>
+                  <td>{user.email}</td>
+                  <td>{user.pan_number}</td>
+                  <td>{user.aadhar_number}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
+
   );
 };
 
