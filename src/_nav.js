@@ -12,7 +12,8 @@ import {
   cilApps,
   cilBank,
   cilIndustry,
-  cilUser
+  cilUser,
+  cilSpreadsheet
 } from '@coreui/icons'
 import { CNavGroup, CNavItem, CNavTitle } from '@coreui/react-pro'
 import { Translation } from 'react-i18next'
@@ -238,6 +239,20 @@ const _nav = [
     to: '/users',
     icon: <CIcon icon={cilUser} customClassName="nav-icon" />,
   },
+
+  // {
+  //   component: CNavTitle,
+  //   name: <Translation>{(t) => t('Import')}</Translation>,
+  // },
+  // {
+  //   component: CNavItem,
+  //   name: <Translation>{(t) => t('Import Excel')}</Translation>,
+  //   to: '/import-excel',
+  //   icon: <CIcon icon={cilSpreadsheet} customClassName="nav-icon" />,
+  // },
+
 ]
+
+
 
 export default _nav

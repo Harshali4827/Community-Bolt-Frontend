@@ -6,6 +6,8 @@ const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'))
 const UsersList = React.lazy(() => import('./views/users/users-list/UsersList')) 
 const AddUser = React.lazy(() => import('./views/users/add-users/AddUser'))
 
+const FileUpload = React.lazy(() => import('./views/import-excel/FileUpload'))
+
 const AddGate = React.lazy(() => import('./views/gates/add-gate/AddGate'))
 const GateList = React.lazy(() => import('./views/gates/gate-list/GateList'))
 const UpdateGate = React.lazy(() => import('./views/gates/update-gate/UpdateGate'))
@@ -71,6 +73,14 @@ const routes = [
     element: UsersList,
   },
   { path: '/users/add-user', name: 'Add User', element: AddUser },
+
+  {
+    path: '/import-excel',
+    name: <Translation>{(t) => t('Upload Excel File')}</Translation>,
+    element: FileUpload,
+  },
+  { path: '/import-excel', name: 'Upload Excel File', element: FileUpload },
+
   {
     path: '/property',
     name: <Translation>{(t) => t('property')}</Translation>,
