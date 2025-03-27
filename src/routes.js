@@ -4,8 +4,10 @@ import { Translation } from 'react-i18next'
 const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'))
 
 const UsersList = React.lazy(() => import('./views/users/users-list/UsersList')) 
-const AddUser = React.lazy(() => import('./views/users/add-users/AddUser'))
 
+const AddUser = React.lazy(() => import('./views/users/add-users/AddUser'))
+const UserPropertyList = React.lazy(() => import('./views/user-property-unit/user-property-list/UserPropertyList'))
+const UserProperty = React.lazy(() => import('./views/user-property/property-list/PropertyList'))
 const FileUpload = React.lazy(() => import('./views/import-excel/FileUpload'))
 
 const AddGate = React.lazy(() => import('./views/gates/add-gate/AddGate'))
@@ -73,6 +75,15 @@ const routes = [
     element: UsersList,
   },
   { path: '/users/add-user', name: 'Add User', element: AddUser },
+
+  {
+    path: '/user-property-list',
+    name: <Translation>{(t) => t('Users Property Units')}</Translation>,
+    element: UserPropertyList,
+  },
+  { path: '/user-property-unit', name: 'Users Property Units', element: UserPropertyList },
+  { path: '/user-property', name: 'Users Property', element: UserProperty },
+
 
   {
     path: '/import-excel',

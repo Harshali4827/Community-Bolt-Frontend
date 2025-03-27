@@ -1,9 +1,32 @@
-import React, { useState } from "react";
-import axios from "axios";
+import React, { useState, useEffect, useRef } from "react";
+import "../../css/fileUpload.css";
+import axiosInstance from "src/axiosInstance";
+import Swal from "sweetalert2";
 
-const ImportExcel = () => {
+const FileUpload = () => {
   const [file, setFile] = useState(null);
   const [propertyId, setPropertyId] = useState("");
+  const [properties, setProperties] = useState([]);
+  const fileInputRef = useRef(null);
+
+  useEffect(() => {
+    const fetchProperty = async () => {
+      try {
+        const response = await axiosInstance.get("/property");
+        setProperties(response.data);
+      } catch (error) {
+        console.error("Error fetching property:", error);
+        Swal.fire({
+          title: "Error!",
+          text: "Failed to load property",
+          icon: "error",
+          confirmButtonText: "OK",
+        });
+      }
+    };
+
+    fetchProperty();
+  }, []);
 
   const handleFileChange = (e) => {
     setFile(e.target.files[0]);
@@ -15,7 +38,12 @@ const ImportExcel = () => {
 
   const handleUpload = async () => {
     if (!file || !propertyId) {
-      alert("Please select a file and enter a Property ID.");
+      Swal.fire({
+        title: "Warning!",
+        text: "Please select a file and enter a Property ID.",
+        icon: "warning",
+        confirmButtonText: "OK",
+      });
       return;
     }
 
@@ -24,58 +52,89 @@ const ImportExcel = () => {
     formData.append("property_id", propertyId);
 
     try {
-      const response = await axios.post(
-        "http://localhost:5000/api/importExcel",
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+      const response = await axiosInstance.post("/import-excel", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      const Toast = Swal.mixin({
+        toast: true,
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 2000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.onmouseenter = Swal.stopTimer;
+          toast.onmouseleave = Swal.resumeTimer;
+        },
+      });
 
-      alert(response.data.message);
+      Toast.fire({
+        icon: "success",
+        title: response.data.message || "File uploaded successfully!",
+      });
+      setFile(null);
+      setPropertyId("");
+      if (fileInputRef.current) {
+        fileInputRef.current.value = "";
+      }
+
     } catch (error) {
       console.error("Error uploading file:", error);
-      alert("Failed to upload file.");
+
+      if (error.response && error.response.status === 400) {
+        Swal.fire({
+          title: "Error!",
+          text: error.response.data.message,
+          icon: "error",
+          confirmButtonText: "OK",
+        });
+      } else {
+        Swal.fire({
+          title: "Error!",
+          text: "Something went wrong. Please try again later.",
+          icon: "error",
+          confirmButtonText: "OK",
+        });
+      }
     }
   };
 
   return (
-    <div className="max-w-md mx-auto p-6 bg-white shadow-lg rounded-lg">
-      <h2 className="text-xl font-bold mb-4">Upload Excel File</h2>
-      <div className="mb-4">
-        <label className="block text-sm font-medium text-gray-700">
-          Property ID:
-        </label>
-        <input
-          type="text"
+    <div className="import-container">
+      <div className="import-group">
+        <label className="import-label">Property ID:</label>
+        <select
+          className="import-input"
+          name="property_id"
           value={propertyId}
           onChange={handlePropertyIdChange}
-          className="mt-1 p-2 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-          placeholder="Enter Property ID"
-        />
+        >
+          <option value="">-Select Property-</option>
+          {properties.map((property) => (
+            <option key={property.id} value={property.id}>
+              {property.property_name} (ID: {property.id})
+            </option>
+          ))}
+        </select>
       </div>
 
-      <div className="mb-4">
-        <label className="block text-sm font-medium text-gray-700">
-          Upload Excel File:
-        </label>
+      <div className="import-group">
+        <label className="import-label">Upload Excel File:</label>
         <input
           type="file"
           accept=".xls, .xlsx"
           onChange={handleFileChange}
-          className="mt-1 w-full p-2 border border-gray-300 rounded-lg cursor-pointer focus:outline-none"
+          className="import-input import-file-input"
+          ref={fileInputRef}
         />
       </div>
-      <button
-        onClick={handleUpload}
-        className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition duration-300"
-      >
+
+      <button onClick={handleUpload} className="import-button">
         Upload File
       </button>
     </div>
   );
 };
 
-export default ImportExcel;
+export default FileUpload;
