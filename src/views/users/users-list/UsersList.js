@@ -264,9 +264,9 @@ const handleDelete = async (id) => {
                     anchorEl={anchorEl}
                     open={menuId === user.id}
                     onClose={handleClose}>
-                     {/* <Link to={`/sectors/update-sectors/${user.id}`}>
-                         <MenuItem style={{ color: 'black'}}>Edit</MenuItem>
-                     </Link> */}
+                     <Link to={`/user-property-unit/user-property/${user.id}`}>
+                         <MenuItem style={{ color: 'black'}}>Property</MenuItem>
+                     </Link> 
                     <MenuItem onClick={() => handleDelete(user.id)}>Delete</MenuItem>
                   </Menu>
                 </td>

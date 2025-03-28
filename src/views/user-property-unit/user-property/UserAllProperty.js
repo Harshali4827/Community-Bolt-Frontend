@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { Menu, MenuItem } from "@mui/material";
 import { ChevronLeft, ChevronRight } from "@mui/icons-material";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
@@ -14,7 +14,7 @@ import Swal from 'sweetalert2';
 import axiosInstance from 'src/axiosInstance';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-const AssetsList = () => {
+const UserAllProperty = () => {
   const [data, setData] = useState([]);
   const [anchorEl, setAnchorEl] = useState(null);
   const [menuId, setMenuId] = useState(null);
@@ -22,13 +22,14 @@ const AssetsList = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(7);
   const printableRef = useRef();
+  const {id} = useParams();
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [id]);
 
   const fetchData = async () => {
     try {
-      const response = await axiosInstance.get(`/property-assets`);
+      const response = await axiosInstance.get(`/user-property-units/${id}`);
       setData(response.data);
       setFilterRecords(response.data);
     } catch (error) {
@@ -61,44 +62,59 @@ const AssetsList = () => {
     const searchValue = event.target.value.toLowerCase();
   
     const filteredData = data.filter((row) =>
+      String(row.user_id || "").toLowerCase().includes(searchValue) ||
       String(row.property_id || "").toLowerCase().includes(searchValue) ||
-
-      String(row.asset_name || "").toLowerCase().includes(searchValue) ||
-
-      String(row.asset_description || "").toLowerCase().includes(searchValue) ||
-
-      String(row.status || "").toLowerCase().includes(searchValue) ||
-    
-      String(row.created_by || "").toLowerCase().includes(searchValue)
+      String(row.property_sector_id  || "").toLowerCase().includes(searchValue) ||
+      String(row.property_block_id || "").toLowerCase().includes(searchValue) ||
+      String(row.property_unit_id || "").toLowerCase().includes(searchValue) ||
+      String(row.floor_number || "").toLowerCase().includes(searchValue) ||
+      String(row.unit_number || "").toLowerCase().includes(searchValue) ||
+      String(row.unit_combination  || "").toLowerCase().includes(searchValue) ||
+      String(row.membership_no  || "").toLowerCase().includes(searchValue) ||
+      String(row.user_role_id  || "").toLowerCase().includes(searchValue) ||
+      String(row.share_holding_no  || "").toLowerCase().includes(searchValue) ||
+      String(row.share_certificate_nos || "").toLowerCase().includes(searchValue) ||
+      String(row.share_certificate_bank_name  || "").toLowerCase().includes(searchValue) ||
+      String(row.kids_count || "").toLowerCase().includes(searchValue) ||
+      String(row.senior_citizen_count || "").toLowerCase().includes(searchValue) ||
+      String(row.male_count || "").toLowerCase().includes(searchValue) ||
+      String(row.female_count || "").toLowerCase().includes(searchValue) ||
+      String(row.total_people_count || "").toLowerCase().includes(searchValue) ||
+      String(row.alloted_four_wheel_parking_count || "").toLowerCase().includes(searchValue) ||
+      String(row.alloted_two_wheel_parking_count || "").toLowerCase().includes(searchValue) ||
+      String(row.nominee_names_and_per || "").toLowerCase().includes(searchValue) 
     );
   
     setFilterRecords(filteredData);
     setCurrentPage(1);
   };
+  
   // Excel
   const exportExcel = () => {
     const worksheet = XLSX.utils.json_to_sheet(data);
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, "user Data");
-    XLSX.writeFile(workbook, "PropertyAssets.xlsx");
+    XLSX.writeFile(workbook, "UsersPropertyUnit.xlsx");
   };
 
   // PDF
   const exportPdf = () => {
     const doc = new jsPDF({ orientation: 'landscape' });
     autoTable(doc, {
-      head: [["Property", "Asset name", "Asset information", "Status", "Created by"]],
+      head: [["User", "Property", "Sector", "Block", "Unit", "Unit Number"]],
       body: data.map(item => [
+        item.user_id,
         item.property_id,
-        item.asset_name,
-        item.asset_description,
-        item.status,
-        item.created_by
+        item.property_sector_id,
+        item.property_block_id,
+        item.property_unit_id,
+        item.unit_number
       ]),
     });
   
-    doc.save("PropertyAssets.pdf");
+    doc.save("SectorDetails.pdf");
   };
+
   // Print
   const handlePrint = () => {
     const printContent = printableRef.current.innerHTML;
@@ -121,8 +137,8 @@ const handleDelete = async (id) => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          await axiosInstance.delete(`/property-assets/${id}`);
-          setData(data.filter((assets) => assets.id !== id));
+          await axiosInstance.delete(`/sectors/${id}`);
+          setData(data.filter((sector) => sector.id !== id));
           fetchData(); 
           Swal.fire({
             title: "Deleted!",
@@ -196,12 +212,12 @@ const handleDelete = async (id) => {
           <button className="btn2" title="Excel" onClick={exportExcel}><FontAwesomeIcon icon={faFileExcel} /></button>
           <button className="btn2" title="PDF" onClick={exportPdf}><FontAwesomeIcon icon={faFilePdf} /></button>
           <button className="btn2" title="Print" onClick={handlePrint}><FontAwesomeIcon icon={faPrint} /></button>
-          <button className="btn2"><CSVLink data={data} filename="PropertyAssetsData.csv" title="CSV" className="csv-link"><FontAwesomeIcon icon={faFileCsv} />
+          <button className="btn2"><CSVLink data={data} filename="UserPropertyUnit.csv" title="CSV" className="csv-link"><FontAwesomeIcon icon={faFileCsv} />
           </CSVLink>
           </button>
         </div>
-        <Link to='/property-assets/add-assets'>
-          <button className="new-user-btn" >+ New Assets</button>
+        <Link to='/sectors/add-sector'>
+          <button className="new-user-btn" >+ New Property</button>
         </Link>
       </div>
       <div className="table-responsive">
@@ -209,11 +225,26 @@ const handleDelete = async (id) => {
         <thead>
           <tr>
             <th>SR.NO</th>
-            <th>Property ID</th>
-            <th>Asset Name</th>
-            <th>Asset Description</th>
-            <th>Created by</th>
-            <th>Status</th>
+            <th>User</th>
+            <th>Property</th>
+            <th>Sector</th>
+            <th>Block</th>
+            <th>Unit</th>
+            <th>Unit Number</th>
+            <th>Unit combination</th>
+            <th>Membership no</th>
+            <th>User role</th>
+            <th>Share holding no</th>
+            <th>Share certificate nos</th>
+            <th>Bank name</th>
+            <th>Kids</th>
+            <th>Senior Citizen</th>
+            <th>Male</th>
+            <th>Female</th>
+            <th>Total</th>
+            <th>Alloted 4 wheeler parking</th>
+            <th>Alloted 2 wheeler parking</th>
+            <th>Nominee Names</th>
             <th>Action</th>
           </tr>
         </thead>
@@ -221,35 +252,48 @@ const handleDelete = async (id) => {
           {
             currentRecords.length === 0 ? (
               <tr>
-                <td colSpan='4'>No property assets available</td>
+                <td colSpan='4'>No user property units</td>
               </tr>
             ) : (
-              currentRecords.map((assets, index) => (
+              currentRecords.map((units, index) => (
                 <tr key={index}>
                   <td>{index+1}</td>
-                  <td>{assets.property_id}</td>
-                  <td>{assets.asset_name}</td>
-                  <td>{assets.asset_description}</td>
-                  <td>{assets.created_by}</td>
-                  <td>
-                 <span className={`status-text ${assets.status}`}>{assets.status}</span>
-                </td>
+                  <td>{units.user_id}</td>
+                  <td>{units.property_id}</td>
+                  <td>{units.property_sector_id}</td>
+                  <td>{units.property_block_id}</td>
+                  <td>{units.property_unit_id}</td>
+                  <td>{units.unit_number}</td>
+                  <td>{units.unit_combination}</td>
+                  <td>{units.membership_no}</td>
+                  <td>{units.user_role_id}</td>
+                  <td>{units.share_holding_no}</td>
+                  <td>{units.share_certificate_nos}</td>
+                  <td>{units.share_certificate_bank_name}</td>
+                  <td>{units.kids_count}</td>
+                  <td>{units.senior_citizen_count}</td>
+                  <td>{units.male_count}</td>
+                  <td>{units.female_count}</td>
+                  <td>{units.total_people_count}</td>
+                  <td>{units.alloted_four_wheel_parking_count}</td>
+                  <td>{units.alloted_two_wheel_parking_count}</td>
+                  <td>{units.nominee_names_and_per}</td>
                    <td>
                     <button
                     className="action-button"
-                    onClick={(event) => handleClick(event, assets.id)}>
+                    onClick={(event) => handleClick(event, units.id)}>
                     Action
                   </button>
-                  <Menu
-                    id={`action-menu-${assets.id}`}
+                  {/* <Menu
+                    id={`action-menu-${units.id}`}
                     anchorEl={anchorEl}
-                    open={menuId === assets.id}
+                    open={menuId === units.id}
                     onClose={handleClose}>
-                     <Link to={`/property-assets/update-assets/${assets.id}`}>
+                     <Link to={`/sectors/update-sectors/${units.id}`}>
                          <MenuItem style={{ color: 'black'}}>Edit</MenuItem>
                      </Link>
-                    <MenuItem onClick={() => handleDelete(assets.id)}>Delete</MenuItem>
-                  </Menu>
+                    <MenuItem onClick={() => handleDelete(units.id)}>Delete</MenuItem>
+                  </Menu> */}
                 </td>
                 </tr>
               ))
@@ -285,4 +329,4 @@ const handleDelete = async (id) => {
   );
 };
 
-export default AssetsList;
+export default UserAllProperty;

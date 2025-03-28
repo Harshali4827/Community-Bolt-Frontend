@@ -85,25 +85,25 @@ const GateList = () => {
     const worksheet = XLSX.utils.json_to_sheet(data);
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, "user Data");
-    XLSX.writeFile(workbook, "UsersData.xlsx");
+    XLSX.writeFile(workbook, "GateDetails.xlsx");
   };
 
   // PDF
   const exportPdf = () => {
     const doc = new jsPDF({ orientation: 'landscape' });
     autoTable(doc, {
-      head: [["Title", "Full Name", "Contact Number", "Email", "Pan Number", "Aadhar Number"]],
+      head: [["Property", "Gate name", "Gate information", "Is main gate", "Status", "Created by"]],
       body: data.map(item => [
-        item.title,
-        item.full_name,
-        item.mobile_number,
-        item.email,
-        item.pan_number,
-        item.aadhar_number
+        item.property_id,
+        item.gate_name,
+        item.gate_description,
+        item.is_main_gate,
+        item.status,
+        item.created_by
       ]),
     });
   
-    doc.save("UserDetails.pdf");
+    doc.save("GateDetails.pdf");
   };
   // Print
   const handlePrint = () => {
@@ -202,7 +202,7 @@ const handleDelete = async (id) => {
           <button className="btn2" title="Excel" onClick={exportExcel}><FontAwesomeIcon icon={faFileExcel} /></button>
           <button className="btn2" title="PDF" onClick={exportPdf}><FontAwesomeIcon icon={faFilePdf} /></button>
           <button className="btn2" title="Print" onClick={handlePrint}><FontAwesomeIcon icon={faPrint} /></button>
-          <button className="btn2"><CSVLink data={data} filename="UserData.csv" title="CSV" className="csv-link"><FontAwesomeIcon icon={faFileCsv} />
+          <button className="btn2"><CSVLink data={data} filename="GateDetails.csv" title="CSV" className="csv-link"><FontAwesomeIcon icon={faFileCsv} />
           </CSVLink>
           </button>
         </div>

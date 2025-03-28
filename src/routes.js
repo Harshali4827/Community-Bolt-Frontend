@@ -7,6 +7,7 @@ const UsersList = React.lazy(() => import('./views/users/users-list/UsersList'))
 
 const AddUser = React.lazy(() => import('./views/users/add-users/AddUser'))
 const UserPropertyList = React.lazy(() => import('./views/user-property-unit/user-property-list/UserPropertyList'))
+const UserAllProperty = React.lazy(() => import('./views/user-property-unit/user-property/UserAllProperty'))
 const UserProperty = React.lazy(() => import('./views/user-property/property-list/PropertyList'))
 const FileUpload = React.lazy(() => import('./views/import-excel/FileUpload'))
 
@@ -83,7 +84,7 @@ const routes = [
   },
   { path: '/user-property-unit', name: 'Users Property Units', element: UserPropertyList },
   { path: '/user-property', name: 'Users Property', element: UserProperty },
-
+  { path: '/user-property-unit/user-property/:id',name:'User Property', element: UserAllProperty},
 
   {
     path: '/import-excel',
