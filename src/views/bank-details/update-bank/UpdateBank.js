@@ -80,13 +80,14 @@ const [formData, setFormData] = useState({
         e.preventDefault();
         let formErrors = {};
       
-        if (!formData.property_id) formErrors.property_id = 'Property id is required';
+        
+        if (!formData.property_id) formErrors.property_id = 'Property name is required';
 
         if (!formData.bank_name) formErrors.bank_name = 'Bank name is required';
 
         if (!formData.bank_branch ) formErrors.bank_branch  = 'Sector Description is required';
         
-        if (!formData.bank_ifsc) formErrors.bank_branch = 'This field is required';
+        if (!formData.bank_ifsc) formErrors.bank_ifsc = 'This field is required';
 
         if (!formData.bank_account_number ) formErrors.bank_account_number  = 'This field is required';
 
@@ -105,23 +106,7 @@ const [formData, setFormData] = useState({
         if (!formData.merchant_name) formErrors.merchant_name = 'This field is required';
 
         if (!formData.payment_gateway_mode) formErrors.payment_gateway_mode = 'This field is required';
-
-        if (!formData.live_key_id) formErrors.live_key_id = 'This field is required';
-
-        if (!formData.live_secret_key) formErrors.live_secret_key = 'This field is required';
-
-        if (!formData.live_account_number) formErrors.live_account_number  = 'This field is required';
-
-        if (!formData.test_key_id) formErrors.test_key_id = 'This field is required';
-
-        if (!formData.test_secret_key) formErrors.test_secret_key = 'This field is required';
-
-        if (!formData.test_account_number) formErrors.test_account_number = 'This field is required';
-        
-        if (!formData.currency) formErrors.currency = 'This field is required';
-
-        if (!formData.payment_gateway_status) formErrors.currency = 'This field is required';
-
+        if (!formData.payment_gateway_status) formErrors.payment_gateway_status = 'This field is required';
         if (!formData.status) formErrors.status = 'Status is required';
 
         if (Object.keys(formErrors).length > 0) {
@@ -190,7 +175,7 @@ const [formData, setFormData] = useState({
               <option value="">-Select Property-</option>
               {properties.map((property) => (
                 <option key={property.id} value={property.id}>
-                  {property.property_id} (ID: {property.id})
+                  {property.property_name}
                 </option>
               ))}
             </select>
@@ -199,7 +184,7 @@ const [formData, setFormData] = useState({
 
       <div className="input-box">
         <div className="details-container">
-            <span className="details">Bank Name</span>
+            <span className="details">Bank name</span>
             <span className="required">*</span>
       </div>
            <input type="text" name="bank_name" value={formData.bank_name} onChange={handleChange} />
@@ -224,7 +209,7 @@ const [formData, setFormData] = useState({
       </div>
       <div className="input-box">
           <div className="details-container">
-            <span className="details">Account Number</span>
+            <span className="details">Account number</span>
             <span className="required">*</span>
           </div>
           <input type="text" name="bank_account_number"  value={formData.bank_account_number} onChange={handleChange} />
@@ -233,7 +218,7 @@ const [formData, setFormData] = useState({
 
       <div className="input-box">
           <div className="details-container">
-            <span className="details">Account Type</span>
+            <span className="details">Account type</span>
             <span className="required">*</span>
           </div>
           <input type="text" name="bank_account_type"  value={formData.bank_account_type} onChange={handleChange} />
@@ -241,7 +226,7 @@ const [formData, setFormData] = useState({
       </div>
       <div className="input-box">
           <div className="details-container">
-            <span className="details">Account Name</span>
+            <span className="details">Account name</span>
             <span className="required">*</span>
           </div>
           <input type="text" name="bank_account_name"  value={formData.bank_account_name} onChange={handleChange} />
@@ -249,7 +234,7 @@ const [formData, setFormData] = useState({
       </div>
       <div className="input-box">
           <div className="details-container">
-            <span className="details">Account Holder</span>
+            <span className="details">Account holder</span>
             <span className="required">*</span>
           </div>
           <input type="text" name="bank_account_holder"  value={formData.bank_account_holder} onChange={handleChange} />
@@ -257,7 +242,7 @@ const [formData, setFormData] = useState({
       </div>
       <div className="input-box">
           <div className="details-container">
-            <span className="details">Is Primary</span>
+            <span className="details">Is primary</span>
             <span className="required">*</span>
           </div>
           <select name="status" value={formData.is_primary} onChange={handleChange} >
@@ -271,7 +256,7 @@ const [formData, setFormData] = useState({
      
       <div className="input-box">
           <div className="details-container">
-            <span className="details">Is Payment Gateway</span>
+            <span className="details">Is payment gateway</span>
             <span className="required">*</span>
           </div>
           <select name="is_payment_gateway" value={formData.is_payment_gateway} onChange={handleChange}>
@@ -286,7 +271,7 @@ const [formData, setFormData] = useState({
           <>
             <div className="input-box">
               <div className="details-container">
-                <span className="details">Payment Gateway Name</span>
+                <span className="details">Payment gateway name</span>
                 <span className="required">*</span>
               </div>
               <input type="text" name="payment_gateway_name" value={formData.payment_gateway_name} onChange={handleChange} />
@@ -295,7 +280,7 @@ const [formData, setFormData] = useState({
 
             <div className="input-box">
               <div className="details-container">
-                <span className="details">Merchant Name</span>
+                <span className="details">Merchant name</span>
                 <span className="required">*</span>
               </div>
               <input type="text" name="merchant_name" value={formData.merchant_name} onChange={handleChange} />
@@ -304,7 +289,7 @@ const [formData, setFormData] = useState({
 
             <div className="input-box">
               <div className="details-container">
-                <span className="details">Payment Gateway Mode</span>
+                <span className="details">Payment gateway mode</span>
                 <span className="required">*</span>
               </div>
               <select name="payment_gateway_mode" value={formData.payment_gateway_mode} onChange={handleChange}>
@@ -317,31 +302,31 @@ const [formData, setFormData] = useState({
           </>
         )}
       <div className="input-box">
-          <span className="details">Live Key ID</span>
+          <span className="details">Live key id</span>
           <input type="text" name="live_key_id"  value={formData.live_key_id} onChange={handleChange} />
       </div>
 
       <div className="input-box">
-            <span className="details">Live Secret Key</span>
+            <span className="details">Live secret key</span>
           <input type="text" name="live_secret_key "  value={formData.live_secret_key } onChange={handleChange} />
       </div>
 
       <div className="input-box">
-            <span className="details">Live Account Number</span>
+            <span className="details">Live account number</span>
           <input type="text" name=" live_account_number"  value={formData. live_account_number} onChange={handleChange} />
       </div>
 
       <div className="input-box">
-            <span className="details">Test Key ID</span>
+            <span className="details">Test key id</span>
           <input type="text" name="test_key_id"  value={formData.test_key_id} onChange={handleChange} />
       </div>
 
       <div className="input-box">
-            <span className="details">Test Secret Key</span>
+            <span className="details">Test secret key</span>
           <input type="text" name="test_secret_key"  value={formData.test_secret_key} onChange={handleChange} />
       </div>
       <div className="input-box">
-            <span className="details">Test Account Number</span>
+            <span className="details">Test account number</span>
           <input type="text" name="test_account_number"  value={formData.test_account_number} onChange={handleChange} />
       </div>
       <div className="input-box">
@@ -350,7 +335,7 @@ const [formData, setFormData] = useState({
       </div>
       <div className="input-box">
           <div className="details-container">
-            <span className="details">Payment Gateway Status</span>
+            <span className="details">Payment gateway status</span>
             <span className="required">*</span>
           </div>
           <select name="payment_gateway_status" value={formData.payment_gateway_status} onChange={handleChange} >

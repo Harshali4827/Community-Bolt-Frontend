@@ -62,7 +62,7 @@ const BankList = () => {
     const searchValue = event.target.value.toLowerCase();
   
     const filteredData = data.filter((row) =>
-      String(row.property_id || "").toLowerCase().includes(searchValue) ||
+      String(row.property_name || "").toLowerCase().includes(searchValue) ||
       String(row.sector_name || "").toLowerCase().includes(searchValue) ||
       String(row.sector_description || "").toLowerCase().includes(searchValue) ||
       String(row.status || "").toLowerCase().includes(searchValue) ||
@@ -73,31 +73,42 @@ const BankList = () => {
     setFilterRecords(filteredData);
     setCurrentPage(1);
   };
-  
-  // Excel
   const exportExcel = () => {
     const worksheet = XLSX.utils.json_to_sheet(data);
     const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, "user Data");
-    XLSX.writeFile(workbook, "UsersData.xlsx");
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Bank Details");
+    XLSX.writeFile(workbook, "Property.xlsx");
   };
-
-  // PDF
   const exportPdf = () => {
     const doc = new jsPDF({ orientation: 'landscape' });
     autoTable(doc, {
-      head: [["Title", "Full Name", "Contact Number", "Email", "Pan Number", "Aadhar Number"]],
+      head: [["Property name", "Bank name", "Branch", "IFSC", "Account no", "Account type","Account name","Account holder","Is primary","Is payment gateway","Payment gateway name","Merchant name","Payment gateway mode","Live key id","Live secret key","Live account number","Teat key id","Test secret key","Test account number","Currency","Payment gateway status"]],
       body: data.map(item => [
-        item.title,
-        item.full_name,
-        item.mobile_number,
-        item.email,
-        item.pan_number,
-        item.aadhar_number
-      ]),
+        item.property_name,
+        item.bank_name,
+        item.bank_branch,
+        item.bank_ifsc,
+        item.bank_account_number,
+        item.bank_account_type,
+        item.bank_account_name,
+        item.bank_account_holder,
+        item.is_primary,
+        item.is_payment_gateway,
+        item.payment_gateway_name,
+        item.merchant_name,
+        item.payment_gateway_mode,
+        item.live_key_id,
+        item.live_secret_key,
+        item.live_account_number,
+        item.test_key_id,
+        item.test_secret_key,
+        item.test_account_number,
+        item.currency,
+        item.payment_gateway_status
+       ]),
     });
   
-    doc.save("UserDetails.pdf");
+    doc.save("BankDetails.pdf");
   };
 
   // Print
@@ -197,7 +208,7 @@ const handleDelete = async (id) => {
           <button className="btn2" title="Excel" onClick={exportExcel}><FontAwesomeIcon icon={faFileExcel} /></button>
           <button className="btn2" title="PDF" onClick={exportPdf}><FontAwesomeIcon icon={faFilePdf} /></button>
           <button className="btn2" title="Print" onClick={handlePrint}><FontAwesomeIcon icon={faPrint} /></button>
-          <button className="btn2"><CSVLink data={data} filename="UserData.csv" title="CSV" className="csv-link"><FontAwesomeIcon icon={faFileCsv} />
+          <button className="btn2"><CSVLink data={data} filename="BankDetails.csv" title="CSV" className="csv-link"><FontAwesomeIcon icon={faFileCsv} />
           </CSVLink>
           </button>
         </div>
@@ -210,17 +221,17 @@ const handleDelete = async (id) => {
         <thead>
           <tr>
             <th>SR.NO</th>
-            <th>Property ID</th>
-            <th>Bank Name</th>
-            <th>Bank Branch</th>
+            <th>Property name</th>
+            <th>Bank name</th>
+            <th>Bank branch</th>
             <th>IFSC</th>
-            <th>Account Number</th>
+            <th>Account number</th>
             <th>Type</th>
-            <th>Account Name</th>
-            <th>Account Holder</th>
-            <th>Payment Gateway Name</th>
-            <th>Merchant Name</th>
-            <th>Payment Gateway Mode</th>
+            <th>Account name</th>
+            <th>Account holder</th>
+            <th>Payment gateway name</th>
+            <th>Merchant name</th>
+            <th>Payment gateway mode</th>
             <th>Status</th>
             <th>Action</th>
           </tr>
@@ -235,7 +246,7 @@ const handleDelete = async (id) => {
               currentRecords.map((bank, index) => (
                 <tr key={index}>
                   <td>{index+1}</td>
-                  <td>{bank.property_id}</td>
+                  <td>{bank.property_name}</td>
                   <td>{bank.bank_name}</td>
                   <td>{bank.bank_branch}</td>
                   <td>{bank.bank_ifsc}</td>

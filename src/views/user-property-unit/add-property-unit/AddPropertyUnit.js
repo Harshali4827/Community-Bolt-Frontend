@@ -3,19 +3,33 @@ import '../../../css/form.css';
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "src/axiosInstance";
-import { jwtDecode } from "jwt-decode";
 
-function AddAmenity(){
+function AddPropertyUnit(){
 const [formData, setFormData] = useState({
+        user_id:'',
         property_id: '',
         property_sector_id: '',
         property_block_id: '',
         property_unit_id:'',
-        amenity_id: '',
-        amenity_details:'',
-        status:'',
-        ip_address: '',
-        created_by:''
+        floor_number: '0',
+        unit_number:'',
+        unit_status_id:'',
+        unit_combination:'',
+        membership_no:'',
+        user_role_id:'',
+        share_holding_no:'',
+        share_certificate_nos:'',
+        share_certificate_bank_name:'',
+        kids_count:'0',
+        senior_citizen_count:'0',
+        male_count:'0',
+        female_count:'0',
+        total_people_count:'0',
+        alloted_four_wheel_parking_count:'0',
+        alloted_two_wheel_parking_count:'0',
+        nominee_names_and_per:'',
+        club_due_date:'',
+        four_sos_number: ''
       });
     
       const [errors, setErrors] = useState({});
@@ -25,41 +39,6 @@ const [formData, setFormData] = useState({
       const [properties, setProperties] = useState([]);
       const [amenityMasters, setAmenityMasters] = useState([]);
       const navigate = useNavigate();
-
-      const getIPAddress = async () => {
-        try {
-            const response = await fetch('https://api64.ipify.org?format=json');
-            const data = await response.json();
-            return data.ip;
-        } catch (error) {
-            console.error("Error fetching IP address:", error);
-            return '';
-        }
-    };
-  
-    useEffect(() => {
-        const fetchUserData = async () => {
-            try {
-                const token = localStorage.getItem("token");
-                if (token) {
-                    const decodedToken = jwtDecode(token);
-                    const userId = decodedToken.userId; 
-  
-                    const ip = await getIPAddress();
-  
-                    setFormData((prevData) => ({
-                        ...prevData,
-                        created_by: userId,
-                        ip_address: ip
-                    }));
-                }
-            } catch (error) {
-                console.error("Error decoding token:", error);
-            }
-        };
-  
-        fetchUserData();
-    }, []);
     
     useEffect(() => {
       const fetchProperty = async () => {
@@ -173,10 +152,27 @@ const [formData, setFormData] = useState({
         if (!formData.property_block_id ) formErrors.property_block_id  = 'Block name is required';
 
         if (!formData.property_unit_id) formErrors.property_unit_id = 'Unit number is required';
+        
+       if (!formData.floor_number) formErrors.floor_number = 'This field is required'
+        
+        if (!formData.unit_number) formErrors.unit_number = 'This field is required';
 
-        if (!formData.amenity_id) formErrors.amenity_id = 'Amenity name is required';
-        if (!formData.amenity_details) formErrors.amenity_details = 'Amenity details are required';
-        if (!formData.status) formErrors.status = 'Status is required'
+        if (!formData.user_role_id) formErrors.user_role_id = 'This field is required';
+
+        if (!formData.kids_count) formErrors.kids_count = 'This field is required';
+
+        if (!formData.senior_citizen_count) formErrors.senior_citizen_count = 'This field is required'
+
+        if (!formData.male_count) formErrors.male_count = 'This field is required'
+
+        if (!formData.female_count) formErrors.female_count = 'This field is required'
+
+        if (!formData.total_people_count) formErrors.total_people_count = 'This field is required'
+
+        if (!formData.alloted_four_wheel_parking_count) formErrors.alloted_four_wheel_parking_count = 'This field is required'
+
+        if (!formData.alloted_two_wheel_parking_count) formErrors.alloted_two_wheel_parking_count = 'This field is required'
+
         if (Object.keys(formErrors).length > 0) {
           setErrors(formErrors);
           return;
@@ -224,6 +220,21 @@ return(
    <form onSubmit={handleSubmit}>
   
     <div className="user-details">
+    <div className="input-box">
+              <div className="details-container">
+                <span className="details">User name</span>
+                <span className="required">*</span>
+              </div>
+               <select name="property_id" value={formData.property_id} onChange={handleChange}>
+                    <option value="">-Select Property-</option>
+                    {properties.map((property) => (
+                    <option key={property.id} value={property.id}>
+                        {property.property_name}
+                    </option>
+                    ))}
+              </select>
+              {errors.property_id && <p className="error">{errors.property_id}</p>}
+            </div>
     <div className="input-box">
               <div className="details-container">
                 <span className="details">Property</span>
@@ -290,36 +301,120 @@ return(
 
       <div className="input-box">
       <div className="details-container">
-        <span className="details">Amenity id</span>
-        <span className="required" >*</span>
+        <span className="details">Floor number</span>
+        <span className="required">*</span>
         </div>
-        <select name="amenity_id" value={formData.amenity_id} onChange={handleChange}>
-                <option value="">-Select Amenity-</option>
-                {amenityMasters.map((amenity) => (
-                  <option key={amenity.id} value={amenity.id}>
-                   {amenity.amenity_name}
-                  </option>
-                ))}
-              </select>
-              {errors.amenity_id && <p className="error">{errors.amenity_id}</p>}
-      </div>
-      
-      <div className="input-box">
-        <span className="details">Amenity details</span>
-        <input type="text"  name="amenity_details" value={formData.amenity_details} onChange={handleChange}/>
+        <input type="text" name="floor_number" value={formData.floor_number} onChange={handleChange}/>
       </div>
       <div className="input-box">
       <div className="details-container">
-        <span className="details">Status</span>
+        <span className="details">Unit number</span>
         <span className="required">*</span>
         </div>
-       <select name="status" value={formData.status} onChange={handleChange}>
-         <option value="">-Select-</option>
-         <option value="active">Active</option>
-         <option value="inactive">Inactive</option>
-       </select>
-       {errors.status && <p className="error">{errors.status}</p>}
+        <input type="text" name="unit_number" value={formData.unit_number} onChange={handleChange}/>
       </div>
+      <div className="input-box">
+        <span className="details">Unit status</span>
+        <input type="text" name="unit_status_id" value={formData.unit_status_id} onChange={handleChange}/>
+      </div>
+      <div className="input-box">
+        <span className="details">Unit combination</span>
+        <input type="text" name="unit_combination" value={formData.unit_combination} onChange={handleChange}/>
+      </div>
+      <div className="input-box">
+        <span className="details">Membership no</span>
+        <input type="text" name="membership_no " value={formData.membership_no} onChange={handleChange}/>
+      </div>
+      <div className="input-box">
+      <div className="details-container">
+        <span className="details">User role</span>
+        <span className="required">*</span>
+        </div>
+        <input type="text" name="user_role_id" value={formData.user_role_id} onChange={handleChange}/>
+      </div>
+      <div className="input-box">
+        <span className="details">Share holding no</span>
+        <input type="text" name="share_holding_no" value={formData.share_holding_no} onChange={handleChange}/>
+      </div>
+          <div className="input-box">
+              <span className="details">Share certificate nos</span>
+             <input type="text" name="share_certificate_nos" value={formData.share_certificate_nos} onChange={handleChange} />
+             {errors.share_certificate_nos && <p className="error">{errors.share_certificate_nos}</p>}
+          </div>
+          <div className="input-box">
+              <span className="details">Share certificate bank name</span>
+             <input type="text" name="share_certificate_bank_name" value={formData.share_certificate_bank_name} onChange={handleChange} />
+             {errors.share_certificate_bank_name && <p className="error">{errors.share_certificate_bank_name}</p>}
+          </div>
+          <div className="input-box">
+          <div className="details-container">
+              <span className="details">Kids count</span>
+              <span className="required">*</span>
+           </div>
+             <input type="text" name="kids_count" value={formData.kids_count} onChange={handleChange} />
+             {errors.kids_count && <p className="error">{errors.kids_count}</p>}
+          </div>
+          <div className="input-box">
+          <div className="details-container">
+              <span className="details">Senior citizen count</span>
+              <span className="required">*</span>
+           </div>
+             <input type="text" name=" senior_citizen_count" value={formData. senior_citizen_count} onChange={handleChange} />
+             {errors.senior_citizen_count && <p className="error">{errors. senior_citizen_count}</p>}
+          </div>
+          <div className="input-box">
+          <div className="details-container">
+              <span className="details">Male count</span>
+              <span className="required">*</span>
+           </div>
+             <input type="text" name="male_count" value={formData.male_count} onChange={handleChange} />
+             {errors.male_count && <p className="error">{errors.male_count}</p>}
+          </div>
+          <div className="input-box">
+          <div className="details-container">
+              <span className="details">Femele count</span>
+              <span className="required">*</span>
+           </div>
+             <input type="text" name="female_count" value={formData.female_count} onChange={handleChange} />
+             {errors.female_count && <p className="error">{errors.female_count}</p>}
+          </div>
+          <div className="input-box">
+          <div className="details-container">
+              <span className="details">Total people count</span>
+              <span className="required">*</span>
+           </div>
+             <input type="text" name="total_people_count" value={formData.total_people_count} onChange={handleChange} />
+             {errors.total_people_count && <p className="error">{errors.total_people_count}</p>}
+          </div>
+          <div className="input-box">
+          <div className="details-container">
+              <span className="details">Alloted 4 wheel parking count</span>
+              <span className="required">*</span>
+           </div>
+             <input type="text" name="alloted_four_wheel_parking_count " value={formData.alloted_four_wheel_parking_count } onChange={handleChange} />
+             {errors.alloted_four_wheel_parking_count  && <p className="error">{errors.alloted_four_wheel_parking_count }</p>}
+          </div>
+          <div className="input-box">
+          <div className="details-container">
+              <span className="details">Alloted 2 wheel parking count</span>
+              <span className="required">*</span>
+           </div>
+             <input type="text" name="alloted_two_wheel_parking_count " value={formData.alloted_two_wheel_parking_count} onChange={handleChange} />
+             {errors.alloted_two_wheel_parking_count && <p className="error">{errors.alloted_two_wheel_parking_count}</p>}
+          </div>
+          <div className="input-box">
+              <span className="details">Nominee names and per</span>
+             <textarea name="nominee_names_and_per " value={formData.nominee_names_and_per } onChange={handleChange} />
+             {errors.nominee_names_and_per  && <p className="error">{errors.nominee_names_and_per }</p>}
+          </div>
+          <div className="input-box">
+              <span className="details">Club due date</span>
+             <input type="date" name="club_due_date" value={formData.club_due_date  } onChange={handleChange} />
+          </div>
+          <div className="input-box">
+              <span className="details">Four sos number</span>
+             <input type="text" name="four_sos_number" value={formData.four_sos_number} onChange={handleChange} />
+          </div>
      </div>
      <hr/>
     <div className="button-row">
@@ -331,4 +426,4 @@ return(
 </div>
   )
 };
-export default AddAmenity;
+export default AddPropertyUnit;

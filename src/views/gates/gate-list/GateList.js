@@ -62,7 +62,7 @@ const GateList = () => {
     const searchValue = event.target.value.toLowerCase();
   
     const filteredData = data.filter((row) =>
-      String(row.property_id || "").toLowerCase().includes(searchValue) ||
+      String(row.property_name || "").toLowerCase().includes(searchValue) ||
 
       String(row.gate_name || "").toLowerCase().includes(searchValue) ||
 
@@ -92,9 +92,9 @@ const GateList = () => {
   const exportPdf = () => {
     const doc = new jsPDF({ orientation: 'landscape' });
     autoTable(doc, {
-      head: [["Property", "Gate name", "Gate information", "Is main gate", "Status", "Created by"]],
+      head: [["Property Name", "Gate name", "Gate information", "Is main gate", "Status", "Created by"]],
       body: data.map(item => [
-        item.property_id,
+        item.property_name,
         item.gate_name,
         item.gate_description,
         item.is_main_gate,
@@ -215,7 +215,7 @@ const handleDelete = async (id) => {
         <thead>
           <tr>
             <th>SR.NO</th>
-            <th>Property ID</th>
+            <th>Property Name</th>
             <th>Gate Name</th>
             <th>Description</th>
             <th>Is Main Gate</th>
@@ -234,7 +234,7 @@ const handleDelete = async (id) => {
               currentRecords.map((gate, index) => (
                 <tr key={index}>
                   <td>{index+1}</td>
-                  <td>{gate.property_id}</td>
+                  <td>{gate.property_name}</td>
                   <td>{gate.gate_name}</td>
                   <td>{gate.gate_description}</td>
                   <td>{gate.is_main_gate}</td>

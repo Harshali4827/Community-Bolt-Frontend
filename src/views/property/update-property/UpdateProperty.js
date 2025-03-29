@@ -1,16 +1,12 @@
 import React, { useEffect, useState } from "react";
 import '../../../css/form.css';
-import { LoadScript, StandaloneSearchBox } from '@react-google-maps/api';
-import { jwtDecode } from "jwt-decode";
 import Swal from "sweetalert2";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axiosInstance from "src/axiosInstance";
-const GOOGLE_MAPS_API_KEY = "AIzaSyAyufpVzzQOm5-z0H___ZEG9pN-P-aAA8M";
 
 function UpdateProperty(){
   const [formData, setFormData] = useState({
     property_name: '',
-    logo: '',
     address: '',
     country_id :'',
     city_id :'',
@@ -39,74 +35,33 @@ function UpdateProperty(){
     emergency_email:'',
     additional_parking_charges:'',
     is_payment_gateway_visible:'',
-    status:'',
-    ip_address: '',
-    created_by:''
+    status:''
   });
   const [errors, setErrors] = useState({});
-  const [address, setAddress] = useState("");
-  const [latitude, setLatitude] = useState("");
-  const [longitude, setLongitude] = useState("");
-  const [searchBox, setSearchBox] = useState(null);
   const navigate = useNavigate();
-
-  const onPlacesChanged = () => {
-    if (searchBox) {
-      const places = searchBox.getPlaces();
-      if (places.length > 0) {
-        const place = places[0];
-        const location = place.geometry.location;
-
-        setAddress(place.formatted_address);
-        setLatitude(location.lat());
-        setLongitude(location.lng());
+  const {id} = useParams();
+  
+  useEffect(() => {
+    fetchPropertyData();
+  }, [id])
+  
+  const fetchPropertyData = async () => {
+      try {
+        const response = await axiosInstance.get(`/property/${id}`);
+        console.log('Fetched data:', response.data);
+        if (response.data) {
+            setFormData(response.data);
+          }
+      } catch (error) {
+        console.error('Error fetching property data:', error);
       }
-    }
-  };
-
-  const getIPAddress = async () => {
-    try {
-        const response = await fetch('https://api64.ipify.org?format=json');
-        const data = await response.json();
-        return data.ip;
-    } catch (error) {
-        console.error("Error fetching IP address:", error);
-        return '';
-    }
-  };
-
-useEffect(() => {
-    const fetchUserData = async () => {
-        try {
-            const token = localStorage.getItem("token");
-            if (token) {
-                const decodedToken = jwtDecode(token);
-                const userId = decodedToken.userId; 
-
-                const ip = await getIPAddress();
-
-                setFormData((prevData) => ({
-                    ...prevData,
-                    created_by: userId,
-                    ip_address: ip
-                }));
-            }
-        } catch (error) {
-            console.error("Error decoding token:", error);
-        }
     };
 
-    fetchUserData();
-}, []);
-
-const handleChange = (e) => {
-  const { name, value, type, files } = e.target;
-  if (type === "file") {
-      setFormData((prevData) => ({ ...prevData, [name]: files[0] }));
-  } else {
+    const handleChange = (e) => {
+      const { name, value } = e.target;
       setFormData((prevData) => ({ ...prevData, [name]: value }));
-  }
-};
+      setErrors((prevErrors) => ({ ...prevErrors, [name]: '' }));
+    };
 
 
 const handleSubmit = async (e) => {
@@ -119,7 +74,7 @@ const handleSubmit = async (e) => {
 
   if (!formData.status) formErrors.status = 'Status is required';
 
-  if (!formData. country_id) formErrors.country_id = 'This field is required';
+  if (!formData.country_id) formErrors.country_id = 'This field is required';
 
   if (!formData.city_id) formErrors.city_id = 'This field is required';
 
@@ -152,16 +107,8 @@ const handleSubmit = async (e) => {
     return;
   }
 
-  const form = new FormData();
-  for (let key in formData) {
-      form.append(key, formData[key]);
-  }
-  console.log("Form Data:", Object.fromEntries(form.entries()));
-
   try {
-    const response = await axiosInstance.post('/property',form,{
-      headers: { "Content-Type": "multipart/form-data", }
-     });
+    const response = await axiosInstance.put(`/property/${id}`,formData);
     const Toast = Swal.mixin({
       toast: true,
       position: "top-end",
@@ -205,8 +152,7 @@ const handleCancel = ()=> {
 }
 
 return(
-  
-    <div className="form-container">
+  <div className="form-container">
       <div className="page-header">
       <div className="form-note" style={{ textAlign: "right", marginBottom: "10px" }}>
             <span className="required">*</span> Field is mandatory
@@ -217,21 +163,13 @@ return(
 
        <div className="input-box">
             <div className="details-container">
-              <span className="details">Property Name</span>
+              <span className="details">Property name</span>
               <span className="required">*</span>
             </div>
             <input type="text" name="property_name" 
                  value={formData.property_name} onChange={handleChange}/>
           {errors.property_name && <p className="error">{errors.property_name}</p>}
           </div>
-
-        <div className="input-box">
-              <span className="details">Logo</span>
-           <input type="file" name="logo" onChange={handleChange} />
-
-          {errors.logo && <p className="error">{errors.logo}</p>}
-          </div>
-      
           <div className="input-box">
             <div className="details-container">
               <span className="details">Address</span>
@@ -268,7 +206,7 @@ return(
         </div>
         <input type="text" name="state_id" 
                  value={formData.state_id} onChange={handleChange}/>
-          {errors.property_id && <p className="error">{errors.property_id}</p>}
+          {errors.state_id && <p className="error">{errors.state_id}</p>}
       </div>
       
       <div className="input-box">
@@ -276,19 +214,6 @@ return(
         <input type="text" name="google_location" 
                  value={formData.google_location} onChange={handleChange}/>
       </div>
-{/* 
-           <div className="input-box">
-            <div className="details-container">
-              <span className="details">Google Location</span>
-              <span className="required">*</span>
-            </div>
-            <LoadScript googleMapsApiKey={GOOGLE_MAPS_API_KEY} libraries={["places"]}>
-              <StandaloneSearchBox onLoad={(ref) => setSearchBox(ref)} onPlacesChanged={onPlacesChanged}>
-                <input type="text" placeholder="Search location..." required />
-              </StandaloneSearchBox>
-            </LoadScript>
-          </div> */}
-
           <div className="input-box">
               <span className="details">Latitude</span>
             <input type="text" name="latitude" 
@@ -304,58 +229,58 @@ return(
      <hr/>
      <div className="user-details">
       <div className="input-box">
-        <span className="details">GST Number</span>
+        <span className="details">GST number</span>
         <input type="text" name="gst_number" 
                  value={formData.gst_number} onChange={handleChange}/>
       </div>
       <div className="input-box">
-        <span className="details">Total Sectors</span>
+        <span className="details">Total sectors</span>
         <input type="text" name="total_sectors" 
                  value={formData.total_sectors} onChange={handleChange}/>
       </div>
 
       <div className="input-box">
-        <span className="details">Total Blocks</span>
+        <span className="details">Total blocks</span>
         <input type="text" name="total_blocks" 
                  value={formData.total_blocks} onChange={handleChange}/>
       </div>
 
       <div className="input-box">
-        <span className="details">Total Units</span>
+        <span className="details">Total units</span>
         <input type="text" name="total_units" 
                  value={formData.total_units} onChange={handleChange}/>
       </div>
       <div className="input-box">
-        <span className="details">Total Offices</span>
+        <span className="details">Total offices</span>
         <input type="text" name="total_offices" 
                  value={formData.total_offices} onChange={handleChange}/>
       </div>
       <div className="input-box">
-        <span className="details">Total Amenities</span>
+        <span className="details">Total amenities</span>
         <input type="text" name="total_amenities" 
                  value={formData.total_amenities} onChange={handleChange}/>
       </div>
 
       <div className="input-box">
-        <span className="details">Total Gates</span>
+        <span className="details">Total gates</span>
         <input type="text" name="total_gates" 
                  value={formData.total_gates} onChange={handleChange}/>
       </div>
 
       <div className="input-box">
-        <span className="details">Total Parkings</span>
+        <span className="details">Total parkings</span>
         <input type="text" name="total_parkings" 
                  value={formData.total_parkings} onChange={handleChange}/>
       </div>
 
       <div className="input-box">
-        <span className="details">Total Guest Parking</span>
+        <span className="details">Total guest parking</span>
         <input type="text" name="total_guest_parking" 
                  value={formData.total_guest_parking} onChange={handleChange}/>
       </div>
       <div className="input-box">
       <div className="details-container">
-        <span className="details">Min Sub Members Allow</span>
+        <span className="details">Min sub members allow</span>
         <span className="required">*</span>
         </div>
         <input type="text" name="min_sub_members_allow" 
@@ -364,7 +289,7 @@ return(
       </div>
       <div className="input-box">
       <div className="details-container">
-        <span className="details">Min Cars Allow</span>
+        <span className="details">Min cars allow</span>
         <span className="required">*</span>
         </div>
         <input type="text" name="min_cars_allow" 
@@ -373,7 +298,7 @@ return(
       </div>
       <div className="input-box">
       <div className="details-container">
-        <span className="details">Min Bikes Allow</span>
+        <span className="details">Min bikes allow</span>
         <span className="required">*</span>
         </div>
         <input type="text" name="min_bikes_allow" 
@@ -382,7 +307,7 @@ return(
       </div>
       <div className="input-box">
       <div className="details-container">
-        <span className="details">Min House Helps Allow</span>
+        <span className="details">Min house helps allow</span>
         <span className="required">*</span>
         </div>
         <input type="text" name="min_house_helps_allow" 
@@ -396,7 +321,7 @@ return(
       <div className="user-details">
       <div className="input-box">
       <div className="details-container">
-        <span className="details">Chairman Name</span>
+        <span className="details">Chairman name</span>
         <span className="required">*</span>
         </div>
         <input type="text" name="chairman_name" 
@@ -406,7 +331,7 @@ return(
 
       <div className="input-box">
       <div className="details-container">
-        <span className="details">Contact Number</span>
+        <span className="details">Contact number</span>
         <span className="required">*</span>
         </div>
         <input type="text" name="chairman_contact_no" 
@@ -430,7 +355,7 @@ return(
       <div className="user-details">
       <div className="input-box">
       <div className="details-container">
-        <span className="details">Emergency Name</span>
+        <span className="details">Emergency name</span>
         <span className="required">*</span>
         </div>
         <input type="text" name="emergency_name" 
@@ -439,7 +364,7 @@ return(
       </div>
       <div className="input-box">
       <div className="details-container">
-        <span className="details">Emergency Contact Number</span>
+        <span className="details">Emergency contact number</span>
         <span className="required">*</span>
         </div>
         <input type="text" name="emergency_contact_no" 
@@ -448,7 +373,7 @@ return(
       </div>
       <div className="input-box">
       <div className="details-container">
-        <span className="details">Emergency Email</span>
+        <span className="details">Emergency email</span>
         <span className="required">*</span>
         </div>
         <input type="text" name="emergency_email" 
@@ -461,7 +386,7 @@ return(
      <div className="user-details">
       <div className="input-box">
       <div className="details-container">
-        <span className="details">Additional Parking Charges</span>
+        <span className="details">Additional parking charges</span>
         <span className="required">*</span>
         </div>
         <input type="text" name="additional_parking_charges" 
@@ -470,16 +395,16 @@ return(
       </div>
       <div className="input-box">
       <div className="details-container">
-        <span className="details">Is Payment Gateway Visible</span>
+        <span className="details">Is payment gateway visible</span>
         <span className="required">*</span>
         </div>
        <select name="is_payment_gateway_visible" 
                  value={formData.is_payment_gateway_visible} onChange={handleChange}>
-       {errors.is_payment_gateway_visible && <p className="error">{errors.is_payment_gateway_visible}</p>}
         <option value="">-Select-</option>
         <option value="yes">Yes</option>
         <option value="no">No</option>
        </select>
+       {errors.is_payment_gateway_visible && <p className="error">{errors.is_payment_gateway_visible}</p>}
       </div>
       <div className="input-box">
       <div className="details-container">
@@ -487,11 +412,11 @@ return(
         <span className="required">*</span>
         </div>
        <select name="status" value={formData.status} onChange={handleChange}>
-       {errors.status && <p className="error">{errors.status}</p>}
          <option value="">-Select-</option>
          <option value="active">Active</option>
          <option value="inactive">Inactive</option>
        </select>
+       {errors.status && <p className="error">{errors.status}</p>}
       </div>
     </div>
     <div className="button-row">

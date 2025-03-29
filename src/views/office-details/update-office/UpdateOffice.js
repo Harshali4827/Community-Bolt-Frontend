@@ -132,10 +132,10 @@ const [formData, setFormData] = useState({
         e.preventDefault();
         let formErrors = {};
       
-        if (!formData.property_id) formErrors.property_id = 'Property id is required';
-        if (!formData.property_sector_id) formErrors.property_sector_id = 'sectord id is required';
-        if (!formData.property_block_id ) formErrors.property_block_id  = 'Block ID is required';
-        if (!formData.property_unit_id) formErrors.property_unit_id = 'Unit id is required';
+        if (!formData.property_id) formErrors.property_id = 'Property name is required';
+        if (!formData.property_sector_id) formErrors.property_sector_id = 'sectord name is required';
+        if (!formData.property_block_id ) formErrors.property_block_id  = 'Block name is required';
+        if (!formData.property_unit_id) formErrors.property_unit_id = 'Unit number is required';
         if (!formData.office_name) formErrors.office_name = 'Office name is required';
         if (!formData.office_contact) formErrors.office_contact = 'This fileld are required';
         if (!formData.status) formErrors.status = 'Status is required'
@@ -198,14 +198,14 @@ return(
    <div className="user-details">
    <div className="input-box">
           <div className="details-container">
-            <span className="details">Property</span>
+            <span className="details">Property Name</span>
             <span className="required">*</span>
           </div>
            <select name="property_id" value={formData.property_id} onChange={handleChange}>
                 <option value="">-Select Property-</option>
                 {properties.map((property) => (
                 <option key={property.id} value={property.id}>
-                    {property.property_id} (ID: {property.id})
+                    {property.property_name}
                 </option>
                 ))}
           </select>
@@ -214,14 +214,14 @@ return(
 
     <div className="input-box">
           <div className="details-container">
-            <span className="details">Property Sector</span>
+            <span className="details">Property sector</span>
             <span className="required">*</span>
           </div>
           <select name="property_sector_id" value={formData.property_sector_id} onChange=        {handleChange}>
              <option value="">-Select Sector-</option>
                 {sectors.map((sector) => (
                 <option key={sector.id} value={sector.id}>
-                  {sector.sector_name} (ID: {sector.id})
+                  {sector.sector_name}
                 </option>
                 ))}
              </select>
@@ -230,14 +230,14 @@ return(
 
       <div className="input-box">
           <div className="details-container">
-            <span className="details">Property Block</span>
+            <span className="details">Property block</span>
             <span className="required">*</span>
           </div>
          <select name="property_block_id" value={formData.property_block_id} onChange={handleChange}>
                 <option value="">-Select Block-</option>
                 {blocks.map((block) => (
                 <option key={block.id} value={block.id}>
-                       {block.block_name} (ID: {block.id})
+                       {block.block_name}
                 </option>
                 ))}
              </select>
@@ -246,14 +246,14 @@ return(
 
         <div className="input-box">
           <div className="details-container">
-            <span className="details">Property Unit</span>
+            <span className="details">Property unit</span>
             <span className="required">*</span>
           </div>
           <select name="property_unit_id" value={formData.property_unit_id} onChange={handleChange}>
             <option value="">-Select Unit-</option>
             {units.map((unit) => (
               <option key={unit.id} value={unit.id}>
-               {unit.id}
+               {unit.unit_number}
               </option>
             ))}
           </select>
@@ -261,7 +261,7 @@ return(
         </div>
   <div className="input-box">
   <div className="details-container">
-    <span className="details">Office Name</span>
+    <span className="details">Office name</span>
     <span className="required">*</span>
     </div>
     <input type="text"  name="office_name" value={formData.office_name} onChange={handleChange}/>

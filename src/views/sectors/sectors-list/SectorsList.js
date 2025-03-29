@@ -61,7 +61,7 @@ const SectorsList = () => {
     const searchValue = event.target.value.toLowerCase();
   
     const filteredData = data.filter((row) =>
-      String(row.property_id || "").toLowerCase().includes(searchValue) ||
+      String(row.property_name || "").toLowerCase().includes(searchValue) ||
       String(row.sector_name || "").toLowerCase().includes(searchValue) ||
       String(row.sector_description || "").toLowerCase().includes(searchValue) ||
       String(row.status || "").toLowerCase().includes(searchValue) ||
@@ -71,34 +71,27 @@ const SectorsList = () => {
     setFilterRecords(filteredData);
     setCurrentPage(1);
   };
-  
-  // Excel
   const exportExcel = () => {
     const worksheet = XLSX.utils.json_to_sheet(data);
     const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, "user Data");
-    XLSX.writeFile(workbook, "UsersData.xlsx");
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Sector Data");
+    XLSX.writeFile(workbook, "SectorData.xlsx");
   };
-
-  // PDF
   const exportPdf = () => {
     const doc = new jsPDF({ orientation: 'landscape' });
     autoTable(doc, {
-      head: [["Title", "Full Name", "Contact Number", "Email", "Pan Number", "Aadhar Number"]],
+      head: [["Property Name", "Sector Name", "Description", "Status", "Created by"]],
       body: data.map(item => [
-        item.title,
-        item.full_name,
-        item.mobile_number,
-        item.email,
-        item.pan_number,
-        item.aadhar_number
+        item.property_name,
+        item.sector_name,
+        item.sector_description,
+        item.status,
+        item.created_by
       ]),
     });
   
     doc.save("SectorDetails.pdf");
   };
-
-  // Print
   const handlePrint = () => {
     const printContent = printableRef.current.innerHTML;
     const originalContent = document.body.innerHTML;
@@ -208,7 +201,7 @@ const handleDelete = async (id) => {
         <thead>
           <tr>
             <th>SR.NO</th>
-            <th>Property ID</th>
+            <th>Property Name</th>
             <th>Sector Name</th>
             <th>Sector Description</th>
             <th>Created by</th>
@@ -226,7 +219,7 @@ const handleDelete = async (id) => {
               currentRecords.map((sector, index) => (
                 <tr key={index}>
                   <td>{index+1}</td>
-                  <td>{sector.property_id}</td>
+                  <td>{sector.property_name}</td>
                   <td>{sector.sector_name}</td>
                   <td>{sector.sector_description}</td>
                   <td>{sector.created_by}</td>

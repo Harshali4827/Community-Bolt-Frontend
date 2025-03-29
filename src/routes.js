@@ -1,3 +1,4 @@
+
 import React from 'react'
 import { Translation } from 'react-i18next'
 
@@ -8,6 +9,8 @@ const UsersList = React.lazy(() => import('./views/users/users-list/UsersList'))
 const AddUser = React.lazy(() => import('./views/users/add-users/AddUser'))
 const UserPropertyList = React.lazy(() => import('./views/user-property-unit/user-property-list/UserPropertyList'))
 const UserAllProperty = React.lazy(() => import('./views/user-property-unit/user-property/UserAllProperty'))
+const AddUserPropertyUnit = React.lazy(() => import('./views/user-property-unit/add-property-unit/AddPropertyUnit'))
+
 const UserProperty = React.lazy(() => import('./views/user-property/property-list/PropertyList'))
 const FileUpload = React.lazy(() => import('./views/import-excel/FileUpload'))
 
@@ -17,6 +20,7 @@ const UpdateGate = React.lazy(() => import('./views/gates/update-gate/UpdateGate
 
 const AddProperty  = React.lazy(() => import('./views/property/add-property/AddProperty'))
 const PropertyList = React.lazy(() => import('./views/property/property-list/PropertyList'))
+const UpdateProperty = React.lazy(() => import('./views/property/update-property/UpdateProperty'))
 
 const AddAssets  = React.lazy(() => import('./views/property-assets/add-assets/AddAssets'))
 const AssetsList  = React.lazy(() => import('./views/property-assets/assets-list/AssetsList'))
@@ -75,104 +79,106 @@ const routes = [
     name: <Translation>{(t) => t('Users')}</Translation>,
     element: UsersList,
   },
-  { path: '/users/add-user', name: 'Add User', element: AddUser },
+  { path: '/users/add-user', name: 'Add user', element: AddUser },
 
   {
     path: '/user-property-list',
-    name: <Translation>{(t) => t('Users Property Units')}</Translation>,
+    name: <Translation>{(t) => t('Users property units')}</Translation>,
     element: UserPropertyList,
   },
-  { path: '/user-property-unit', name: 'Users Property Units', element: UserPropertyList },
-  { path: '/user-property', name: 'Users Property', element: UserProperty },
-  { path: '/user-property-unit/user-property/:id',name:'User Property', element: UserAllProperty},
+
+  { path: '/user-property-unit', name: 'Users property units', element: UserPropertyList },
+  { path: '/user-property', name: 'Users property', element: UserProperty },
+  { path: '/user-property-unit/user-property/:id',name:'User property', element: UserAllProperty},
+  { path:'/user-property-unit/add-user-property-unit', name:'Add user property unit', element:AddUserPropertyUnit},
 
   {
     path: '/import-excel',
-    name: <Translation>{(t) => t('Upload Excel File')}</Translation>,
+    name: <Translation>{(t) => t('Upload excel file')}</Translation>,
     element: FileUpload,
   },
-  { path: '/import-excel', name: 'Upload Excel File', element: FileUpload },
+  { path: '/import-excel', name: 'Upload excel file', element: FileUpload },
 
   {
     path: '/property',
     name: <Translation>{(t) => t('property')}</Translation>,
     exact: true,
   },
-  { path: '/property/add-property', name: 'Add Property', element: AddProperty },
-  { path: '/property/property-list', name: 'Property List', element: PropertyList },
-
+  { path: '/property/add-property', name: 'Add property', element: AddProperty },
+  { path: '/property/property-list', name: 'Property list', element: PropertyList },
+  { path: '/property/update-property/:id', name: 'Update property', element: UpdateProperty },
   {
     path: '/gates',
     name: <Translation>{(t) => t('Gates')}</Translation>,
     exact: true,
   },
-  { path: '/gates/add-gate', name: 'Add Gate', element: AddGate},
+  { path: '/gates/add-gate', name: 'Add gate', element: AddGate},
   { path: '/gates/gates-list', name: 'Gates', element: GateList },
-  { path: '/gates/update-gate/:id', name: 'Update Gate', element: UpdateGate },
+  { path: '/gates/update-gate/:id', name: 'Update gate', element: UpdateGate },
 
   {
     path: '/property-assets',
-    name: <Translation>{(t) => t('Property Assets')}</Translation>,
+    name: <Translation>{(t) => t('Property assets')}</Translation>,
     exact: true,
   },
-  { path: '/property-assets/add-assets', name: 'Add Assets', element: AddAssets },
-  { path: '/property-assets/assets-list', name: 'Assets List', element: AssetsList },
-  { path: '/property-assets/update-assets/:id', name: 'Update Assets', element: UpdateAssets},
+  { path: '/property-assets/add-assets', name: 'Add assets', element: AddAssets },
+  { path: '/property-assets/assets-list', name: 'Assets list', element: AssetsList },
+  { path: '/property-assets/update-assets/:id', name: 'Update assets', element: UpdateAssets},
 
   {
     path: '/sectors',
     name: <Translation>{(t) => t('Sectors')}</Translation>,
     exact: true,
   },
-  { path: '/sectors/add-sector', name: 'Add Sector', element: AddSector },
+  { path: '/sectors/add-sector', name: 'Add sector', element: AddSector },
   { path: '/sectors/sectors-list', name: 'Sectors', element: SectorsList },
-  { path: '/sectors/update-sectors/:id', name: 'Update Sectors', element: UpdateSector },
+  { path: '/sectors/update-sectors/:id', name: 'Update sectors', element: UpdateSector },
 
   {
     path: '/blocks',
     name: <Translation>{(t) => t('Blocks')}</Translation>,
     exact: true,
   },
-  { path: '/blocks/add-block', name: 'Add Block', element: AddBlock },
+  { path: '/blocks/add-block', name: 'Add block', element: AddBlock },
   { path: '/blocks/blocks-list', name: 'Blocks', element: BlocksList },
-  { path: '/blocks/update-block/:id', name: 'Update Block', element: UpdateBlock},
+  { path: '/blocks/update-block/:id', name: 'Update block', element: UpdateBlock},
 
   {
     path: '/units',
     name: <Translation>{(t) => t('Units')}</Translation>,
     exact: true,
   },
-  { path: '/units/add-unit', name: 'Add Unit', element: AddUnit },
+  { path: '/units/add-unit', name: 'Add unit', element: AddUnit },
   { path: '/units/units-list', name: 'Units', element: UnitsList },
-  { path: '/units/update-unit/:id', name: 'Update Unit', element: UpdateUnit},
+  { path: '/units/update-unit/:id', name: 'Update unit', element: UpdateUnit},
   
   {
     path: '/amenity-master',
-    name: <Translation>{(t) => t('Amenity Master')}</Translation>,
+    name: <Translation>{(t) => t('Amenity master')}</Translation>,
     exact: true,
   },
-  { path: '/amenity-masters/add-amenity-master', name: 'Add Amenity Master', element: AddMaster },
-  { path: '/amenity-masters/amenity-masters-list', name: 'Amenity Masters', element: MastersList },
-  { path: '/amenity-masters/update-master/:id', name: 'Update Masters', element:  UpdateMaster },
+  { path: '/amenity-masters/add-amenity-master', name: 'Add amenity master', element: AddMaster },
+  { path: '/amenity-masters/amenity-masters-list', name: 'Amenity masters', element: MastersList },
+  { path: '/amenity-masters/update-master/:id', name: 'Update masters', element:  UpdateMaster },
 
   {
     path: '/amenities',
     name: <Translation>{(t) => t('Amenities')}</Translation>,
     exact: true,
   },
-  { path: '/amenity/add-amenity', name: 'Add Amenity', element: AddAmenity },
-  { path: '/amenity/amenity-list', name: 'Property Amenities', element: AmenityList },
-  { path: '/amenities/update-amenity/:id', name: 'Update Amenity', element: UpdateAmenity },
+  { path: '/amenity/add-amenity', name: 'Add amenity', element: AddAmenity },
+  { path: '/amenity/amenity-list', name: 'Property amenities', element: AmenityList },
+  { path: '/amenities/update-amenity/:id', name: 'Update amenity', element: UpdateAmenity },
 
 
   {
     path: '/application-module',
-    name: <Translation>{(t) => t('Application Module')}</Translation>,
+    name: <Translation>{(t) => t('Application module')}</Translation>,
     exact: true,
   },
-  { path: '/application-module/add-module', name: 'Add Application Module', element: AddModule},
-  { path: '/application-module/module-list', name: 'Application Module', element: ModuleList},
-  { path: '/application-module/update-module/:id', name: 'Application Module', element: UpdateModule},
+  { path: '/application-module/add-module', name: 'Add application module', element: AddModule},
+  { path: '/application-module/module-list', name: 'Application module', element: ModuleList},
+  { path: '/application-module/update-module/:id', name: 'Application module', element: UpdateModule},
   
   
   {
@@ -180,18 +186,18 @@ const routes = [
     name: <Translation>{(t) => t('Bank Details')}</Translation>,
     exact: true,
   },
-  { path: '/bank-details/add-bank', name: 'Add Bank Details', element: AddBank},
-  { path: '/bank-details/bank-list', name: 'Bank Details', element: BankList},
-  { path: '/bank-details/update-bank/:id', name: 'Update Bank Details', element: UpdateBank},
+  { path: '/bank-details/add-bank', name: 'Add bank details', element: AddBank},
+  { path: '/bank-details/bank-list', name: 'Bank details', element: BankList},
+  { path: '/bank-details/update-bank/:id', name: 'Update bank details', element: UpdateBank},
 
   {
     path: '/office-details',
     name: <Translation>{(t) => t('Office Details')}</Translation>,
     exact: true,
   },
-  { path: '/office-details/add-office', name: 'Add Office Details', element: AddOffice},
-  { path: '/office-details/office-list', name: 'Office Details', element: OfficeList},
-  { path: '/office-details/update-office/:id', name: 'Update Office Details', element: UpdateOffice},
+  { path: '/office-details/add-office', name: 'Add office details', element: AddOffice},
+  { path: '/office-details/office-list', name: 'Office details', element: OfficeList},
+  { path: '/office-details/update-office/:id', name: 'Update office details', element: UpdateOffice},
   
   {
     path: '/plugins',

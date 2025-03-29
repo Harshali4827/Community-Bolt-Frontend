@@ -62,16 +62,16 @@ const UserAllProperty = () => {
     const searchValue = event.target.value.toLowerCase();
   
     const filteredData = data.filter((row) =>
-      String(row.user_id || "").toLowerCase().includes(searchValue) ||
-      String(row.property_id || "").toLowerCase().includes(searchValue) ||
-      String(row.property_sector_id  || "").toLowerCase().includes(searchValue) ||
-      String(row.property_block_id || "").toLowerCase().includes(searchValue) ||
+      String(row.user_name || "").toLowerCase().includes(searchValue) ||
+      String(row.property_name || "").toLowerCase().includes(searchValue) ||
+      String(row.sector_name  || "").toLowerCase().includes(searchValue) ||
+      String(row.block_name || "").toLowerCase().includes(searchValue) ||
       String(row.property_unit_id || "").toLowerCase().includes(searchValue) ||
       String(row.floor_number || "").toLowerCase().includes(searchValue) ||
       String(row.unit_number || "").toLowerCase().includes(searchValue) ||
       String(row.unit_combination  || "").toLowerCase().includes(searchValue) ||
       String(row.membership_no  || "").toLowerCase().includes(searchValue) ||
-      String(row.user_role_id  || "").toLowerCase().includes(searchValue) ||
+      String(row.role_name  || "").toLowerCase().includes(searchValue) ||
       String(row.share_holding_no  || "").toLowerCase().includes(searchValue) ||
       String(row.share_certificate_nos || "").toLowerCase().includes(searchValue) ||
       String(row.share_certificate_bank_name  || "").toLowerCase().includes(searchValue) ||
@@ -88,34 +88,38 @@ const UserAllProperty = () => {
     setFilterRecords(filteredData);
     setCurrentPage(1);
   };
-  
-  // Excel
   const exportExcel = () => {
     const worksheet = XLSX.utils.json_to_sheet(data);
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, "user Data");
     XLSX.writeFile(workbook, "UsersPropertyUnit.xlsx");
   };
-
-  // PDF
   const exportPdf = () => {
     const doc = new jsPDF({ orientation: 'landscape' });
     autoTable(doc, {
-      head: [["User", "Property", "Sector", "Block", "Unit", "Unit Number"]],
+      head: [["User", "Property", "Sector", "Block", "Unit", "Unit number","Unit combination","Membership no","User role","Share holding no","Share certificate no","Share certificate bank name","Total people count","Alloted 4 wheel parking","Alloted 2 wheel parking","Nominee name"]],
       body: data.map(item => [
-        item.user_id,
-        item.property_id,
-        item.property_sector_id,
-        item.property_block_id,
+        item.user_name,
+        item.property_name,
+        item.sector_name,
+        item.block_name,
         item.property_unit_id,
-        item.unit_number
+        item.unit_number,
+        item.unit_combination,
+        item.membership_no,
+        item.role_name,
+        item.share_holding_no,
+        item.share_certificate_nos,
+        item.share_certificate_bank_name,
+        item.total_people_count,
+        item.alloted_four_wheel_parking_count,
+        item.alloted_two_wheel_parking_count,
+        item.nominee_names_and_per
       ]),
     });
   
-    doc.save("SectorDetails.pdf");
+    doc.save("UserPropertyUnit.pdf");
   };
-
-  // Print
   const handlePrint = () => {
     const printContent = printableRef.current.innerHTML;
     const originalContent = document.body.innerHTML;
@@ -137,8 +141,8 @@ const handleDelete = async (id) => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          await axiosInstance.delete(`/sectors/${id}`);
-          setData(data.filter((sector) => sector.id !== id));
+          await axiosInstance.delete(`/user-property-units/${id}`);
+          setData(data.filter((unit) => unit.id !== id));
           fetchData(); 
           Swal.fire({
             title: "Deleted!",
@@ -229,8 +233,7 @@ const handleDelete = async (id) => {
             <th>Property</th>
             <th>Sector</th>
             <th>Block</th>
-            <th>Unit</th>
-            <th>Unit Number</th>
+            <th>Unit number</th>
             <th>Unit combination</th>
             <th>Membership no</th>
             <th>User role</th>
@@ -238,7 +241,7 @@ const handleDelete = async (id) => {
             <th>Share certificate nos</th>
             <th>Bank name</th>
             <th>Kids</th>
-            <th>Senior Citizen</th>
+            <th>Senior citizen</th>
             <th>Male</th>
             <th>Female</th>
             <th>Total</th>
@@ -258,15 +261,14 @@ const handleDelete = async (id) => {
               currentRecords.map((units, index) => (
                 <tr key={index}>
                   <td>{index+1}</td>
-                  <td>{units.user_id}</td>
-                  <td>{units.property_id}</td>
-                  <td>{units.property_sector_id}</td>
-                  <td>{units.property_block_id}</td>
-                  <td>{units.property_unit_id}</td>
+                  <td>{units.user_name}</td>
+                  <td>{units.property_name}</td>
+                  <td>{units.sector_name}</td>
+                  <td>{units.block_name}</td>
                   <td>{units.unit_number}</td>
                   <td>{units.unit_combination}</td>
                   <td>{units.membership_no}</td>
-                  <td>{units.user_role_id}</td>
+                  <td>{units.role_name}</td>
                   <td>{units.share_holding_no}</td>
                   <td>{units.share_certificate_nos}</td>
                   <td>{units.share_certificate_bank_name}</td>
@@ -284,16 +286,13 @@ const handleDelete = async (id) => {
                     onClick={(event) => handleClick(event, units.id)}>
                     Action
                   </button>
-                  {/* <Menu
+                  <Menu
                     id={`action-menu-${units.id}`}
                     anchorEl={anchorEl}
                     open={menuId === units.id}
                     onClose={handleClose}>
-                     <Link to={`/sectors/update-sectors/${units.id}`}>
-                         <MenuItem style={{ color: 'black'}}>Edit</MenuItem>
-                     </Link>
                     <MenuItem onClick={() => handleDelete(units.id)}>Delete</MenuItem>
-                  </Menu> */}
+                  </Menu>
                 </td>
                 </tr>
               ))

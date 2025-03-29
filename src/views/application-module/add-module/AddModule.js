@@ -126,7 +126,7 @@ const [formData, setFormData] = useState({
     <div className="user-details">
        <div className="input-box">
           <div className="details-container">
-          <span className="details">Module Name</span>
+          <span className="details">Module name</span>
           <span className="required">*</span>
           </div>
           <input type="text" name="module_name" 
@@ -141,7 +141,7 @@ const [formData, setFormData] = useState({
       
          <div className="input-box">
             <div className="details-container">
-              <span className="details">Parent Module ID</span>
+              <span className="details">Parent module id</span>
               <span className="required">*</span>
             </div>
             <input type="text" name="parent_module_id" value={formData.parent_module_id} onChange={handleChange} />

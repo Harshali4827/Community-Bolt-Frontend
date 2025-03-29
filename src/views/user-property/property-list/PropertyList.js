@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useRef} from 'react';
 import { Link } from 'react-router-dom';
-import { Menu, MenuItem } from "@mui/material";
 import { ChevronLeft, ChevronRight } from "@mui/icons-material";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -14,11 +13,8 @@ import '../../../css/table.css';
 import Swal from 'sweetalert2';
 import axiosInstance from 'src/axiosInstance';
 
-
 const PropertyList = () => {
   const [data, setData] = useState([]);
-  const [anchorEl, setAnchorEl] = useState(null);
-  const [menuId, setMenuId] = useState(null);
   const [filterRecords, setFilterRecords] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(7);
@@ -48,24 +44,15 @@ const PropertyList = () => {
     setRowsPerPage(Number(event.target.value));
     setCurrentPage(1); 
   };
-  const handleClick = (event, id) => {
-    setAnchorEl(event.currentTarget);
-    setMenuId(id);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-    setMenuId(null);
-  };
 
   const handleFilter = (event) => {
     const searchValue = event.target.value.toLowerCase();
   
     const filteredData = data.filter((row) =>
-      String(row.user_id || "").toLowerCase().includes(searchValue) ||
-      String(row.property_id || "").toLowerCase().includes(searchValue) ||
-      String(row.membership_no || "").toLowerCase().includes(searchValue) ||
-      String(row.user_role_id || "").toLowerCase().includes(searchValue) 
+      String(row.user_name || "").toLowerCase().includes(searchValue) ||
+      String(row.property_name || "").toLowerCase().includes(searchValue) ||
+      String(row.membership_number || "").toLowerCase().includes(searchValue) ||
+      String(row.role_name || "").toLowerCase().includes(searchValue) 
     );
   
     setFilterRecords(filteredData);
@@ -80,12 +67,12 @@ const PropertyList = () => {
   const exportPdf = () => {
     const doc = new jsPDF({ orientation: 'landscape' });
     autoTable(doc, {
-      head: [["User", "Property", "Membership No", "User role"]],
+      head: [["User Name", "Property", "Membership no", "User role"]],
       body: data.map(item => [
-        item.user_id,
-        item.property_id,
-        item.membership_no,
-        item.user_role_id
+        item.user_name,
+        item.property_name,
+        item.membership_number,
+        item.role_name
       ]),
     });
   
@@ -135,7 +122,7 @@ const handleDelete = async (id) => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          await axiosInstance.delete(`/user/${id}`);
+          await axiosInstance.delete(`/user-property/${id}`);
           setData(data.filter((user) => user.id !== id));
           fetchData(); 
           Swal.fire({
@@ -192,9 +179,9 @@ const handleDelete = async (id) => {
           </CSVLink>
           </button>
         </div>
-        <Link to='/users/add-user'>
+        {/* <Link to='/users/add-user'>
           <button className="new-user-btn" >+ New User</button>
-        </Link>
+        </Link> */}
       </div>
       <div className="table-responsive">
       <table className="responsive-table" style={{overflow:'auto'}}>
@@ -218,26 +205,16 @@ const handleDelete = async (id) => {
               currentRecords.map((user, index) => (
                  <tr key={index}>
                   <td>{index+1}</td>
-                  <td>{user.user_id}</td>
-                  <td>{user.property_id}</td>
-                  <td>{user.membership_no}</td>
-                  <td>{user.user_role_id}</td>
+                  <td>{user.user_name}</td>
+                  <td>{user.property_name}</td>
+                  <td>{user.membership_number}</td>
+                  <td>{user.role_name}</td>
                    <td>
                     <button
                     className="action-button"
-                    onClick={(event) => handleClick(event,user.id)}>
-                    Action
+                    onClick={() => handleDelete(user.id)}>
+                    Delete
                   </button>
-                  {/* <Menu
-                    id={`action-menu-${user.id}`}
-                    anchorEl={anchorEl}
-                    open={menuId === user.id}
-                    onClose={handleClose}>
-                     <Link to={`/sectors/update-sectors/${user.id}`}>
-                         <MenuItem style={{ color: 'black'}}>Edit</MenuItem>
-                     </Link>
-                    <MenuItem onClick={() => handleDelete(user.id)}>Delete</MenuItem>
-                  </Menu> */}
                 </td>
                 </tr>
               ))
@@ -276,8 +253,8 @@ const handleDelete = async (id) => {
           <thead>
             <tr>
             <th>SR.NO</th>
-            <th>User</th>
-            <th>Property</th>
+            <th>User Name</th>
+            <th>Property Name</th>
             <th>Membership no</th>
             <th>User role</th>
             </tr>
@@ -286,10 +263,10 @@ const handleDelete = async (id) => {
             {data.map((user,index) => (
               <tr key={index}>
                 <td>{index+1}</td>
-                <td>{user.user_id}</td>
-                <td>{user.property_id}</td>
+                <td>{user.user_name}</td>
+                <td>{user.property_name}</td>
                 <td>{user.membership_no}</td>
-                <td>{user.user_role_id}</td>
+                <td>{user.role_name}</td>
               </tr>
             ))}
           </tbody>

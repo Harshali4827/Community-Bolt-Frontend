@@ -164,7 +164,7 @@ return(
 
           <div className="input-box">
             <div className="details-container">
-              <span className="details">Full Name</span>
+              <span className="details">Full name</span>
               <span className="required">*</span>
             </div>
             <input type="text" name="full_name" 
@@ -174,7 +174,7 @@ return(
 
       <div className="input-box">
       <div className="details-container">
-        <span className="details">Mobile Number</span>
+        <span className="details">Mobile number</span>
         <span className="required">*</span>
         </div>
         <input type="text" name="mobile_number" 
@@ -193,7 +193,7 @@ return(
       </div>
       <div className="input-box">
       <div className="details-container">
-        <span className="details">Pan Number</span>
+        <span className="details">Pan number</span>
         <span className="required">*</span>
         </div>
         <input type="text" name="pan_number" 
@@ -203,7 +203,7 @@ return(
       
       <div className="input-box">
       <div className="details-container">
-        <span className="details">Aadhar Number</span>
+        <span className="details">Aadhar number</span>
         <span className="required">*</span>
         </div>
         <input type="text" name="aadhar_number" 
@@ -211,11 +211,11 @@ return(
           {errors.aadhar_number && <p className="error">{errors.aadhar_number}</p>}
       </div>
        <div className="input-box">
-              <span className="details">Profile Photo</span>
+              <span className="details">Profile photo</span>
               <input type="file" name="profile_photo" onChange={handleChange} accept="image/*"/>
       </div>
       <div className="input-box">
-        <span className="details">Blood Group</span>
+        <span className="details">Blood group</span>
         <input type="text" name="blood_group" 
                  value={formData.blood_group} onChange={handleChange}/>
       </div>

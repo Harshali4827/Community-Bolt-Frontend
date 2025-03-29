@@ -92,7 +92,7 @@ const [formData, setFormData] = useState({
     <div className="user-details">
        <div className="input-box">
           <div className="details-container">
-          <span className="details">Amenity Name</span>
+          <span className="details">Amenity name</span>
           <span className="required">*</span>
           </div>
           <input type="text" name="amenity_name" 
@@ -101,13 +101,13 @@ const [formData, setFormData] = useState({
         </div>
 
         <div className="input-box">
-              <span className="details">Amenity Details</span>
+              <span className="details">Amenity details</span>
              <input type="text" name="amenity_details" value={formData.amenity_details} onChange={handleChange} />
         </div>
       
          <div className="input-box">
             <div className="details-container">
-              <span className="details">Icon URL</span>
+              <span className="details">Icon url</span>
               <span className="required">*</span>
             </div>
             <input type="url" name="icon_url" value={formData.icon_url} onChange={handleChange} />

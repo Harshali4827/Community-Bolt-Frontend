@@ -61,8 +61,8 @@ const BlocksList = () => {
     const searchValue = event.target.value.toLowerCase();
   
     const filteredData = data.filter((row) =>
-      String(row.property_id || "").toLowerCase().includes(searchValue) ||
-      String(row.property_sector_id || "").toLowerCase().includes(searchValue) ||
+      String(row.property_name || "").toLowerCase().includes(searchValue) ||
+      String(row.sector_name || "").toLowerCase().includes(searchValue) ||
       String(row.block_name || "").toLowerCase().includes(searchValue) ||
       String(row.total_units || "").toLowerCase().includes(searchValue) ||
       String(row.unit_number_start_from || "").toLowerCase().includes(searchValue) ||
@@ -75,35 +75,31 @@ const BlocksList = () => {
     setFilterRecords(filteredData);
     setCurrentPage(1);
   };
-  
-  // Excel
   const exportExcel = () => {
     const worksheet = XLSX.utils.json_to_sheet(data);
     const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, "user Data");
-    XLSX.writeFile(workbook, "UsersData.xlsx");
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Property Blocks");
+    XLSX.writeFile(workbook, "PropertyBlocks.xlsx");
   };
+ const exportPdf = () => {
+  const doc = new jsPDF({ orientation: 'landscape' });
+  autoTable(doc, {
+    head: [["Property Name", "Sector Name","Block Name","Total Units","Unit Number Start From","Unit Number End to","Status"]],
+    body: data.map(item => [
+      item.property_name,
+      item.sector_name,
+      item.block_name,
+      item.total_units,
+      item.unit_number_start_from,
+      item.unit_number_end_to,
+      item.status
+    ]),
+  });
 
-  // PDF
-  const exportPdf = () => {
-    const doc = new jsPDF({ orientation: 'landscape' });
-    autoTable(doc, {
-      head: [["Title", "Full Name", "Contact Number", "Email", "Pan Number", "Aadhar Number"]],
-      body: data.map(item => [
-        item.title,
-        item.full_name,
-        item.mobile_number,
-        item.email,
-        item.pan_number,
-        item.aadhar_number
-      ]),
-    });
-  
-    doc.save("UserDetails.pdf");
-  };
-
-  // Print
-  const handlePrint = () => {
+  doc.save("PropertyBlocks.pdf");
+};
+    
+    const handlePrint = () => {
     const printContent = printableRef.current.innerHTML;
     const originalContent = document.body.innerHTML;
 
@@ -199,7 +195,7 @@ const handleDelete = async (id) => {
           <button className="btn2" title="Excel" onClick={exportExcel}><FontAwesomeIcon icon={faFileExcel} /></button>
           <button className="btn2" title="PDF" onClick={exportPdf}><FontAwesomeIcon icon={faFilePdf} /></button>
           <button className="btn2" title="Print" onClick={handlePrint}><FontAwesomeIcon icon={faPrint} /></button>
-          <button className="btn2"><CSVLink data={data} filename="UserData.csv" title="CSV" className="csv-link"><FontAwesomeIcon icon={faFileCsv} />
+          <button className="btn2"><CSVLink data={data} filename="PropertyBlocks.csv" title="CSV" className="csv-link"><FontAwesomeIcon icon={faFileCsv} />
           </CSVLink>
           </button>
         </div>
@@ -212,8 +208,8 @@ const handleDelete = async (id) => {
         <thead>
           <tr>
             <th>SR.NO</th>
-            <th>Property ID</th>
-            <th>Sector ID</th>
+            <th>Property Name</th>
+            <th>Sector Name</th>
             <th>Block Name</th>
             <th>Total Units</th>
             <th>Unit Number</th>
@@ -232,8 +228,8 @@ const handleDelete = async (id) => {
               currentRecords.map((block, index) => (
                 <tr key={index}>
                   <td>{index+1}</td>
-                  <td>{block.property_id}</td>
-                  <td>{block.property_sector_id}</td>
+                  <td>{block.property_name}</td>
+                  <td>{block.sector_name}</td>
                   <td>{block.block_name}</td>
                   <td>{block.total_units}</td>
                   <td>{block.unit_number_start_from} &nbsp;to&nbsp; {block.unit_number_end_to}</td>

@@ -93,14 +93,28 @@ const PropertyList = () => {
   const exportPdf = () => {
     const doc = new jsPDF({ orientation: 'landscape' });
     autoTable(doc, {
-      head: [["Title", "Full Name", "Contact Number", "Email", "Pan Number", "Aadhar Number"]],
+      head: [["Property name", "Address", "Country", "City","State","Min submembers allow","Min cars allow","Min bikes allow","Min house helps allow","Chairman name","Chairman contact no","Chairman email","Emergency name","Emergency contact no","Emergency email","Additional parking charges","Is payment gateway visible","Status"
+      ]],
       body: data.map(item => [
-        item.title,
-        item.full_name,
-        item.mobile_number,
-        item.email,
-        item.pan_number,
-        item.aadhar_number
+        item.property_name,
+        item.address,
+        item.country_id,
+        item.city_id,
+        item.state_id,
+        item.min_sub_members_allow,
+        item.min_cars_allow,
+        item.min_bikes_allow,
+        item.min_house_helps_allow,
+        item.chairman_name,
+        item.chairman_contact_no,
+        item.chairman_email,
+        item.emergency_name,
+        item.emergency_contact_no,
+        item.emergency_email,
+        item.additional_parking_charges,
+        item.is_payment_gateway_visible,
+        item.status
+
       ]),
     });
   

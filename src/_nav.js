@@ -247,13 +247,13 @@ const _nav = [
     component: CNavItem,
     name: <Translation>{(t) => t('User Property')}</Translation>,
     to: '/user-property',
-    icon: <CIcon icon={cilUser} customClassName="nav-icon" />,
+    icon: <CIcon icon={cilBuilding} customClassName="nav-icon" />,
   },
   {
     component: CNavItem,
     name: <Translation>{(t) => t('Property Unit')}</Translation>,
     to: '/user-property-unit',
-    icon: <CIcon icon={cilUser} customClassName="nav-icon" />,
+    icon: <CIcon icon={cilLayers} customClassName="nav-icon" />,
   },
   
   {

@@ -84,7 +84,7 @@ const [formData, setFormData] = useState({
         e.preventDefault();
         let formErrors = {};
       
-        if (!formData.property_id) formErrors.property_id = 'Property id is required';
+        if (!formData.property_id) formErrors.property_id = 'Property name is required';
 
         if (!formData.gate_name) formErrors.gate_name = 'gate name is required';
 
@@ -163,7 +163,7 @@ const [formData, setFormData] = useState({
                 <option value="">-Select Property-</option>
                 {properties.map((property) => (
                   <option key={property.id} value={property.id}>
-                    {property.property_id} (ID: {property.id})
+                    {property.property_name}
                   </option>
                 ))}
               </select>
@@ -173,7 +173,7 @@ const [formData, setFormData] = useState({
 
         <div className="input-box">
           <div className="details-container">
-              <span className="details">Gate Name</span>
+              <span className="details">Gate name</span>
               <span className="required">*</span>
         </div>
              <input type="text" name="gate_name" value={formData.gate_name} onChange={handleChange} />
@@ -189,7 +189,7 @@ const [formData, setFormData] = useState({
 
     <div className="input-box">
        <div className="details-container">
-        <span className="details">Is Main Gate</span>
+        <span className="details">Is main gate</span>
         <span className="required">*</span>
         </div>
        <select name="is_main_gate" value={formData.is_main_gate} onChange={handleChange}>

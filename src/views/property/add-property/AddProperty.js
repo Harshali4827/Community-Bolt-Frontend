@@ -223,7 +223,7 @@ return(
 
        <div className="input-box">
             <div className="details-container">
-              <span className="details">Property Name</span>
+              <span className="details">Property name</span>
               <span className="required">*</span>
             </div>
             <input type="text" name="property_name" 
@@ -308,58 +308,58 @@ return(
      <hr/>
      <div className="user-details">
       <div className="input-box">
-        <span className="details">GST Number</span>
+        <span className="details">GST number</span>
         <input type="text" name="gst_number" 
                  value={formData.gst_number} onChange={handleChange}/>
       </div>
       <div className="input-box">
-        <span className="details">Total Sectors</span>
+        <span className="details">Total sectors</span>
         <input type="text" name="total_sectors" 
                  value={formData.total_sectors} onChange={handleChange}/>
       </div>
 
       <div className="input-box">
-        <span className="details">Total Blocks</span>
+        <span className="details">Total blocks</span>
         <input type="text" name="total_blocks" 
                  value={formData.total_blocks} onChange={handleChange}/>
       </div>
 
       <div className="input-box">
-        <span className="details">Total Units</span>
+        <span className="details">Total units</span>
         <input type="text" name="total_units" 
                  value={formData.total_units} onChange={handleChange}/>
       </div>
       <div className="input-box">
-        <span className="details">Total Offices</span>
+        <span className="details">Total offices</span>
         <input type="text" name="total_offices" 
                  value={formData.total_offices} onChange={handleChange}/>
       </div>
       <div className="input-box">
-        <span className="details">Total Amenities</span>
+        <span className="details">Total amenities</span>
         <input type="text" name="total_amenities" 
                  value={formData.total_amenities} onChange={handleChange}/>
       </div>
 
       <div className="input-box">
-        <span className="details">Total Gates</span>
+        <span className="details">Total gates</span>
         <input type="text" name="total_gates" 
                  value={formData.total_gates} onChange={handleChange}/>
       </div>
 
       <div className="input-box">
-        <span className="details">Total Parkings</span>
+        <span className="details">Total parkings</span>
         <input type="text" name="total_parkings" 
                  value={formData.total_parkings} onChange={handleChange}/>
       </div>
 
       <div className="input-box">
-        <span className="details">Total Guest Parking</span>
+        <span className="details">Total guest parking</span>
         <input type="text" name="total_guest_parking" 
                  value={formData.total_guest_parking} onChange={handleChange}/>
       </div>
       <div className="input-box">
       <div className="details-container">
-        <span className="details">Min Sub Members Allow</span>
+        <span className="details">Min sub members allow</span>
         <span className="required">*</span>
         </div>
         <input type="text" name="min_sub_members_allow" 
@@ -368,7 +368,7 @@ return(
       </div>
       <div className="input-box">
       <div className="details-container">
-        <span className="details">Min Cars Allow</span>
+        <span className="details">Min cars allow</span>
         <span className="required">*</span>
         </div>
         <input type="text" name="min_cars_allow" 
@@ -377,7 +377,7 @@ return(
       </div>
       <div className="input-box">
       <div className="details-container">
-        <span className="details">Min Bikes Allow</span>
+        <span className="details">Min bikes allow</span>
         <span className="required">*</span>
         </div>
         <input type="text" name="min_bikes_allow" 
@@ -386,7 +386,7 @@ return(
       </div>
       <div className="input-box">
       <div className="details-container">
-        <span className="details">Min House Helps Allow</span>
+        <span className="details">Min house helps allow</span>
         <span className="required">*</span>
         </div>
         <input type="text" name="min_house_helps_allow" 
@@ -400,7 +400,7 @@ return(
       <div className="user-details">
       <div className="input-box">
       <div className="details-container">
-        <span className="details">Chairman Name</span>
+        <span className="details">Chairman name</span>
         <span className="required">*</span>
         </div>
         <input type="text" name="chairman_name" 
@@ -410,7 +410,7 @@ return(
 
       <div className="input-box">
       <div className="details-container">
-        <span className="details">Contact Number</span>
+        <span className="details">Contact number</span>
         <span className="required">*</span>
         </div>
         <input type="text" name="chairman_contact_no" 
@@ -434,7 +434,7 @@ return(
       <div className="user-details">
       <div className="input-box">
       <div className="details-container">
-        <span className="details">Emergency Name</span>
+        <span className="details">Emergency name</span>
         <span className="required">*</span>
         </div>
         <input type="text" name="emergency_name" 
@@ -443,7 +443,7 @@ return(
       </div>
       <div className="input-box">
       <div className="details-container">
-        <span className="details">Emergency Contact Number</span>
+        <span className="details">Emergency contact number</span>
         <span className="required">*</span>
         </div>
         <input type="text" name="emergency_contact_no" 
@@ -452,7 +452,7 @@ return(
       </div>
       <div className="input-box">
       <div className="details-container">
-        <span className="details">Emergency Email</span>
+        <span className="details">Emergency email</span>
         <span className="required">*</span>
         </div>
         <input type="text" name="emergency_email" 
@@ -465,7 +465,7 @@ return(
      <div className="user-details">
       <div className="input-box">
       <div className="details-container">
-        <span className="details">Additional Parking Charges</span>
+        <span className="details">Additional parking charges</span>
         <span className="required">*</span>
         </div>
         <input type="text" name="additional_parking_charges" 
@@ -474,7 +474,7 @@ return(
       </div>
       <div className="input-box">
       <div className="details-container">
-        <span className="details">Is Payment Gateway Visible</span>
+        <span className="details">Is payment gateway visible</span>
         <span className="required">*</span>
         </div>
        <select name="is_payment_gateway_visible" 

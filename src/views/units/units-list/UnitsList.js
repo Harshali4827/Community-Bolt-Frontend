@@ -60,9 +60,9 @@ const UnitsList = () => {
     const searchValue = event.target.value.toLowerCase();
   
     const filteredData = data.filter((row) =>
-      String(row.property_id || "").toLowerCase().includes(searchValue) ||
-      String(row.property_sector_id || "").toLowerCase().includes(searchValue) ||
-      String(row.property_block_id || "").toLowerCase().includes(searchValue) ||
+      String(row.property_name || "").toLowerCase().includes(searchValue) ||
+      String(row.sector_name || "").toLowerCase().includes(searchValue) ||
+      String(row.block_name || "").toLowerCase().includes(searchValue) ||
       String(row.floor_number || "").toLowerCase().includes(searchValue) ||
       String(row.unit_number || "").toLowerCase().includes(searchValue) ||
       String(row.ip_address || "").toLowerCase().includes(searchValue) 
@@ -73,32 +73,29 @@ const UnitsList = () => {
     setCurrentPage(1);
   };
 
-  // Excel
   const exportExcel = () => {
     const worksheet = XLSX.utils.json_to_sheet(data);
     const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, "user Data");
-    XLSX.writeFile(workbook, "UsersData.xlsx");
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Property Units");
+    XLSX.writeFile(workbook, "PropertyUnits.xlsx");
   };
 
-  // PDF
   const exportPdf = () => {
     const doc = new jsPDF({ orientation: 'landscape' });
     autoTable(doc, {
-      head: [["Title", "Full Name", "Contact Number", "Email", "Pan Number", "Aadhar Number"]],
+      head: [["Property Name", "Sector Name","Block Name","Floor Number","Unit Numbe"]],
       body: data.map(item => [
-        item.title,
-        item.full_name,
-        item.mobile_number,
-        item.email,
-        item.pan_number,
-        item.aadhar_number
+        item.property_name,
+        item.sector_name ,
+        item.block_name,
+        item.floor_number,
+        item.unit_number
       ]),
     });
   
-    doc.save("UserDetails.pdf");
+    doc.save("PropertyUnits.pdf");
   };
-  // Print
+
   const handlePrint = () => {
     const printContent = printableRef.current.innerHTML;
     const originalContent = document.body.innerHTML;
@@ -195,7 +192,7 @@ const handleDelete = async (id) => {
           <button className="btn2" title="Excel" onClick={exportExcel}><FontAwesomeIcon icon={faFileExcel} /></button>
           <button className="btn2" title="PDF" onClick={exportPdf}><FontAwesomeIcon icon={faFilePdf} /></button>
           <button className="btn2" title="Print" onClick={handlePrint}><FontAwesomeIcon icon={faPrint} /></button>
-          <button className="btn2"><CSVLink data={data} filename="UserData.csv" title="CSV" className="csv-link"><FontAwesomeIcon icon={faFileCsv} />
+          <button className="btn2"><CSVLink data={data} filename="PropertyUnits.csv" title="CSV" className="csv-link"><FontAwesomeIcon icon={faFileCsv} />
           </CSVLink>
           </button>
         </div>
@@ -208,9 +205,9 @@ const handleDelete = async (id) => {
         <thead>
           <tr>
             <th>SR.NO</th>
-            <th>Property ID</th>
-            <th>Sector ID</th>
-            <th>Block ID</th>
+            <th>Property Name</th>
+            <th>Sector Name</th>
+            <th>Block Name</th>
             <th>Floor Number</th>
             <th>Unit Number</th>
             <th>Action</th>
@@ -226,9 +223,9 @@ const handleDelete = async (id) => {
               currentRecords.map((unit, index) => (
                 <tr key={index}>
                   <td>{index+1}</td>
-                  <td>{unit.property_id}</td>
-                  <td>{unit.property_sector_id}</td>
-                  <td>{unit.property_block_id }</td>
+                  <td>{unit.property_name}</td>
+                  <td>{unit.sector_name}</td>
+                  <td>{unit.block_name}</td>
                   <td>{unit.floor_number}</td>
                   <td>{unit.unit_number}</td>
                    <td>

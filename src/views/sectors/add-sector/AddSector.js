@@ -83,7 +83,7 @@ const [formData, setFormData] = useState({
         e.preventDefault();
         let formErrors = {};
       
-        if (!formData.property_id) formErrors.property_id = 'Property id is required';
+        if (!formData.property_id) formErrors.property_id = 'Property name is required';
 
         if (!formData.sector_name) formErrors.sector_name = 'Sector name is required';
 
@@ -149,14 +149,14 @@ const [formData, setFormData] = useState({
     <div className="user-details">
        <div className="input-box">
               <div className="details-container">
-                <span className="details">Property</span>
+                <span className="details">Property Name</span>
                 <span className="required">*</span>
               </div>
               <select name="property_id" value={formData.property_id} onChange={handleChange}>
                 <option value="">-Select Property-</option>
                 {properties.map((property) => (
                   <option key={property.id} value={property.id}>
-                    {property.property_id} (ID: {property.id})
+                    {property.property_name}
                   </option>
                 ))}
               </select>
@@ -165,7 +165,7 @@ const [formData, setFormData] = useState({
           
           <div className="input-box">
           <div className="details-container">
-              <span className="details">Sector Name</span>
+              <span className="details">Sector name</span>
               <span className="required">*</span>
            </div>
              <input type="text" name="sector_name" value={formData.sector_name} onChange={handleChange} />
@@ -173,7 +173,7 @@ const [formData, setFormData] = useState({
           </div>
       
          <div className="input-box">
-              <span className="details">Sector Description</span>
+              <span className="details">Description</span>
             <textarea name="sector_description"  value={formData.sector_description} onChange={handleChange} />
         </div>
 

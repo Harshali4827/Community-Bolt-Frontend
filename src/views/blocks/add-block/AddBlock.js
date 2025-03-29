@@ -77,37 +77,28 @@ const [formData, setFormData] = useState({
   
       fetchProperty ();
     }, []);
-      useEffect(() => {
-        const fetchSectors = async () => {
+    useEffect(() => {
+      if (formData.property_id) {
+        const fetchSectorsByProperty = async () => {
           try {
-            const response = await axiosInstance.get('/sectors');
+            const response = await axiosInstance.get(`/sectors/property/${formData.property_id}`);
             setSectors(response.data);
+            setFormData(prev => ({ ...prev, property_sector_id: "", property_block_id: "" })); 
           } catch (error) {
             console.error("Error fetching sectors:", error);
-            Swal.fire({
-              title: 'Error!',
-              text: 'Failed to load sectors',
-              icon: 'error',
-              confirmButtonText: 'OK',
-            });
           }
         };
-    
-        fetchSectors();
-      }, []);
-    
+        fetchSectorsByProperty();
+      }
+    }, [formData.property_id]);
+
       const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData((prevData) => ({ ...prevData, [name]: value }));
         setErrors((prevErrors) => ({ ...prevErrors, [name]: '' }));
 
         if (name === "property_id") {
-          const filtered = sectors.filter(sector => sector.property_id === parseInt(value));
-          setFilteredSectors(filtered);
-           setFormData(prevData => ({
-            ...prevData,
-            property_sector_id: ''
-          }));
+          setSectors([]);
         }
       };
 
@@ -116,9 +107,9 @@ const [formData, setFormData] = useState({
         e.preventDefault();
         let formErrors = {};
       
-        if (!formData.property_id) formErrors.property_id = 'Property id is required';
+        if (!formData.property_id) formErrors.property_id = 'Property name is required';
 
-        if (!formData.property_sector_id ) formErrors.property_sector_id = 'Sector id is required';
+        if (!formData.property_sector_id ) formErrors.property_sector_id = 'Sector name is required';
 
         if (!formData.block_name) formErrors.block_name = 'Block name is required';
         
@@ -190,39 +181,40 @@ const [formData, setFormData] = useState({
       <div className="user-details">
       <div className="input-box">
               <div className="details-container">
-                <span className="details">Property</span>
+                <span className="details">Property Name</span>
                 <span className="required">*</span>
               </div>
               <select name="property_id" value={formData.property_id} onChange={handleChange}>
-                <option value="">-Select Property-</option>
-                {properties.map((property) => (
-                  <option key={property.id} value={property.id}>
-                    {property.property_id} (ID: {property.id})
-                  </option>
-                ))}
+                    <option value="">-Select Property-</option>
+                    {properties.map((property) => (
+                    <option key={property.id} value={property.id}>
+                        {property.property_name}
+                    </option>
+                    ))}
               </select>
               {errors.property_id && <p className="error">{errors.property_id}</p>}
             </div>
-             <div className="input-box">
-            <div className="details-container">
-              <span className="details">Property Sector</span>
-              <span className="required">*</span>
+
+            <div className="input-box">
+              <div className="details-container">
+                <span className="details">Property sector</span>
+                <span className="required">*</span>
+              </div>
+              <select name="property_sector_id" value={formData.property_sector_id} onChange=        {handleChange}>
+                 <option value="">-Select Sector-</option>
+                    {sectors.map((sector) => (
+                    <option key={sector.id} value={sector.id}>
+                      {sector.sector_name}
+                    </option>
+                    ))}
+                 </select>
+
+              {errors.property_sector_id && <p className="error">{errors.property_sector_id}</p>}
             </div>
-            <select name="property_sector_id" value={formData.property_sector_id} onChange={handleChange}>
-                <option value="">-Select Sector-</option>
-                {filteredSectors.map((sector) => (
-                  <option key={sector.id} value={sector.id}>
-                    {sector.sector_name} (ID: {sector.id})
-                  </option>
-                ))}
-              </select>
-            {errors.property_sector_id && <p className="error">{errors.property_sector_id}</p>}
-        </div>
-    
-      
-         <div className="input-box">
+          
+          <div className="input-box">
             <div className="details-container">
-              <span className="details">Block Name</span>
+              <span className="details">Block name</span>
               <span className="required">*</span>
             </div>
             <input type="text" name="block_name"  value={formData.block_name} onChange={handleChange} />
@@ -231,7 +223,7 @@ const [formData, setFormData] = useState({
     
         <div className="input-box">
             <div className="details-container">
-              <span className="details">Total Units</span>
+              <span className="details">Total units</span>
               <span className="required">*</span>
             </div>
             <input type="text" name="total_units"  value={formData.total_units} onChange={handleChange} />
@@ -240,7 +232,7 @@ const [formData, setFormData] = useState({
 
         <div className="input-box">
             <div className="details-container">
-              <span className="details">Unit Number Start From</span>
+              <span className="details">Unit number start from</span>
               <span className="required">*</span>
             </div>
             <input type="text" name="unit_number_start_from"  value={formData.unit_number_start_from} onChange={handleChange} />
@@ -249,7 +241,7 @@ const [formData, setFormData] = useState({
 
         <div className="input-box">
             <div className="details-container">
-              <span className="details">Unit Number End to</span>
+              <span className="details">Unit number end to</span>
               <span className="required">*</span>
             </div>
             <input type="text" name="unit_number_end_to"  value={formData.unit_number_end_to} onChange={handleChange} />

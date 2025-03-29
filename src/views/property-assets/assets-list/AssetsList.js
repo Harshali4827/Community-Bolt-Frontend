@@ -61,7 +61,7 @@ const AssetsList = () => {
     const searchValue = event.target.value.toLowerCase();
   
     const filteredData = data.filter((row) =>
-      String(row.property_id || "").toLowerCase().includes(searchValue) ||
+      String(row.property_name || "").toLowerCase().includes(searchValue) ||
 
       String(row.asset_name || "").toLowerCase().includes(searchValue) ||
 
@@ -75,21 +75,18 @@ const AssetsList = () => {
     setFilterRecords(filteredData);
     setCurrentPage(1);
   };
-  // Excel
   const exportExcel = () => {
     const worksheet = XLSX.utils.json_to_sheet(data);
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, "user Data");
     XLSX.writeFile(workbook, "PropertyAssets.xlsx");
   };
-
-  // PDF
   const exportPdf = () => {
     const doc = new jsPDF({ orientation: 'landscape' });
     autoTable(doc, {
-      head: [["Property", "Asset name", "Asset information", "Status", "Created by"]],
+      head: [["Property Name", "Asset name", "Asset information", "Status", "Created by"]],
       body: data.map(item => [
-        item.property_id,
+        item.property_name,
         item.asset_name,
         item.asset_description,
         item.status,
@@ -99,7 +96,7 @@ const AssetsList = () => {
   
     doc.save("PropertyAssets.pdf");
   };
-  // Print
+
   const handlePrint = () => {
     const printContent = printableRef.current.innerHTML;
     const originalContent = document.body.innerHTML;
@@ -209,7 +206,7 @@ const handleDelete = async (id) => {
         <thead>
           <tr>
             <th>SR.NO</th>
-            <th>Property ID</th>
+            <th>Property Name</th>
             <th>Asset Name</th>
             <th>Asset Description</th>
             <th>Created by</th>
@@ -227,7 +224,7 @@ const handleDelete = async (id) => {
               currentRecords.map((assets, index) => (
                 <tr key={index}>
                   <td>{index+1}</td>
-                  <td>{assets.property_id}</td>
+                  <td>{assets.property_name}</td>
                   <td>{assets.asset_name}</td>
                   <td>{assets.asset_description}</td>
                   <td>{assets.created_by}</td>

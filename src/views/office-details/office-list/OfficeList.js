@@ -63,10 +63,10 @@ const OfficeList = () => {
     const searchValue = event.target.value.toLowerCase();
   
     const filteredData = data.filter((row) =>
-      String(row.property_id || "").toLowerCase().includes(searchValue) ||
-      String(row.property_sector_id || "").toLowerCase().includes(searchValue) ||
-      String(row.property_block_id || "").toLowerCase().includes(searchValue) ||
-      String(row.property_unit_id || "").toLowerCase().includes(searchValue) ||
+      String(row.property_name || "").toLowerCase().includes(searchValue) ||
+      String(row.sector_name || "").toLowerCase().includes(searchValue) ||
+      String(row.block_name || "").toLowerCase().includes(searchValue) ||
+      String(row.unit_number || "").toLowerCase().includes(searchValue) ||
       String(row.office_name || "").toLowerCase().includes(searchValue) ||
 
       String(row.office_description || "").toLowerCase().includes(searchValue) ||
@@ -79,33 +79,31 @@ const OfficeList = () => {
     setFilterRecords(filteredData);
     setCurrentPage(1);
   };
-  
-  // Excel
   const exportExcel = () => {
     const worksheet = XLSX.utils.json_to_sheet(data);
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, "user Data");
-    XLSX.writeFile(workbook, "UsersData.xlsx");
+    XLSX.writeFile(workbook, "OfficeData.xlsx");
   };
-
-  // PDF
   const exportPdf = () => {
-    const doc = new jsPDF({ orientation: 'landscape' });
-    autoTable(doc, {
-      head: [["Title", "Full Name", "Contact Number", "Email", "Pan Number", "Aadhar Number"]],
-      body: data.map(item => [
-        item.title,
-        item.full_name,
-        item.mobile_number,
-        item.email,
-        item.pan_number,
-        item.aadhar_number
-      ]),
-    });
-  
-    doc.save("UserDetails.pdf");
-  };
-  // Print
+  const doc = new jsPDF({ orientation: 'landscape' });
+  autoTable(doc, {
+    head: [["Property Name", "Sector Name", "Block Name", "Unit Name", "Office Name", "Description", "Contact", "Status"]],
+    body: data.map(item => [
+      item?.property_name || "N/A",
+      item?.sector_name || "N/A",
+      item?.block_name || "N/A",
+      item?.unit_number || "N/A",
+      item?.office_name || "N/A",
+      item?.office_description || "N/A",
+      item?.office_contact || "N/A",
+      item?.status || "N/A"
+    ]),
+  });
+
+  doc.save("OfficeDetails.pdf");
+};
+
   const handlePrint = () => {
     const printContent = printableRef.current.innerHTML;
     const originalContent = document.body.innerHTML;
@@ -202,7 +200,7 @@ const OfficeList = () => {
           <button className="btn2" title="Excel" onClick={exportExcel}><FontAwesomeIcon icon={faFileExcel} /></button>
           <button className="btn2" title="PDF" onClick={exportPdf}><FontAwesomeIcon icon={faFilePdf} /></button>
           <button className="btn2" title="Print" onClick={handlePrint}><FontAwesomeIcon icon={faPrint} /></button>
-          <button className="btn2"><CSVLink data={data} filename="UserData.csv" title="CSV" className="csv-link"><FontAwesomeIcon icon={faFileCsv} />
+          <button className="btn2"><CSVLink data={data} filename="OfficeData.csv" title="CSV" className="csv-link"><FontAwesomeIcon icon={faFileCsv} />
           </CSVLink>
           </button>
         </div>
@@ -215,11 +213,11 @@ const OfficeList = () => {
         <thead>
           <tr>
             <th>SR.NO</th>
-            <th>Property ID</th>
-            <th>Sector ID</th>
-            <th>Block ID</th>
-            <th>Unit ID</th>
-            <th>Office Name</th>
+            <th>Property name</th>
+            <th>Sector name</th>
+            <th>Block name</th>
+            <th>Unit number</th>
+            <th>Office name</th>
             <th>Description</th>
             <th>Contact</th>
             <th>Status</th>
@@ -236,10 +234,10 @@ const OfficeList = () => {
               currentRecords.map((office, index) => (
                 <tr key={index}>
                   <td>{index+1}</td>
-                  <td>{office.property_id}</td>
-                  <td>{office.property_sector_id}</td>
-                  <td>{office.property_block_id}</td>
-                  <td>{office.property_unit_id}</td>
+                  <td>{office.property_name}</td>
+                  <td>{office.sector_name}</td>
+                  <td>{office.block_name}</td>
+                  <td>{office.unit_number}</td>
                   <td>{office.office_name}</td>
                   <td>{office.office_description}</td>
                   <td>{office.office_contact}</td>
