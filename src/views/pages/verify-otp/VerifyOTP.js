@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {
@@ -14,7 +13,7 @@ import {
   CFormInput,
   CRow,
 } from '@coreui/react-pro';
-import config from 'src/config';
+import axiosInstance from 'src/axiosInstance';
 
 const VerifyOTP = () => {
   const [otp, setOtp] = useState('');
@@ -25,11 +24,12 @@ const VerifyOTP = () => {
   const handleVerifyOTP = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(`${config.baseURL}/verify-otp`, { email, otp });
+      const response = await axiosInstance.post('/verify-otp', { email, otp });
 
       if (response.status === 200) {
         toast.success('OTP Verified Successfully!', { position: "top-right" });
         localStorage.setItem('token', response.data.token);
+        console.log('token',response.data.token)
         navigate('/dashboard');
       }
     } catch (error) {

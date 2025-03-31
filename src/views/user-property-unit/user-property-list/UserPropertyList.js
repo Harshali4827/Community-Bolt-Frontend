@@ -227,13 +227,13 @@ const handleDelete = async (id) => {
       <table className="responsive-table" style={{overflow:'auto'}}>
         <thead>
           <tr>
-            <th>SR.NO</th>
+            <th>Sr.no</th>
             <th>User</th>
             <th>Property</th>
             <th>Sector</th>
             <th>Block</th>
             <th>Unit</th>
-            <th>Unit Number</th>
+            <th>Unit number</th>
             <th>Unit combination</th>
             <th>Membership no</th>
             <th>User role</th>

@@ -200,10 +200,10 @@ const handleDelete = async (id) => {
       <table className="responsive-table" style={{overflow:'auto'}}>
         <thead>
           <tr>
-            <th>SR.NO</th>
-            <th>Property Name</th>
-            <th>Sector Name</th>
-            <th>Sector Description</th>
+            <th>Sr.no</th>
+            <th>Property name</th>
+            <th>Sector name</th>
+            <th>Description</th>
             <th>Created by</th>
             <th>Status</th>
             <th>Action</th>

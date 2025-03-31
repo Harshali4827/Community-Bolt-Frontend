@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import axios from 'axios'
 import {
   CButton,
   CCard,
@@ -16,7 +15,7 @@ import {
 } from '@coreui/react-pro'
 import CIcon from '@coreui/icons-react'
 import { cilLockLocked, cilUser } from '@coreui/icons'
-import config from 'src/config'
+import axiosInstance from 'src/axiosInstance'
 
 const Login = () => {
   const [email, setEmail] = useState('')
@@ -26,7 +25,7 @@ const Login = () => {
   const handleLogin = async (e) => {
     e.preventDefault()
     try {
-      const response = await axios.post(`${config.baseURL}/check-email`, { email, mobileNumber })
+      const response = await axiosInstance.post('/check-email', { email, mobileNumber })
 
       if (response.status === 200) {
         console.log("Email sent to verify OTP:", email);

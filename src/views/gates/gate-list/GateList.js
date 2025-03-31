@@ -14,7 +14,6 @@ import Swal from 'sweetalert2';
 import axiosInstance from 'src/axiosInstance';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-
 const GateList = () => {
   const [data, setData] = useState([]);
   const [anchorEl, setAnchorEl] = useState(null);
@@ -80,19 +79,16 @@ const GateList = () => {
     setFilterRecords(filteredData);
     setCurrentPage(1);
   };
-  // Excel
   const exportExcel = () => {
     const worksheet = XLSX.utils.json_to_sheet(data);
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, "user Data");
     XLSX.writeFile(workbook, "GateDetails.xlsx");
   };
-
-  // PDF
   const exportPdf = () => {
     const doc = new jsPDF({ orientation: 'landscape' });
     autoTable(doc, {
-      head: [["Property Name", "Gate name", "Gate information", "Is main gate", "Status", "Created by"]],
+      head: [["Property name", "Gate name", "Gate information", "Is main gate", "Status", "Created by"]],
       body: data.map(item => [
         item.property_name,
         item.gate_name,
@@ -105,7 +101,6 @@ const GateList = () => {
   
     doc.save("GateDetails.pdf");
   };
-  // Print
   const handlePrint = () => {
     const printContent = printableRef.current.innerHTML;
     const originalContent = document.body.innerHTML;
@@ -214,11 +209,11 @@ const handleDelete = async (id) => {
       <table className="responsive-table" style={{overflow:'auto'}}>
         <thead>
           <tr>
-            <th>SR.NO</th>
-            <th>Property Name</th>
-            <th>Gate Name</th>
+            <th>Sr.no</th>
+            <th>Property name</th>
+            <th>Gate name</th>
             <th>Description</th>
-            <th>Is Main Gate</th>
+            <th>Is main gate</th>
             <th>Created by</th>
             <th>Status</th>
             <th>Action</th>

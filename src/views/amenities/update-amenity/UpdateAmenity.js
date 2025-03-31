@@ -27,9 +27,8 @@ const [formData, setFormData] = useState({
       useEffect(() => {
         fetchAmenityData();
       }, [id])
-    
 
-    const fetchAmenityData = async () => {
+      const fetchAmenityData = async () => {
           try {
             const response = await axiosInstance.get(`/amenity/${id}`);
             console.log('Fetched data:', response.data);
@@ -40,7 +39,7 @@ const [formData, setFormData] = useState({
             console.error('Error fetching property amenities data:', error);
           }
         };
-
+    
     useEffect(() => {
       const fetchProperty = async () => {
         try {
@@ -60,53 +59,61 @@ const [formData, setFormData] = useState({
       fetchProperty ();
     }, []);
 
-     useEffect(() => {
-        if (formData.property_id) {
-          const fetchSectorsByProperty = async () => {
-            try {
-              const response = await axiosInstance.get(`/sectors/property/${formData.property_id}`);
-              setSectors(response.data);
-              setFormData(prev => ({ ...prev, property_sector_id: "", property_block_id: "" })); 
-            } catch (error) {
-              console.error("Error fetching sectors:", error);
-            }
-          };
-          fetchSectorsByProperty();
+useEffect(() => {
+  if (formData.property_id) {
+    const fetchSectorsByProperty = async () => {
+      try {
+        const response = await axiosInstance.get(`/sectors/property/${formData.property_id}`);
+        setSectors(response.data);
+        const sectorExists = response.data.some(sector => sector.id === formData.property_sector_id);
+        if (!sectorExists) {
+          setFormData(prev => ({ ...prev, property_sector_id: "", property_block_id: "", property_unit_id: "" }));
         }
-      }, [formData.property_id]);
-      
+      } catch (error) {
+        console.error("Error fetching sectors:", error);
+      }
+    };
+    fetchSectorsByProperty();
+  }
+}, [formData.property_id]);
 
-       useEffect(() => {
-        if (formData.property_sector_id) {
-          const fetchBlocksBySector = async () => {
-            try {
-              const response = await axiosInstance.get(`/blocks/sectors/${formData.property_sector_id}`);
-              setBlocks(response.data);
-              setFormData(prev => ({ ...prev, property_block_id: "" }));
-            } catch (error) {
-              console.error("Error fetching blocks:", error);
-            }
-          };
-          fetchBlocksBySector();
+useEffect(() => {
+  if (formData.property_sector_id) {
+    const fetchBlocksBySector = async () => {
+      try {
+        const response = await axiosInstance.get(`/blocks/sectors/${formData.property_sector_id}`);
+        setBlocks(response.data);
+        const blockExists = response.data.some(block => block.id === formData.property_block_id);
+        if (!blockExists) {
+          setFormData(prev => ({ ...prev, property_block_id: "", property_unit_id: "" }));
         }
-      }, [formData.property_sector_id]);
-    
+      } catch (error) {
+        console.error("Error fetching blocks:", error);
+      }
+    };
+    fetchBlocksBySector();
+  }
+}, [formData.property_sector_id]);
 
-      useEffect(() => {
-        if (formData.property_block_id) {
-          const fetchUnitsByBlock = async () => {
-            try {
-              const response = await axiosInstance.get(`/units/blocks/${formData.property_block_id}`);
-              setUnits(response.data);
-              setFormData(prev => ({ ...prev, property_unit_id: "" }));
-            } catch (error) {
-              console.error("Error fetching units:", error);
-            }
-          };
-          fetchUnitsByBlock();
+useEffect(() => {
+  if (formData.property_block_id) {
+    const fetchUnitsByBlock = async () => {
+      try {
+        const response = await axiosInstance.get(`/units/blocks/${formData.property_block_id}`);
+        setUnits(response.data);
+
+        const unitExists = response.data.some(unit => unit.id === formData.property_unit_id);
+        if (!unitExists) {
+          setFormData(prev => ({ ...prev, property_unit_id: "" }));
         }
-      }, [formData.property_block_id]);
-    
+      } catch (error) {
+        console.error("Error fetching units:", error);
+      }
+    };
+    fetchUnitsByBlock();
+  }
+}, [formData.property_block_id]);
+
     
       useEffect(() => {
         const fetchAmenityMasters = async () => {
@@ -226,7 +233,7 @@ return(
                 <span className="details">Property sector</span>
                 <span className="required">*</span>
               </div>
-              <select name="property_sector_id" value={formData.property_sector_id} onChange=        {handleChange}>
+              <select name="property_sector_id" value={formData.property_sector_id} onChange=      {handleChange}>
                  <option value="">-Select Sector-</option>
                     {sectors.map((sector) => (
                     <option key={sector.id} value={sector.id}>

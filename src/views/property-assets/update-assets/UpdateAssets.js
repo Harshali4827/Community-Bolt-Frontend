@@ -153,7 +153,7 @@ const [formData, setFormData] = useState({
         </div>
       
          <div className="input-box">
-              <span className="details">Asset description</span>
+              <span className="details">Description</span>
             <input type="text" name="asset_description"  value={formData.asset_description} onChange={handleChange} />
         </div>
       <div className="input-box">

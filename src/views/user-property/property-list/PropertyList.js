@@ -187,7 +187,7 @@ const handleDelete = async (id) => {
       <table className="responsive-table" style={{overflow:'auto'}}>
         <thead>
           <tr>
-            <th>SR.NO</th>
+            <th>Sr.no</th>
             <th>User</th>
             <th>Property</th>
             <th>Membership no</th>

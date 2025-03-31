@@ -36,10 +36,31 @@ const [formData, setFormData] = useState({
       const [sectors, setSectors] = useState([]);
       const [blocks, setBlocks] = useState([]);
       const [units, setUnits] = useState([]);
+      const [usersRole, setUsersRole] = useState([])
       const [properties, setProperties] = useState([]);
       const [amenityMasters, setAmenityMasters] = useState([]);
+      const [users, setUsers] = useState([]);
       const navigate = useNavigate();
     
+      useEffect(() => {
+        const fetchUsers = async () => {
+          try {
+            const response = await axiosInstance.get('/users');
+            setUsers(response.data);
+          } catch (error) {
+            console.error("Error fetching users:", error);
+            Swal.fire({
+              title: 'Error!',
+              text: 'Failed to load users',
+              icon: 'error',
+              confirmButtonText: 'OK',
+            });
+          }
+        };
+    
+        fetchUsers ();
+      }, []);
+        
     useEffect(() => {
       const fetchProperty = async () => {
         try {
@@ -125,6 +146,26 @@ const [formData, setFormData] = useState({
         fetchAmenityMasters();
       }, []);
 
+      useEffect(() => {
+        const fetchUsersRole = async () => {
+          try {
+            const response = await axiosInstance.get('/users-role');
+            setUsersRole(response.data);
+          } catch (error) {
+            console.error("Error fetching users:", error);
+            Swal.fire({
+              title: 'Error!',
+              text: 'Failed to load users',
+              icon: 'error',
+              confirmButtonText: 'OK',
+            });
+          }
+        };
+    
+        fetchUsersRole ();
+      }, []);
+        
+
       const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData((prevData) => ({ ...prevData, [name]: value }));
@@ -141,6 +182,42 @@ const [formData, setFormData] = useState({
         if (name === "property_block_id") {
           setUnits([]);
         }
+        if (name === "property_unit_id") {
+          const selectedUnit = units.find((unit) => unit.id === parseInt(value));
+          if (selectedUnit) {
+            setFormData((prevData) => ({ ...prevData, unit_number: selectedUnit.unit_number }));
+          } else {
+            setFormData((prevData) => ({ ...prevData, unit_number: '' }));
+          }
+        }
+
+        let sectorName = formData.sector_name || "";
+        let blockName = formData.block_name || "";
+        let unitNumber = formData.unit_number || "";
+      
+        if (name === "property_sector_id") {
+          const selectedSector = sectors.find((sector) => sector.id === parseInt(value));
+          sectorName = selectedSector ? selectedSector.sector_name : "";
+        }
+      
+        if (name === "property_block_id") {
+          const selectedBlock = blocks.find((block) => block.id === parseInt(value));
+          blockName = selectedBlock ? selectedBlock.block_name : "";
+        }
+      
+        if (name === "property_unit_id") {
+          const selectedUnit = units.find((unit) => unit.id === parseInt(value));
+          unitNumber = selectedUnit ? selectedUnit.unit_number : "";
+        }
+        const unitCombination = `${sectorName}${blockName}${unitNumber}`;
+      
+        setFormData((prevData) => ({
+          ...prevData,
+          sector_name: sectorName,
+          block_name: blockName,
+          unit_number: unitNumber,
+          unit_combination: unitCombination,
+        }));
       };
     
       const handleSubmit = async (e) => {
@@ -179,14 +256,14 @@ const [formData, setFormData] = useState({
         }
       
         try {
-          const response = await axiosInstance.post('/amenity',formData);
+          const response = await axiosInstance.post('/user-property-units',formData);
           Swal.fire({
             title: 'Success!',
             text: response.data.message,
             icon: 'success',
             confirmButtonText: 'OK',
           });
-         navigate('/amenity/amenity-list');
+         navigate('/user-property-unit');
         } catch (error) {
           console.error("Error details:", error);
           if (error.response && error.response.status === 400) {
@@ -208,7 +285,7 @@ const [formData, setFormData] = useState({
       };
       
     const handleCancel = () => {
-      navigate('/amenity/amenity-list')
+      navigate('/user-property-unit')
     }
 return(
   
@@ -217,25 +294,24 @@ return(
       <div className="form-note" style={{ textAlign: "right", marginBottom: "10px" }}>
             <span className="required">*</span> Field is mandatory
           </div> 
-   <form onSubmit={handleSubmit}>
-  
-    <div className="user-details">
-    <div className="input-box">
+        <form onSubmit={handleSubmit}>
+        <div className="user-details">
+          <div className="input-box">
               <div className="details-container">
                 <span className="details">User name</span>
                 <span className="required">*</span>
               </div>
-               <select name="property_id" value={formData.property_id} onChange={handleChange}>
-                    <option value="">-Select Property-</option>
-                    {properties.map((property) => (
-                    <option key={property.id} value={property.id}>
-                        {property.property_name}
-                    </option>
-                    ))}
+              <select name="user_id" value={formData.user_id} onChange={handleChange}>
+                <option value="">-Select user-</option>
+                {users.map((user) => (
+                  <option key={user.id} value={user.id}>
+                    {user.full_name}
+                  </option>
+                ))}
               </select>
-              {errors.property_id && <p className="error">{errors.property_id}</p>}
+              {errors.user_id && <p className="error">{errors.user_id}</p>}
             </div>
-    <div className="input-box">
+          <div className="input-box">
               <div className="details-container">
                 <span className="details">Property</span>
                 <span className="required">*</span>
@@ -306,13 +382,7 @@ return(
         </div>
         <input type="text" name="floor_number" value={formData.floor_number} onChange={handleChange}/>
       </div>
-      <div className="input-box">
-      <div className="details-container">
-        <span className="details">Unit number</span>
-        <span className="required">*</span>
-        </div>
-        <input type="text" name="unit_number" value={formData.unit_number} onChange={handleChange}/>
-      </div>
+     
       <div className="input-box">
         <span className="details">Unit status</span>
         <input type="text" name="unit_status_id" value={formData.unit_status_id} onChange={handleChange}/>
@@ -321,17 +391,32 @@ return(
         <span className="details">Unit combination</span>
         <input type="text" name="unit_combination" value={formData.unit_combination} onChange={handleChange}/>
       </div>
+
       <div className="input-box">
-        <span className="details">Membership no</span>
-        <input type="text" name="membership_no " value={formData.membership_no} onChange={handleChange}/>
-      </div>
+    <span className="details">Membership no</span>
+  <input
+    type="text"
+    name="membership_no"
+    value={formData.membership_no}
+    onChange={handleChange}
+  />
+</div>
+
       <div className="input-box">
-      <div className="details-container">
-        <span className="details">User role</span>
-        <span className="required">*</span>
-        </div>
-        <input type="text" name="user_role_id" value={formData.user_role_id} onChange={handleChange}/>
-      </div>
+              <div className="details-container">
+                <span className="details">User name</span>
+                <span className="required">*</span>
+              </div>
+              <select name="user_role_id" value={formData.user_role_id} onChange={handleChange}>
+                <option value="">-Select user-</option>
+                {usersRole.map((user) => (
+                  <option key={user.id} value={user.id}>
+                    {user.role_name}
+                  </option>
+                ))}
+              </select>
+              {errors.user_role_id && <p className="error">{errors.user_role_id}</p>}
+            </div>
       <div className="input-box">
         <span className="details">Share holding no</span>
         <input type="text" name="share_holding_no" value={formData.share_holding_no} onChange={handleChange}/>
@@ -402,11 +487,16 @@ return(
              <input type="text" name="alloted_two_wheel_parking_count " value={formData.alloted_two_wheel_parking_count} onChange={handleChange} />
              {errors.alloted_two_wheel_parking_count && <p className="error">{errors.alloted_two_wheel_parking_count}</p>}
           </div>
+  
           <div className="input-box">
-              <span className="details">Nominee names and per</span>
-             <textarea name="nominee_names_and_per " value={formData.nominee_names_and_per } onChange={handleChange} />
-             {errors.nominee_names_and_per  && <p className="error">{errors.nominee_names_and_per }</p>}
-          </div>
+    <span className="details">Nominee names and per</span>
+  <textarea
+    type="text"
+    name="nominee_names_and_per"
+    value={formData.nominee_names_and_per}
+    onChange={handleChange}
+  />
+</div>
           <div className="input-box">
               <span className="details">Club due date</span>
              <input type="date" name="club_due_date" value={formData.club_due_date  } onChange={handleChange} />

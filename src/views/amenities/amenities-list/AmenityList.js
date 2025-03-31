@@ -209,7 +209,7 @@ const AmenityList = () => {
       <table className="responsive-table" style={{overflow:'auto'}}>
         <thead>
           <tr>
-            <th>SR.NO</th>
+            <th>Sr.no</th>
             <th>Property name</th>
             <th>Sector name</th>
             <th>Block name</th>

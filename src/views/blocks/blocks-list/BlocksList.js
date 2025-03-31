@@ -84,7 +84,7 @@ const BlocksList = () => {
  const exportPdf = () => {
   const doc = new jsPDF({ orientation: 'landscape' });
   autoTable(doc, {
-    head: [["Property Name", "Sector Name","Block Name","Total Units","Unit Number Start From","Unit Number End to","Status"]],
+    head: [["Property name", "Sector name","Block name","Total units","Unit number start from","Unit number end to","Status"]],
     body: data.map(item => [
       item.property_name,
       item.sector_name,
@@ -207,12 +207,12 @@ const handleDelete = async (id) => {
       <table className="responsive-table" style={{overflow:'auto'}}>
         <thead>
           <tr>
-            <th>SR.NO</th>
-            <th>Property Name</th>
-            <th>Sector Name</th>
-            <th>Block Name</th>
-            <th>Total Units</th>
-            <th>Unit Number</th>
+            <th>Sr.no</th>
+            <th>Property name</th>
+            <th>Sector name</th>
+            <th>Block name</th>
+            <th>Total units</th>
+            <th>Unit number</th>
             <th>Created by</th>
             <th>Status</th>
             <th>Action</th>

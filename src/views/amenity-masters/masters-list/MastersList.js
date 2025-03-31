@@ -201,10 +201,10 @@ const handleDelete = async (id) => {
       <table className="responsive-table" style={{overflow:'auto'}}>
         <thead>
           <tr>
-            <th>SR.NO</th>
-            <th>Amenity Name</th>
-            <th>Amenity Details</th>
-            <th>Icon URL</th>
+            <th>Sr.no</th>
+            <th>Amenity name</th>
+            <th>Amenity details</th>
+            <th>Icon url</th>
             <th>Status</th>
             <th>Action</th>
           </tr>

@@ -62,8 +62,12 @@ const [formData, setFormData] = useState({
             try {
               const response = await axiosInstance.get(`/sectors/property/${formData.property_id}`);
               setSectors(response.data);
-              setFormData(prev => ({ ...prev, property_sector_id: "", property_block_id: "" })); 
-            } catch (error) {
+              const sectorExists = response.data.some(sector => sector.id === formData.property_sector_id);
+              if (!sectorExists){
+                setFormData(prev => ({ ...prev, property_sector_id: "" }));
+              }
+            } 
+            catch (error) {
               console.error("Error fetching sectors:", error);
             }
           };
@@ -77,14 +81,17 @@ const [formData, setFormData] = useState({
             try {
               const response = await axiosInstance.get(`/blocks/sectors/${formData.property_sector_id}`);
               setBlocks(response.data);
-              setFormData(prev => ({ ...prev, property_block_id: "" }));
+              const blockExists = response.data.some(block => block.id === formData.property_block_id);
+              if (!blockExists) {
+                setFormData(prev => ({ ...prev, property_block_id: "" }));
+              }
             } catch (error) {
               console.error("Error fetching blocks:", error);
             }
           };
           fetchBlocksBySector();
         }
-      }, [formData.property_sector_id]);
+      }, [formData.property_sector_id]);      
     
       const handleChange = (e) => {
         const { name, value } = e.target;

@@ -80,16 +80,12 @@ const PropertyList = () => {
     setFilterRecords(filteredData);
     setCurrentPage(1);
   };
-
-  // Excel
   const exportExcel = () => {
     const worksheet = XLSX.utils.json_to_sheet(data);
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, "Property Data");
     XLSX.writeFile(workbook, "PropertyData.xlsx");
   };
-
-  // PDF
   const exportPdf = () => {
     const doc = new jsPDF({ orientation: 'landscape' });
     autoTable(doc, {
@@ -120,8 +116,6 @@ const PropertyList = () => {
   
     doc.save("PropertyDetails.pdf");
   };
-
-  // Print
   const handlePrint = () => {
     const printContent = printableRef.current.innerHTML;
     const originalContent = document.body.innerHTML;
@@ -230,19 +224,19 @@ const PropertyList = () => {
       <table className="responsive-table" style={{overflow:'auto'}}>
         <thead>
           <tr>
-            <th>SR.NO</th>
-            <th>Property Name</th>
+            <th>Sr.no</th>
+            <th>Property name</th>
             <th>Logo</th>
             <th>Address</th>
-            <th>Country ID</th>
-            <th>City ID</th>
-            <th>State ID</th>
-            <th>Google Location</th>
-            <th>GST Number</th>
-            <th>Total Sectors</th>
-            <th>Total Blocks</th>
-            <th>Total Units</th>
-            <th>Total Offices</th>
+            <th>Country id</th>
+            <th>City id</th>
+            <th>State id</th>
+            <th>Google location</th>
+            <th>GST number</th>
+            <th>Total sectors</th>
+            <th>Total blocks</th>
+            <th>Total units</th>
+            <th>Total offices</th>
             <th>Status</th>
             <th>Action</th>
           </tr>

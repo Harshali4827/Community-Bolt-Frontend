@@ -206,11 +206,11 @@ const handleDelete = async (id) => {
       <table className="responsive-table" style={{overflow:'auto'}}>
         <thead>
           <tr>
-            <th>SR.NO</th>
-            <th>Module Name</th>
-            <th>Module Description</th>
-            <th>Parent Module ID</th>
-            <th>User ID</th>
+            <th>Sr.no</th>
+            <th>Module name</th>
+            <th>Module description</th>
+            <th>Parent module id</th>
+            <th>User</th>
             <th>Status</th>
             <th>Action</th>
           </tr>

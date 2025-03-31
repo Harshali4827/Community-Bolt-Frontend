@@ -58,7 +58,6 @@ const OfficeList = () => {
     setMenuId(null);
   };
 
-  //Filter
   const handleFilter = (event) => {
     const searchValue = event.target.value.toLowerCase();
   
@@ -212,7 +211,7 @@ const OfficeList = () => {
       <table className="responsive-table" style={{overflow:'auto'}}>
         <thead>
           <tr>
-            <th>SR.NO</th>
+            <th>Sr.no</th>
             <th>Property name</th>
             <th>Sector name</th>
             <th>Block name</th>
