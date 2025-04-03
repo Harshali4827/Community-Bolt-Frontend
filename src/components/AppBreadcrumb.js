@@ -45,8 +45,7 @@ const AppBreadcrumb = () => {
   return (
     <>
       <div className="fs-2 fw-semibold">{[...breadcrumbs].pop().name}</div>
-      {/* <div className="fs-2 fw-semibold">{breadcrumbs.length ? breadcrumbs[breadcrumbs.length - 1].name : ''}</div> */}
-      <CBreadcrumb className="mb-4">
+      {/* <CBreadcrumb className="mb-4">
         <CBreadcrumbItem href="/">{t('home')}</CBreadcrumbItem>
         {breadcrumbs.map((breadcrumb, index) => {
           return (
@@ -58,7 +57,7 @@ const AppBreadcrumb = () => {
             </CBreadcrumbItem>
           )
         })}
-      </CBreadcrumb>
+      </CBreadcrumb> */}
     </>
   )
 }

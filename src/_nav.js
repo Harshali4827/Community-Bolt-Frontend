@@ -13,7 +13,8 @@ import {
   cilBank,
   cilIndustry,
   cilUser,
-  cilSpreadsheet
+  cilSpreadsheet,
+  cilPlus
 } from '@coreui/icons'
 import { CNavGroup, CNavItem, CNavTitle } from '@coreui/react-pro'
 import { Translation } from 'react-i18next'
@@ -189,6 +190,12 @@ const _nav = [
         ],
       },
     ],
+  },
+  {
+    component: CNavItem,
+    name: <Translation>{(t) => t('Add All')}</Translation>,
+    to: '/add-all',
+    icon: <CIcon icon={cilPlus} customClassName="nav-icon" />,
   },
 
   {

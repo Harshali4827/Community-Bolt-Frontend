@@ -14,13 +14,13 @@ const AddUserPropertyUnit = React.lazy(() => import('./views/user-property-unit/
 const UserProperty = React.lazy(() => import('./views/user-property/property-list/PropertyList'))
 const FileUpload = React.lazy(() => import('./views/import-excel/FileUpload'))
 
-const AddGate = React.lazy(() => import('./views/gates/add-gate/AddGate'))
-const GateList = React.lazy(() => import('./views/gates/gate-list/GateList'))
-const UpdateGate = React.lazy(() => import('./views/gates/update-gate/UpdateGate'))
-
 const AddProperty  = React.lazy(() => import('./views/property/add-property/AddProperty'))
 const PropertyList = React.lazy(() => import('./views/property/property-list/PropertyList'))
 const UpdateProperty = React.lazy(() => import('./views/property/update-property/UpdateProperty'))
+
+const AddGate = React.lazy(() => import('./views/gates/add-gate/AddGate'))
+const GateList = React.lazy(() => import('./views/gates/gate-list/GateList'))
+const UpdateGate = React.lazy(() => import('./views/gates/update-gate/UpdateGate'))
 
 const AddAssets  = React.lazy(() => import('./views/property-assets/add-assets/AddAssets'))
 const AssetsList  = React.lazy(() => import('./views/property-assets/assets-list/AssetsList'))
@@ -57,6 +57,8 @@ const UpdateBank = React.lazy(() => import('./views/bank-details/update-bank/Upd
 const AddOffice = React.lazy(() => import('./views/office-details/add-office/AddOffice'))
 const OfficeList = React.lazy(() => import('./views/office-details/office-list/OfficeList'))
 const UpdateOffice = React.lazy(() => import('./views/office-details/update-office/UpdateOffice'))
+
+const AddAll = React.lazy(() => import ('./views/add-all/AddAll'));
 
 // Plugins
 const Calendar = React.lazy(() => import('./views/plugins/calendar/Calendar'))
@@ -198,8 +200,9 @@ const routes = [
   { path: '/office-details/add-office', name: 'Add office details', element: AddOffice},
   { path: '/office-details/office-list', name: 'Office details', element: OfficeList},
   { path: '/office-details/update-office/:id', name: 'Update office details', element: UpdateOffice},
-  
-  {
+
+  { path: '/add-all', name: 'Add all details under property', element: AddAll},
+ {
     path: '/plugins',
     name: <Translation>{(t) => t('plugins')}</Translation>,
     element: Calendar,
