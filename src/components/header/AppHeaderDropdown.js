@@ -35,8 +35,8 @@ const AppHeaderDropdown = () => {
         <CDropdownHeader className="bg-body-secondary text-body-secondary fw-semibold rounded-top mb-2">
           {t('account')}
         </CDropdownHeader>
-        <CDropdownItem href="#">
-          <CIcon icon={cilAccountLogout} className="me-2" onClick={handleLogout} />
+        <CDropdownItem onClick={handleLogout}>
+          <CIcon icon={cilAccountLogout} className="me-2"/>
           {t('logout')}
         </CDropdownItem>
       </CDropdownMenu>

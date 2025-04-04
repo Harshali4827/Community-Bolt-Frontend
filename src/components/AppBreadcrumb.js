@@ -38,10 +38,7 @@ const AppBreadcrumb = () => {
     })
     return breadcrumbs
   }
-
   const breadcrumbs = getBreadcrumbs(currentLocation)
-  console.log('Current Breadcrumbs:', breadcrumbs)
-
   return (
     <>
       <div className="fs-2 fw-semibold">{[...breadcrumbs].pop().name}</div>
