@@ -4,6 +4,14 @@ import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "src/axiosInstance";
 import { jwtDecode } from "jwt-decode"; 
+import {
+  CInputGroup,
+  CInputGroupText,
+  CFormInput,
+  CFormSelect,
+} from '@coreui/react';
+import CIcon from '@coreui/icons-react';
+import { cilBank, cilBarcode,cilCheckCircle,cilContact,cilCreditCard,cilDollar,cilHome,cilList, cilListRich, cilLockLocked,cilShieldAlt,cilToggleOn, cilTransfer, cilUser, cilUserFollow, cilWallet } from '@coreui/icons';
 function AddBank(){
 const [formData, setFormData] = useState({
         property_id: '',
@@ -197,14 +205,23 @@ const [formData, setFormData] = useState({
                 <span className="details">Property Name</span>
                 <span className="required">*</span>
               </div>
-              <select name="property_id" value={formData.property_id} onChange={handleChange}>
-                <option value="">-Select Property-</option>
-                {properties.map((property) => (
-                  <option key={property.id} value={property.id}>
-                    {property.property_name}
-                  </option>
-                ))}
-              </select>
+              <CInputGroup>
+    <CInputGroupText className="input-icon">
+      <CIcon icon={cilHome} />
+    </CInputGroupText>
+    <CFormSelect
+      name="property_id"
+      value={formData.property_id}
+      onChange={handleChange}
+    >
+      <option value="">-Select Property-</option>
+      {properties.map((property) => (
+        <option key={property.id} value={property.id}>
+          {property.property_name}
+        </option>
+      ))}
+    </CFormSelect>
+  </CInputGroup>
               {errors.property_id && <p className="error">{errors.property_id}</p>}
             </div>
 
@@ -213,7 +230,15 @@ const [formData, setFormData] = useState({
               <span className="details">Bank name</span>
               <span className="required">*</span>
         </div>
-             <input type="text" name="bank_name" value={formData.bank_name} onChange={handleChange} />
+             <CInputGroup className="input-icon">
+          <CInputGroupText><CIcon icon={cilBank} /></CInputGroupText>
+           <CFormInput
+               type="text"
+               name="bank_name"
+               value={formData.bank_name}
+               onChange={handleChange}
+             />
+             </CInputGroup>
              {errors.bank_name && <p className="error">{errors.bank_name}</p>}
         </div>
       
@@ -222,7 +247,15 @@ const [formData, setFormData] = useState({
               <span className="details">Branch</span>
               <span className="required">*</span>
             </div>
-            <input type="text" name="bank_branch"  value={formData.bank_branch} onChange={handleChange} />
+            <CInputGroup className="input-icon">
+          <CInputGroupText><CIcon icon={cilListRich} /></CInputGroupText>
+           <CFormInput
+               type="text"
+               name="bank_branch"
+               value={formData.bank_branch}
+               onChange={handleChange}
+             />
+             </CInputGroup>
             {errors.bank_branch && <p className="error">{errors.bank_branch}</p>}
         </div> 
         <div className="input-box">
@@ -230,7 +263,15 @@ const [formData, setFormData] = useState({
               <span className="details">IFSC</span>
               <span className="required">*</span>
             </div>
-            <input type="text" name="bank_ifsc"  value={formData.bank_ifsc} onChange={handleChange} />
+            <CInputGroup className="input-icon">
+          <CInputGroupText><CIcon icon={cilBarcode} /></CInputGroupText>
+           <CFormInput
+               type="text"
+               name="bank_ifsc"
+               value={formData.bank_ifsc}
+               onChange={handleChange}
+             />
+             </CInputGroup>
             {errors.bank_ifsc && <p className="error">{errors.bank_ifsc}</p>}
         </div>
         <div className="input-box">
@@ -238,7 +279,15 @@ const [formData, setFormData] = useState({
               <span className="details">Account number</span>
               <span className="required">*</span>
             </div>
-            <input type="text" name="bank_account_number"  value={formData.bank_account_number} onChange={handleChange} />
+            <CInputGroup className="input-icon">
+          <CInputGroupText><CIcon icon={cilWallet} /></CInputGroupText>
+           <CFormInput
+               type="text"
+               name="bank_account_number"
+               value={formData.bank_account_number}
+               onChange={handleChange}
+             />
+             </CInputGroup>
             {errors.bank_account_number && <p className="error">{errors.bank_account_number}</p>}
         </div>
 
@@ -247,7 +296,15 @@ const [formData, setFormData] = useState({
               <span className="details">Account type</span>
               <span className="required">*</span>
             </div>
-            <input type="text" name="bank_account_type"  value={formData.bank_account_type} onChange={handleChange} />
+            <CInputGroup className="input-icon">
+          <CInputGroupText><CIcon icon={cilList} /></CInputGroupText>
+           <CFormInput
+               type="text"
+               name="bank_account_type"
+               value={formData.bank_account_type}
+               onChange={handleChange}
+             />
+             </CInputGroup>
             {errors.bank_account_type && <p className="error">{errors.bank_account_type}</p>}
         </div>
         <div className="input-box">
@@ -255,7 +312,15 @@ const [formData, setFormData] = useState({
               <span className="details">Account name</span>
               <span className="required">*</span>
             </div>
-            <input type="text" name="bank_account_name"  value={formData.bank_account_name} onChange={handleChange} />
+            <CInputGroup className="input-icon">
+          <CInputGroupText><CIcon icon={cilUser} /></CInputGroupText>
+           <CFormInput
+               type="text"
+               name="bank_account_name"
+               value={formData.bank_account_name}
+               onChange={handleChange}
+             />
+             </CInputGroup>
             {errors.bank_account_name && <p className="error">{errors.bank_account_name}</p>}
         </div>
         <div className="input-box">
@@ -263,7 +328,15 @@ const [formData, setFormData] = useState({
               <span className="details">Account holder</span>
               <span className="required">*</span>
             </div>
-            <input type="text" name="bank_account_holder"  value={formData.bank_account_holder} onChange={handleChange} />
+            <CInputGroup className="input-icon">
+          <CInputGroupText><CIcon icon={cilContact} /></CInputGroupText>
+           <CFormInput
+               type="text"
+               name="bank_account_holder"
+               value={formData.bank_account_holder}
+               onChange={handleChange}
+             />
+             </CInputGroup>
             {errors.bank_account_holder && <p className="error">{errors.bank_account_holder}</p>}
         </div>
         <div className="input-box">
@@ -271,11 +344,20 @@ const [formData, setFormData] = useState({
               <span className="details">Is primary</span>
               <span className="required">*</span>
             </div>
-            <select name="status" value={formData.is_primary} onChange={handleChange} >
+          <CInputGroup>
+    <CInputGroupText className="input-icon">
+      <CIcon icon={cilCheckCircle} />
+    </CInputGroupText>
+    <CFormSelect
+      name="is_primary"
+      value={formData.is_primary}
+      onChange={handleChange}
+    >
               <option value="">-Select-</option>
               <option value="yes">Yes</option>
               <option value="no">No</option>
-          </select>
+    </CFormSelect>
+      </CInputGroup>
             {errors.is_primary && <p className="error">{errors.is_primary}</p>}
         </div>
 
@@ -285,11 +367,20 @@ const [formData, setFormData] = useState({
               <span className="details">Is payment gateway</span>
               <span className="required">*</span>
             </div>
-            <select name="is_payment_gateway" value={formData.is_payment_gateway} onChange={handleChange}>
+            <CInputGroup>
+    <CInputGroupText className="input-icon">
+      <CIcon icon={cilCreditCard} />
+    </CInputGroupText>
+    <CFormSelect
+      name="is_payment_gateway"
+      value={formData.is_payment_gateway}
+      onChange={handleChange}
+    >
               <option value="">-Select-</option>
               <option value="yes">Yes</option>
               <option value="no">No</option>
-            </select>
+    </CFormSelect>
+      </CInputGroup>
             {errors.is_payment_gateway && <p className="error">{errors.is_payment_gateway}</p>}
           </div>
 
@@ -300,7 +391,15 @@ const [formData, setFormData] = useState({
                   <span className="details">Payment gateway name</span>
                   <span className="required">*</span>
                 </div>
-                <input type="text" name="payment_gateway_name" value={formData.payment_gateway_name} onChange={handleChange} />
+                <CInputGroup className="input-icon">
+          <CInputGroupText><CIcon icon={cilCreditCard} /></CInputGroupText>
+           <CFormInput
+               type="text"
+               name="payment_gateway_name"
+               value={formData.payment_gateway_name}
+               onChange={handleChange}
+             />
+             </CInputGroup>
                 {errors.payment_gateway_name && <p className="error">{errors.payment_gateway_name}</p>}
               </div>
 
@@ -309,7 +408,15 @@ const [formData, setFormData] = useState({
                   <span className="details">Merchant name</span>
                   <span className="required">*</span>
                 </div>
-                <input type="text" name="merchant_name" value={formData.merchant_name} onChange={handleChange} />
+                <CInputGroup className="input-icon">
+             <CInputGroupText><CIcon icon={cilUserFollow} /></CInputGroupText>
+             <CFormInput
+               type="text"
+               name="merchant_name"
+               value={formData.merchant_name}
+               onChange={handleChange}
+             />
+             </CInputGroup>
                 {errors.merchant_name && <p className="error">{errors.merchant_name}</p>}
               </div>
 
@@ -318,57 +425,129 @@ const [formData, setFormData] = useState({
                   <span className="details">Payment gateway mode</span>
                   <span className="required">*</span>
                 </div>
-                <select name="payment_gateway_mode" value={formData.payment_gateway_mode} onChange={handleChange}>
-                  <option value="">-Select-</option>
-                  <option value="test">Test</option>
-                  <option value="live">Live</option>
-                </select>
+                <CInputGroup>
+                 <CInputGroupText className="input-icon">
+                    <CIcon icon={cilTransfer} />
+                  </CInputGroupText>
+                 <CFormSelect
+                   name="is_primary"
+                   value={formData.payment_gateway_mode} onChange={handleChange}>
+                            <option value="">-Select-</option>
+                            <option value="test">Test</option>
+                            <option value="live">Live</option>
+                  </CFormSelect>
+                </CInputGroup>
                 {errors.payment_gateway_mode && <p className="error">{errors.payment_gateway_mode}</p>}
               </div>
             </>
           )}
         <div className="input-box">
             <span className="details">Live key id</span>
-            <input type="text" name="live_key_id"  value={formData.live_key_id} onChange={handleChange} />
+            <CInputGroup className="input-icon">
+          <CInputGroupText><CIcon icon={cilLockLocked} /></CInputGroupText>
+           <CFormInput
+               type="text"
+               name="live_key_id"
+               value={formData.live_key_id}
+               onChange={handleChange}
+             />
+             </CInputGroup>
         </div>
 
         <div className="input-box">
               <span className="details">Live secret key</span>
-            <input type="text" name="live_secret_key "  value={formData.live_secret_key } onChange={handleChange} />
+            <CInputGroup className="input-icon">
+          <CInputGroupText><CIcon icon={cilShieldAlt} /></CInputGroupText>
+           <CFormInput
+               type="text"
+               name="live_secret_key"
+               value={formData.live_secret_key}
+               onChange={handleChange}
+             />
+             </CInputGroup>
         </div>
 
         <div className="input-box">
               <span className="details">Live account number</span>
-            <input type="text" name=" live_account_number"  value={formData. live_account_number} onChange={handleChange} />
+            <CInputGroup className="input-icon">
+          <CInputGroupText><CIcon icon={cilWallet} /></CInputGroupText>
+           <CFormInput
+               type="text"
+               name="live_account_number"
+               value={formData.live_account_number}
+               onChange={handleChange}
+             />
+             </CInputGroup>
         </div>
 
         <div className="input-box">
               <span className="details">Test key id</span>
-            <input type="text" name="test_key_id"  value={formData.test_key_id} onChange={handleChange} />
+            <CInputGroup className="input-icon">
+          <CInputGroupText><CIcon icon={cilLockLocked} /></CInputGroupText>
+           <CFormInput
+               type="text"
+               name="test_key_id"
+               value={formData.test_key_id}
+               onChange={handleChange}
+             />
+             </CInputGroup>
         </div>
 
         <div className="input-box">
               <span className="details">Test secret key</span>
-            <input type="text" name="test_secret_key"  value={formData.test_secret_key} onChange={handleChange} />
+            <CInputGroup className="input-icon">
+          <CInputGroupText><CIcon icon={cilLockLocked} /></CInputGroupText>
+           <CFormInput
+               type="text"
+               name="test_secret_key"
+               value={formData.test_secret_key}
+               onChange={handleChange}
+             />
+             </CInputGroup>
         </div>
         <div className="input-box">
               <span className="details">Test account number</span>
-            <input type="text" name="test_account_number"  value={formData.test_account_number} onChange={handleChange} />
+            <CInputGroup className="input-icon">
+          <CInputGroupText><CIcon icon={cilShieldAlt} /></CInputGroupText>
+           <CFormInput
+               type="text"
+               name="test_account_number"
+               value={formData.test_account_number}
+               onChange={handleChange}
+             />
+             </CInputGroup>
         </div>
         <div className="input-box">
               <span className="details">Currency</span>
-            <input type="text" name="currency"  value={formData.currency} onChange={handleChange} />
+            <CInputGroup className="input-icon">
+          <CInputGroupText><CIcon icon={cilDollar} /></CInputGroupText>
+           <CFormInput
+               type="text"
+               name="currency"
+               value={formData.currency}
+               onChange={handleChange}
+             />
+             </CInputGroup>
         </div>
         <div className="input-box">
             <div className="details-container">
               <span className="details">Payment gateway status</span>
               <span className="required">*</span>
             </div>
-            <select name="payment_gateway_status" value={formData.payment_gateway_status} onChange={handleChange} >
-         <option value="">-Select-</option>
+       <CInputGroup>
+    <CInputGroupText className="input-icon">
+      <CIcon icon={cilToggleOn} />
+    </CInputGroupText>
+    <CFormSelect
+      name="payment_gateway_status"
+      value={formData.payment_gateway_status}
+      onChange={handleChange}
+    >
+        <option value="">-Select-</option>
          <option value="enable">Enable</option>
          <option value="disable">Disable</option>
-       </select>
+    </CFormSelect>
+      </CInputGroup>
             {errors.payment_gateway_status && <p className="error">{errors.payment_gateway_status}</p>}
         </div>
         
@@ -377,16 +556,23 @@ const [formData, setFormData] = useState({
         <span className="details">Status</span>
         <span className="required">*</span>
         </div>
-       <select name="status" value={formData.status} onChange={handleChange} >
-         <option value="">-Select-</option>
-         <option value="active">Active</option>
-         <option value="inactive">Inactive</option>
-       </select>
+        <CInputGroup>
+    <CInputGroupText className="input-icon">
+      <CIcon icon={cilCheckCircle} />
+    </CInputGroupText>
+    <CFormSelect
+      name="status"
+      value={formData.status}
+      onChange={handleChange}
+    >
+      <option value="">-Select-</option>
+      <option value="active">Active</option>
+      <option value="inactive">Inactive</option>
+    </CFormSelect>
+      </CInputGroup>
        {errors.status && <p className="error">{errors.status}</p>}
       </div>
-
-     </div>
-     <hr/>
+</div>
     <div className="button-row">
       <button type="submit" className="simple-button primary-button">Save</button>
       <button type="button" className="simple-button secondary-button" onClick={handleCancel} >Cancel</button>

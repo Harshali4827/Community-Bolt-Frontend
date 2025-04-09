@@ -3,7 +3,14 @@ import '../../../css/form.css';
 import Swal from "sweetalert2";
 import { useNavigate, useParams } from "react-router-dom";
 import axiosInstance from "src/axiosInstance";
-
+import {
+  CInputGroup,
+  CInputGroupText,
+  CFormInput,
+  CFormSelect,
+} from '@coreui/react';
+import CIcon from '@coreui/icons-react';
+import { cilBuilding, cilCheckCircle,cilGrid,cilHome, cilLayers, cilListRich, cilPool } from '@coreui/icons';
 function UpdateAmenity(){
 const [formData, setFormData] = useState({
         property_id: '',
@@ -203,60 +210,86 @@ useEffect(() => {
       navigate('/amenity/amenity-list')
     }
 return(
-  
-    <div className="form-container">
+  <div className="form-container">
       <div className="page-header">
       <div className="form-note" style={{ textAlign: "right", marginBottom: "10px" }}>
             <span className="required">*</span> Field is mandatory
           </div> 
    <form onSubmit={handleSubmit}>
-  
-    <div className="user-details">
+   <div className="user-details">
     <div className="input-box">
               <div className="details-container">
-                <span className="details">Property</span>
+                <span className="details">Property Name</span>
                 <span className="required">*</span>
               </div>
-               <select name="property_id" value={formData.property_id} onChange={handleChange}>
-                    <option value="">-Select Property-</option>
-                    {properties.map((property) => (
-                    <option key={property.id} value={property.id}>
-                        {property.property_name}
-                    </option>
-                    ))}
-              </select>
+              <CInputGroup>
+    <CInputGroupText className="input-icon">
+      <CIcon icon={cilHome} />
+    </CInputGroupText>
+    <CFormSelect
+      name="property_id"
+      value={formData.property_id}
+      onChange={handleChange}
+    >
+      <option value="">-Select Property-</option>
+      {properties.map((property) => (
+        <option key={property.id} value={property.id}>
+          {property.property_name}
+        </option>
+      ))}
+    </CFormSelect>
+  </CInputGroup>
               {errors.property_id && <p className="error">{errors.property_id}</p>}
             </div>
 
-        <div className="input-box">
+            <div className="input-box">
               <div className="details-container">
                 <span className="details">Property sector</span>
                 <span className="required">*</span>
               </div>
-              <select name="property_sector_id" value={formData.property_sector_id} onChange=      {handleChange}>
-                 <option value="">-Select Sector-</option>
+
+      <CInputGroup>
+    <CInputGroupText className="input-icon">
+      <CIcon icon={cilBuilding} />
+    </CInputGroupText>
+    <CFormSelect
+      name="property_sector_id"
+      value={formData.property_sector_id}
+      onChange={handleChange}
+    >
+      <option value="">-Select Sector-</option>
                     {sectors.map((sector) => (
                     <option key={sector.id} value={sector.id}>
                       {sector.sector_name}
                     </option>
-                    ))}
-                 </select>
+      ))}
+    </CFormSelect>
+  </CInputGroup>
+
               {errors.property_sector_id && <p className="error">{errors.property_sector_id}</p>}
             </div>
-
-          <div className="input-box">
+              <div className="input-box">
               <div className="details-container">
                 <span className="details">Property block</span>
                 <span className="required">*</span>
               </div>
-             <select name="property_block_id" value={formData.property_block_id} onChange={handleChange}>
-                    <option value="">-Select Block-</option>
+        <CInputGroup>
+    <CInputGroupText className="input-icon">
+      <CIcon icon={cilGrid} />
+    </CInputGroupText>
+    <CFormSelect
+      name="property_block_id"
+      value={formData.property_block_id}
+      onChange={handleChange}
+    >
+       <option value="">-Select Block-</option>
                     {blocks.map((block) => (
                     <option key={block.id} value={block.id}>
                            {block.block_name}
                     </option>
-                    ))}
-                 </select>
+      ))}
+    </CFormSelect>
+  </CInputGroup>
               {errors.property_block_id && <p className="error">{errors.property_block_id}</p>}
             </div>
 
@@ -265,52 +298,85 @@ return(
                 <span className="details">Property unit</span>
                 <span className="required">*</span>
               </div>
-              <select name="property_unit_id" value={formData.property_unit_id} onChange={handleChange}>
-                <option value="">-Select Unit-</option>
+              <CInputGroup>
+               <CInputGroupText className="input-icon">
+                  <CIcon icon={cilLayers} />
+                   </CInputGroupText>
+           <CFormSelect
+      name="property_unit_id"
+      value={formData.property_unit_id}
+      onChange={handleChange}
+    >
+        <option value="">-Select Unit-</option>
                 {units.map((unit) => (
                   <option key={unit.id} value={unit.id}>
                    {unit.unit_number}
                   </option>
-                ))}
-              </select>
+      ))}
+    </CFormSelect>
+  </CInputGroup>
               {errors.property_unit_id && <p className="error">{errors.property_unit_id}</p>}
             </div>
 
       <div className="input-box">
       <div className="details-container">
-        <span className="details">Amenity id</span>
+        <span className="details">Amenity</span>
         <span className="required" >*</span>
         </div>
-        <select name="amenity_id" value={formData.amenity_id} onChange={handleChange}>
-                <option value="">-Select Amenity-</option>
+              <CInputGroup>
+               <CInputGroupText className="input-icon">
+                  <CIcon icon={cilPool} />
+                   </CInputGroupText>
+           <CFormSelect
+      name="amenity_id"
+      value={formData.amenity_id}
+      onChange={handleChange}
+    >
+       <option value="">-Select Amenity-</option>
                 {amenityMasters.map((amenity) => (
                   <option key={amenity.id} value={amenity.id}>
                    {amenity.amenity_name}
                   </option>
-                ))}
-              </select>
+      ))}
+    </CFormSelect>
+  </CInputGroup>
               {errors.amenity_id && <p className="error">{errors.amenity_id}</p>}
       </div>
       
       <div className="input-box">
         <span className="details">Amenity details</span>
-        <input type="text"  name="amenity_details" value={formData.amenity_details} onChange={handleChange}/>
+        <CInputGroup className="input-icon">
+          <CInputGroupText><CIcon icon={cilListRich} /></CInputGroupText>
+           <CFormInput
+               type="text"
+               name="amenity_details"
+               value={formData.amenity_details}
+               onChange={handleChange}
+             />
+             </CInputGroup>
       </div>
-
       <div className="input-box">
       <div className="details-container">
         <span className="details">Status</span>
         <span className="required">*</span>
         </div>
-       <select name="status" value={formData.status} onChange={handleChange}>
-         <option value="">-Select-</option>
-         <option value="active">Active</option>
-         <option value="inactive">Inactive</option>
-       </select>
+        <CInputGroup>
+    <CInputGroupText className="input-icon">
+      <CIcon icon={cilCheckCircle} />
+    </CInputGroupText>
+    <CFormSelect
+      name="status"
+      value={formData.status}
+      onChange={handleChange}
+    >
+      <option value="">-Select-</option>
+      <option value="active">Active</option>
+      <option value="inactive">Inactive</option>
+    </CFormSelect>
+      </CInputGroup>
        {errors.status && <p className="error">{errors.status}</p>}
       </div>
      </div>
-     <hr/>
     <div className="button-row">
       <button type="submit" className="simple-button primary-button">Save</button>
       <button type="button" className="simple-button secondary-button" onClick={handleCancel} >Cancel</button>

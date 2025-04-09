@@ -487,7 +487,14 @@ return(
              <input type="text" name="alloted_two_wheel_parking_count " value={formData.alloted_two_wheel_parking_count} onChange={handleChange} />
              {errors.alloted_two_wheel_parking_count && <p className="error">{errors.alloted_two_wheel_parking_count}</p>}
           </div>
-  
+          <div className="input-box">
+              <span className="details">Club due date</span>
+             <input type="date" name="club_due_date" value={formData.club_due_date  } onChange={handleChange} />
+          </div>
+          <div className="input-box">
+              <span className="details">Four sos number</span>
+             <input type="text" name="four_sos_number" value={formData.four_sos_number} onChange={handleChange} />
+          </div>
           <div className="input-box">
     <span className="details">Nominee names and per</span>
   <textarea
@@ -497,16 +504,7 @@ return(
     onChange={handleChange}
   />
 </div>
-          <div className="input-box">
-              <span className="details">Club due date</span>
-             <input type="date" name="club_due_date" value={formData.club_due_date  } onChange={handleChange} />
-          </div>
-          <div className="input-box">
-              <span className="details">Four sos number</span>
-             <input type="text" name="four_sos_number" value={formData.four_sos_number} onChange={handleChange} />
-          </div>
      </div>
-     <hr/>
     <div className="button-row">
       <button type="submit" className="simple-button primary-button">Save</button>
       <button type="button" className="simple-button secondary-button" onClick={handleCancel} >Cancel</button>

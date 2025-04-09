@@ -13,33 +13,7 @@
   button.mdc-fab.mdc-fab--mini.mat-mdc-mini-fab {
   border: 2px solid #006cb5;
   }
-  hr{
-  padding: 10px;
-  }
-  .title {
-  font-size: 20px;
-  font-weight: 500;
-  position: relative;
-  }
-  
-  .title button.close {
-  position: absolute;
-  top: 0;
-  right: 0;
-  background: none;
-  border: none;
-  font-size: 20px;
-  cursor: pointer;
-  }
-  
-  h2 {
-  font-size: 20px;
-  font-weight: 500;
-  margin-bottom: 20px;
-  margin-top: 10px;
-  color: #f1b255;
-  }
-  
+
   .user-details {
   display: flex;
   flex-wrap: wrap;
@@ -53,9 +27,9 @@
   }
   
   .input-box {
-  margin-bottom: 15px;
+  margin-bottom: -3px;
   width: 32%;
-  }
+  } 
   
   .input-box.full-width {
   width: 100%;
@@ -72,12 +46,12 @@
   .input-box select
  {
   width: 100%;
-  height: 40px;
-  padding: 10px;
+  height: 35px;
+  /* padding: 10px; */
   border: 1px solid #ccc;
   border-radius: 5px;
   outline: none;
-  font-size: 13px;
+  font-size: 14px;
   transition: all 0.3s ease;
   margin-bottom: -10px;
   }
@@ -105,6 +79,7 @@
   .button-row {
   display: flex;
   justify-content: center;
+  margin-top: 15px;
   }
   
   .simple-button {
@@ -143,17 +118,36 @@
   border-color: #ccc;
   }
   
+  @media (max-width: 1366px) {
+    .user-details {
+     gap: 15px;
+    }
+  }
+
+  @media (max-width: 1026px) {
+    .user-details {
+      gap: 10px;
+     }
+  }
   @media (max-width: 1024px) {
   .container {
    padding: 20px;
   }
-  
+  .user-details {
+    gap: 15px;
+  }
+
   .input-box {
    width: 48%;
   }
   }
   
   @media (max-width: 768px) {
+    .user-details {
+      flex-direction: column;
+      gap: 10px;
+    }
+  
   .input-box {
    width: 100%;
   }
@@ -165,6 +159,9 @@
   .simple-button {
    width: 100%;
    margin: 10px 0;
+  }
+  .input-icon{
+    height: 35px;
   }
   }
   
@@ -183,6 +180,9 @@
    height: 35px;
    font-size: 12px;
   }
+  .input-icon{
+    height: 35px;
+  }
   
   .simple-button {
    font-size: 14px;
@@ -198,7 +198,7 @@
   
   .custom-button {
     padding: 8px 16px;
-    background-color: #007bff;
+    background-color: #577891;
     color: #fff;
     border: none;
     border-radius: 4px;
@@ -208,15 +208,15 @@
   }
   
   .custom-button:hover {
-    background-color: #0056b3;
+    background-color: #006cb5;
   }
   
   .custom-button:active {
-    background-color: #003f7f;
+    background-color: #006cb5;
   }
   
   .add-block-btn {
-    background-color: #007bff;
+    background-color: #577891;
     color: white;
     border: none;
     height: 30px; 
@@ -232,8 +232,11 @@
   }
   
   .add-block-btn:hover {
-    background-color: #003f7f;
+    background-color: #006cb5;
     box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
   }
  
+  .input-icon{
+    height: 35px;
+  }
   

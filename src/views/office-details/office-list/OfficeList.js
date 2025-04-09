@@ -13,7 +13,7 @@ import '../../../css/table.css';
 import Swal from 'sweetalert2';
 import axiosInstance from 'src/axiosInstance';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
+import { FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
 
 const OfficeList = () => {
   const [data, setData] = useState([]);
@@ -241,8 +241,18 @@ const OfficeList = () => {
                   <td>{office.office_description}</td>
                   <td>{office.office_contact}</td>
                   <td>
-                 <span className={`status-text ${office.status}`}>{office.status}</span>
-                </td>
+  <span className={`status-text ${office.status}`}>
+    {office.status === 'active' ? (
+      <>
+        <FaCheckCircle className="status-icon active-icon" />
+      </>
+    ) : (
+      <>
+        <FaTimesCircle className="status-icon inactive-icon" />
+      </>
+    )}
+  </span>
+</td>
                    <td>
                     <button
                     className="action-button"

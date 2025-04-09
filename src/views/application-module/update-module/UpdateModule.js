@@ -3,6 +3,14 @@ import '../../../css/form.css';
 import Swal from "sweetalert2";
 import { useNavigate, useParams } from "react-router-dom";
 import axiosInstance from "src/axiosInstance";
+import {
+  CInputGroup,
+  CInputGroupText,
+  CFormInput,
+  CFormSelect,
+} from '@coreui/react';
+import CIcon from '@coreui/icons-react';
+import { cilCheckCircle,cilPuzzle} from '@coreui/icons';
 function UpdateModule(){
 const [formData, setFormData] = useState({
         module_name: '',
@@ -100,54 +108,75 @@ const [formData, setFormData] = useState({
   return(
   
     <div className="form-container">
-      <div className="page-header">
-      <div className="form-note" style={{ textAlign: "right", marginBottom: "10px" }}>
-            <span className="required">*</span> Field is mandatory
-          </div>  
-   <form onSubmit={handleSubmit}>
-    <div className="user-details">
-       <div className="input-box">
-          <div className="details-container">
-          <span className="details">Module name</span>
-          <span className="required">*</span>
-          </div>
-          <input type="text" name="module_name" 
-                 value={formData.module_name} onChange={handleChange}/>
-          {errors.module_name && <p className="error">{errors.module_name}</p>}
-        </div>
-
-        <div className="input-box">
-              <span className="details">Description</span>
-             <textarea name="module_description" value={formData.module_description} onChange={handleChange} />
-        </div>
-      
-         <div className="input-box">
-            <div className="details-container">
-              <span className="details">Parent module id</span>
-              <span className="required">*</span>
-            </div>
-            <input type="text" name="parent_module_id" value={formData.parent_module_id} onChange={handleChange} />
-            {errors.parent_module_id && <p className="error">{errors.parent_module_id}</p>}
-        </div>
-      <div className="input-box">
-      <div className="details-container">
-        <span className="details">Status</span>
+    <div className="page-header">
+    <div className="form-note" style={{ textAlign: "right", marginBottom: "10px" }}>
+          <span className="required">*</span> Field is mandatory
+        </div>  
+ <form onSubmit={handleSubmit}>
+  <div className="user-details">
+     <div className="input-box">
+        <div className="details-container">
+        <span className="details">Module name</span>
         <span className="required">*</span>
         </div>
-       <select name="status" value={formData.status} onChange={handleChange} >
-         <option value="">-Select-</option>
-         <option value="active">Active</option>
-         <option value="inactive">Inactive</option>
-       </select>
-       {errors.status && <p className="error">{errors.status}</p>}
+          <CInputGroup className="input-icon">
+        <CInputGroupText><CIcon icon={cilPuzzle} /></CInputGroupText>
+         <CFormInput
+             type="text"
+             name="module_name"
+             value={formData.module_name}
+             onChange={handleChange}
+           />
+           </CInputGroup>
+        {errors.module_name && <p className="error">{errors.module_name}</p>}
       </div>
-     </div>
-     <hr/>
-    <div className="button-row">
-      <button type="submit" className="simple-button primary-button">Save</button>
-      <button type="button" className="simple-button secondary-button" onClick={handleCancel} >Cancel</button>
-     </div>
-  </form>
+       <div className="input-box">
+          <div className="details-container">
+            <span className="details">Parent module id</span>
+            <span className="required">*</span>
+          </div>
+          <CInputGroup className="input-icon">
+        <CInputGroupText><CIcon icon={cilPuzzle} /></CInputGroupText>
+         <CFormInput
+             type="text"
+             name="parent_module_id"
+             value={formData.parent_module_id}
+             onChange={handleChange}
+           />
+           </CInputGroup>
+          {errors.parent_module_id && <p className="error">{errors.parent_module_id}</p>}
+      </div>
+    <div className="input-box">
+    <div className="details-container">
+      <span className="details">Status</span>
+      <span className="required">*</span>
+      </div>
+      <CInputGroup>
+  <CInputGroupText className="input-icon">
+    <CIcon icon={cilCheckCircle} />
+  </CInputGroupText>
+  <CFormSelect
+    name="status"
+    value={formData.status}
+    onChange={handleChange}
+  >
+    <option value="">-Select-</option>
+    <option value="active">Active</option>
+    <option value="inactive">Inactive</option>
+  </CFormSelect>
+    </CInputGroup>
+     {errors.status && <p className="error">{errors.status}</p>}
+    </div>
+    <div className="input-box">
+            <span className="details">Description</span>
+            <textarea name="module_description" value={formData.module_description} onChange={handleChange} />
+      </div>
+   </div>
+  <div className="button-row">
+    <button type="submit" className="simple-button primary-button">Save</button>
+    <button type="button" className="simple-button secondary-button" onClick={handleCancel} >Cancel</button>
+   </div>
+</form>
 </div>
 </div>
   )

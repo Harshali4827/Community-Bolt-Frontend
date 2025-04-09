@@ -60,19 +60,7 @@ const AppHeader = () => {
         >
           <CIcon icon={cilMenu} size="lg" />
         </CHeaderToggler>
-        <CForm className="d-none d-sm-flex">
-          <CInputGroup className="border border-light border-opacity-25 rounded">
-            <CInputGroupText id="search-addon" className="bg-transparent border-0 px-1">
-              <CIcon icon={cilSearch} size="lg" className="my-1 mx-2 text-white text-opacity-25" />
-            </CInputGroupText>
-            <CFormInput
-              placeholder={t('search')}
-              aria-label="Search"
-              aria-describedby="search-addon"
-              className="bg-transparent border-0"
-            />
-          </CInputGroup>
-        </CForm>
+        
         <CHeaderNav className="d-none d-md-flex ms-auto">
           <AppHeaderDropdownNotif />
           <AppHeaderDropdownTasks />

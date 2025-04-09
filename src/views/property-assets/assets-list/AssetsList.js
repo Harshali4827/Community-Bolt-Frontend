@@ -13,7 +13,7 @@ import '../../../css/table.css';
 import Swal from 'sweetalert2';
 import axiosInstance from 'src/axiosInstance';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
+import { FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
 const AssetsList = () => {
   const [data, setData] = useState([]);
   const [anchorEl, setAnchorEl] = useState(null);
@@ -228,9 +228,19 @@ const handleDelete = async (id) => {
                   <td>{assets.asset_name}</td>
                   <td>{assets.asset_description}</td>
                   <td>{assets.created_by}</td>
-                  <td>
-                 <span className={`status-text ${assets.status}`}>{assets.status}</span>
-                </td>
+                 <td>
+  <span className={`status-text ${assets.status}`}>
+    {assets.status === 'active' ? (
+      <>
+        <FaCheckCircle className="status-icon active-icon" />
+      </>
+    ) : (
+      <>
+        <FaTimesCircle className="status-icon inactive-icon" />
+      </>
+    )}
+  </span>
+</td>
                    <td>
                     <button
                     className="action-button"

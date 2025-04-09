@@ -4,7 +4,14 @@ import { jwtDecode } from "jwt-decode";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "src/axiosInstance";
-
+import {
+  CInputGroup,
+  CInputGroupText,
+  CFormInput,
+  CFormSelect,
+} from '@coreui/react';
+import CIcon from '@coreui/icons-react';
+import { cilBookmark, cilBuilding, cilCheckCircle,cilClipboard,cilEnvelopeClosed,cilGrid,cilHome, cilImage, cilMedicalCross, cilPhone, cilUser } from '@coreui/icons';
 function AddUser(){
   const [formData, setFormData] = useState({
     title: '',
@@ -70,15 +77,10 @@ const handleSubmit = async (e) => {
   let formErrors = {};
 
   if (!formData.title) formErrors.title = 'This field is required';
-
   if (!formData.full_name) formErrors.full_name = 'This field is required';
-
   if (!formData.mobile_number ) formErrors.mobile_number = 'This field is required';
-
   if (!formData.email) formErrors.status = 'This field is required';
-
   if (!formData.pan_number) formErrors.pan_number = 'This field is required';
-
   if (!formData.aadhar_number) formErrors.aadhar_number = 'This field is required';
 
   if (Object.keys(formErrors).length > 0) {
@@ -154,11 +156,20 @@ return(
               <span className="details">Title</span>
               <span className="required">*</span>
             </div>
-                <select name="title" value={formData.title} onChange={handleChange} >
-                    <option value="">-Select-</option>
+                <CInputGroup>
+    <CInputGroupText className="input-icon">
+      <CIcon icon={cilBookmark} />
+    </CInputGroupText>
+    <CFormSelect
+      name="title"
+      value={formData.title}
+      onChange={handleChange}
+    >
+        <option value="">-Select-</option>
                     <option value="Mr">Mr</option>
                     <option value="Mrs">Mrs</option>
-                </select>
+    </CFormSelect>
+      </CInputGroup>
           {errors.title && <p className="error">{errors.title}</p>}
           </div>
 
@@ -167,8 +178,15 @@ return(
               <span className="details">Full name</span>
               <span className="required">*</span>
             </div>
-            <input type="text" name="full_name" 
-                 value={formData.full_name} onChange={handleChange}/>
+             <CInputGroup className="input-icon">
+          <CInputGroupText><CIcon icon={cilUser} /></CInputGroupText>
+           <CFormInput
+               type="text"
+               name="full_name"
+               value={formData.full_name}
+               onChange={handleChange}
+             />
+             </CInputGroup>
           {errors.full_name && <p className="error">{errors.full_name}</p>}
           </div>
 
@@ -177,8 +195,15 @@ return(
         <span className="details">Mobile number</span>
         <span className="required">*</span>
         </div>
-        <input type="text" name="mobile_number" 
-                 value={formData.mobile_number} onChange={handleChange}/>
+            <CInputGroup className="input-icon">
+          <CInputGroupText><CIcon icon={cilPhone} /></CInputGroupText>
+           <CFormInput
+               type="text"
+               name="mobile_number"
+               value={formData.mobile_number}
+               onChange={handleChange}
+             />
+             </CInputGroup>
           {errors.mobile_number && <p className="error">{errors.mobile_number}</p>}
       </div>
 
@@ -187,8 +212,15 @@ return(
         <span className="details">Email</span>
         <span className="required">*</span>
         </div>
-        <input type="email" name="email" 
-                 value={formData.email} onChange={handleChange}/>
+            <CInputGroup className="input-icon">
+          <CInputGroupText><CIcon icon={cilEnvelopeClosed} /></CInputGroupText>
+           <CFormInput
+               type="text"
+               name="email"
+               value={formData.email}
+               onChange={handleChange}
+             />
+             </CInputGroup>
           {errors.email && <p className="error">{errors.email}</p>}
       </div>
       <div className="input-box">
@@ -196,8 +228,15 @@ return(
         <span className="details">Pan number</span>
         <span className="required">*</span>
         </div>
-        <input type="text" name="pan_number" 
-                 value={formData.pan_number} onChange={handleChange}/>
+            <CInputGroup className="input-icon">
+          <CInputGroupText><CIcon icon={cilClipboard} /></CInputGroupText>
+           <CFormInput
+               type="text"
+               name="pan_number"
+               value={formData.pan_number}
+               onChange={handleChange}
+             />
+             </CInputGroup>
           {errors.pan_number && <p className="error">{errors.pan_number}</p>}
       </div>
       
@@ -206,18 +245,41 @@ return(
         <span className="details">Aadhar number</span>
         <span className="required">*</span>
         </div>
-        <input type="text" name="aadhar_number" 
-                 value={formData.aadhar_number} onChange={handleChange}/>
+                 <CInputGroup className="input-icon">
+          <CInputGroupText><CIcon icon={cilClipboard} /></CInputGroupText>
+           <CFormInput
+               type="text"
+               name="aadhar_number"
+               value={formData.aadhar_number}
+               onChange={handleChange}
+             />
+             </CInputGroup>
           {errors.aadhar_number && <p className="error">{errors.aadhar_number}</p>}
       </div>
        <div className="input-box">
               <span className="details">Profile photo</span>
-              <input type="file" name="profile_photo" onChange={handleChange} accept="image/*"/>
+              <CInputGroup className="input-icon">
+          <CInputGroupText><CIcon icon={cilImage} /></CInputGroupText>
+           <CFormInput
+               type="text"
+               name="profile_photo"
+               value={formData.profile_photo}
+               onChange={handleChange}
+               accept="image/*"
+             />
+             </CInputGroup>
       </div>
       <div className="input-box">
         <span className="details">Blood group</span>
-        <input type="text" name="blood_group" 
-                 value={formData.blood_group} onChange={handleChange}/>
+          <CInputGroup className="input-icon">
+          <CInputGroupText><CIcon icon={cilMedicalCross} /></CInputGroupText>
+           <CFormInput
+               type="text"
+               name="blood_group"
+               value={formData.blood_group}
+               onChange={handleChange}
+             />
+             </CInputGroup>
       </div>
     </div>
     <div className="button-row">

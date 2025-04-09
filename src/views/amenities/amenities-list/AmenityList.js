@@ -13,7 +13,7 @@ import '../../../css/table.css';
 import Swal from 'sweetalert2';
 import axiosInstance from 'src/axiosInstance';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
+import { FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
 
 const AmenityList = () => {
   const [data, setData] = useState([]);
@@ -236,9 +236,26 @@ const AmenityList = () => {
                   <td>{amenity.unit_number}</td>
                   <td>{amenity.amenity_name}</td>
                   <td>{amenity.amenity_details}</td>
-                  <td>
-                 <span className={`status-text ${amenity.status}`}>{amenity.status}</span>
-                </td>
+              
+                {/* <td>
+                 <span className={`status-text ${amenity.status}`}>
+                    {amenity.status === 'active' ? '✅' : '❌'}
+                       </span>
+                   </td> */}
+                   <td>
+  <span className={`status-text ${amenity.status}`}>
+    {amenity.status === 'active' ? (
+      <>
+        <FaCheckCircle style={{ color: 'green', marginRight: '5px', fontSize: '1.2rem' }} />
+      </>
+    ) : (
+      <>
+        <FaTimesCircle style={{ color: 'crimson', marginRight: '5px', fontSize: '1.2rem' }} />
+      </>
+    )}
+  </span>
+</td>
+
                    <td>
                     <button
                     className="action-button"

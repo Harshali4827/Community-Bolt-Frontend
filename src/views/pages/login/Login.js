@@ -20,22 +20,27 @@ import axiosInstance from 'src/axiosInstance'
 const Login = () => {
   const [email, setEmail] = useState('')
   const [mobileNumber, setMobileNumber] = useState('')
+  const [errors, setErrors] = useState({})
   const navigate = useNavigate()
 
   const handleLogin = async (e) => {
     e.preventDefault()
+    setErrors({})
+
     try {
       const response = await axiosInstance.post('/check-email', { email, mobileNumber })
 
       if (response.status === 200) {
-        console.log("Email sent to verify OTP:", email);
         navigate('/verify-otp', { state: { email } })
-      } else {
-        alert(response.data.message)
       }
     } catch (error) {
-      console.error('Error during login:', error)
-      alert('Login failed. Please try again.')
+      const errorMsg = error.response?.data || 'Login failed. Please try again.'
+
+      if (error.response?.status === 404) {
+        setErrors({ email: 'User not found with this email.' })
+      } else {
+        setErrors({ general: typeof errorMsg === 'string' ? errorMsg : 'Something went wrong.' })
+      }
     }
   }
 
@@ -50,7 +55,8 @@ const Login = () => {
                   <CForm onSubmit={handleLogin}>
                     <h1>Get OTP</h1>
                     <p className="text-body-secondary">Sign In to your account</p>
-                    <CInputGroup className="mb-3">
+
+                    <CInputGroup className="mb-4">
                       <CInputGroupText>
                         <CIcon icon={cilUser} />
                       </CInputGroupText>
@@ -61,6 +67,8 @@ const Login = () => {
                         onChange={(e) => setEmail(e.target.value)}
                       />
                     </CInputGroup>
+                    {errors.email && <p style={{ color: 'red', fontSize: '0.85rem' }}>{errors.email}</p>}
+
                     <CInputGroup className="mb-4">
                       <CInputGroupText>
                         <CIcon icon={cilLockLocked} />
@@ -72,10 +80,15 @@ const Login = () => {
                         onChange={(e) => setMobileNumber(e.target.value)}
                       />
                     </CInputGroup>
-                    <CRow>
+
+                    {errors.mobileNumber && <p style={{ color: 'red', fontSize: '0.85rem' }}>{errors.mobileNumber}</p>}
+
+                    {errors.general && <p style={{ color: 'red', fontSize: '0.85rem' }}>{errors.general}</p>}
+
+                    <CRow className="mt-3">
                       <CCol xs={6}>
                         <CButton type="submit" color="primary" className="px-4">
-                          Get Otp
+                          Get OTP
                         </CButton>
                       </CCol>
                     </CRow>

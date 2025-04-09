@@ -14,11 +14,12 @@ import {
   cilIndustry,
   cilUser,
   cilSpreadsheet,
-  cilPlus
+  cilPlus,
+  cilPool
 } from '@coreui/icons'
 import { CNavGroup, CNavItem, CNavTitle } from '@coreui/react-pro'
 import { Translation } from 'react-i18next'
-
+import './scss/style.scss'
 const _nav = [
   {
     component: CNavItem,
@@ -139,7 +140,7 @@ const _nav = [
         component: CNavGroup,
         name: <Translation>{(t) => t('Amenities')}</Translation>,
         to: '/amenity',
-        icon: <CIcon icon={cilBuilding} customClassName="nav-icon" />,
+        icon: <CIcon icon={cilPool} customClassName="nav-icon" />,
         items: [
           {
             component: CNavItem,
@@ -244,15 +245,33 @@ const _nav = [
     component: CNavTitle,
     name: <Translation>{(t) => t('Users')}</Translation>,
   },
+  // {
+  //   component: CNavItem,
+  //   name: <Translation>{(t) => t('Add Users')}</Translation>,
+  //   to: '/users',
+  //   icon: <CIcon icon={cilUser} customClassName="nav-icon" />,
+  // },
   {
-    component: CNavItem,
-    name: <Translation>{(t) => t('Add Users')}</Translation>,
+    component: CNavGroup,
+    name: <Translation>{(t) => t('Users/Members')}</Translation>,
     to: '/users',
     icon: <CIcon icon={cilUser} customClassName="nav-icon" />,
+    items: [
+      {
+        component: CNavItem,
+        name: 'Add User/Member',
+        to: '/users/add-user',
+      },
+      {
+        component: CNavItem,
+        name: 'Users/Members List',
+        to: '/users/users-list',
+      }
+    ],
   },
   {
     component: CNavItem,
-    name: <Translation>{(t) => t('User Property')}</Translation>,
+    name: <Translation>{(t) => t('Member Property')}</Translation>,
     to: '/user-property',
     icon: <CIcon icon={cilBuilding} customClassName="nav-icon" />,
   },
@@ -269,7 +288,7 @@ const _nav = [
   },
   {
     component: CNavItem,
-    name: <Translation>{(t) => t('Import Excel')}</Translation>,
+    name: <Translation>{(t) => t('Import Members Property')}</Translation>,
     to: '/import-excel',
     icon: <CIcon icon={cilSpreadsheet} customClassName="nav-icon" />,
   },

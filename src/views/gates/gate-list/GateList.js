@@ -13,6 +13,7 @@ import '../../../css/table.css';
 import Swal from 'sweetalert2';
 import axiosInstance from 'src/axiosInstance';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
 
 const GateList = () => {
   const [data, setData] = useState([]);
@@ -235,8 +236,18 @@ const handleDelete = async (id) => {
                   <td>{gate.is_main_gate}</td>
                   <td>{gate.created_by}</td>
                   <td>
-                 <span className={`status-text ${gate.status}`}>{gate.status}</span>
-                </td>
+  <span className={`status-text ${gate.status}`}>
+    {gate.status === 'active' ? (
+      <>
+        <FaCheckCircle className="status-icon active-icon" />
+      </>
+    ) : (
+      <>
+        <FaTimesCircle className="status-icon inactive-icon" />
+      </>
+    )}
+  </span>
+</td>
                    <td>
                     <button
                     className="action-button"

@@ -1,6 +1,5 @@
 .table-container {
-    margin: 20px;
-    padding: 20px;
+    padding: 15px;
     background-color: #f6f7fb;
     border-radius: 8px;
     box-shadow: 0 2px 4px 1px rgb(0 0 0 / 19%);
@@ -15,8 +14,8 @@
     margin-bottom: 10px;
   }
   .new-user-btn {
-    padding: 8px 16px;
-    background-color: #006cb5;
+    padding: 4px 4px;
+    background-color: #577891;
     color: #fff;
     border: none;
     border-radius: 4px;
@@ -25,14 +24,13 @@
   }
   
   .new-user-btn:hover {
-    background-color: #0056b3;
+    background-color: #006cb5;
   }
   .action-button{
-    background: #006cb5;
+    background: #577891;
     color: white;
     border: none;
-    padding: 7px;
-    font-size: 15px;
+    font-size: 14px;
     font-weight: 500;
     border-radius: 5px;
   }
@@ -41,24 +39,23 @@
     display: flex;
     flex-wrap: wrap;
     gap: 5px;
-    margin-right: 375px;
+    margin-right: 510px;
   }
   
   .btn2 {
-    margin: 5px;
-    width: 50px;
+    width: 45px;
     background-color: #ffffff;
     border-radius: 5px;
     padding: 1px;
-    box-shadow: inset 2px 2px 5px rgb(17 72 155);
+    box-shadow: inset 2px 2px 5px rgb(103 188 207);
     border: none;
-    font-size: 25px;
+    font-size: 21px;
     color: black;
   }
   
   .btn2:hover {
-    background-color: #006cb5;
-    color:#ffffff
+    background-color: #90D5FF;
+    color:#000000
   }
   .csv-link{
     color: black !important;
@@ -81,20 +78,21 @@
   
   .responsive-table th,
   .responsive-table td {
-    padding: 10px;
-    text-align: left;
+    padding: 8px;
+    text-align: center;
     border: 1px solid #ddd;
   }
   
   .responsive-table th {
-    background: #006cb5;
-    color: white;
+    background: #90D5FF;
+    color: black;
+    font-weight: 500;
   }
   .search-icon-data {
     display: flex;
     align-items: center;
     border: 0.5px solid lightgray;
-    height: 40px;
+    height: 35px;
     border-radius: 10px;
     background-color: #fff;
     padding: 0 10px;
@@ -131,25 +129,37 @@
   
   .status-text {
     display: inline-block;
-    padding: 5px;
     border-radius: 5px;
   }
   
+  .status-text {
+    align-items: center;
+    gap: 5px;
+    font-weight: bold;
+    border-radius: 4px;
+  }
+  
   .status-text.active {
-    background-color: rgba(0, 128, 0, 0.05);
     color: green;
-    font-weight: bold;
   }
   
-  .status-text.inactive{
-    background-color: rgba(255, 0, 0, 0.05);
+  .status-text.inactive {
     color: crimson;
-    font-weight: bold;
   }
   
+  .status-icon {
+    font-size: 1.2rem;
+  }
   
+  .active-icon {
+    color: green;
+  }
   
-  .pagination-options-container {
+  .inactive-icon {
+    color: crimson;
+  }
+  
+.pagination-options-container {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;

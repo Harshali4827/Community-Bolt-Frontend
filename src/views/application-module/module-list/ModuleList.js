@@ -13,7 +13,7 @@ import '../../../css/table.css';
 import Swal from 'sweetalert2';
 import axiosInstance from 'src/axiosInstance';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
+import { FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
 const ModuleList = () => {
   const [data, setData] = useState([]);
   const [anchorEl, setAnchorEl] = useState(null);
@@ -230,8 +230,18 @@ const handleDelete = async (id) => {
                   <td>{module.parent_module_id}</td>
                   <td>{module.user_id}</td>
                   <td>
-                 <span className={`status-text ${module.status}`}>{module.status}</span>
-                </td>
+  <span className={`status-text ${module.status}`}>
+    {module.status === 'active' ? (
+      <>
+        <FaCheckCircle className="status-icon active-icon" />
+      </>
+    ) : (
+      <>
+        <FaTimesCircle className="status-icon inactive-icon" />
+      </>
+    )}
+  </span>
+</td>
                    <td>
                     <button
                     className="action-button"

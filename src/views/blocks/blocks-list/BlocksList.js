@@ -13,7 +13,7 @@ import '../../../css/table.css';
 import Swal from 'sweetalert2';
 import axiosInstance from 'src/axiosInstance';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
+import { FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
 const BlocksList = () => {
   const [data, setData] = useState([]);
   const [anchorEl, setAnchorEl] = useState(null);
@@ -235,8 +235,18 @@ const handleDelete = async (id) => {
                   <td>{block.unit_number_start_from} &nbsp;to&nbsp; {block.unit_number_end_to}</td>
                   <td>{block.created_by}</td>
                   <td>
-                 <span className={`status-text ${block.status}`}>{block.status}</span>
-                </td>
+  <span className={`status-text ${block.status}`}>
+    {block.status === 'active' ? (
+      <>
+        <FaCheckCircle className="status-icon active-icon" />
+      </>
+    ) : (
+      <>
+        <FaTimesCircle className="status-icon inactive-icon" />
+      </>
+    )}
+  </span>
+</td>
                    <td>
                     <button
                     className="action-button"

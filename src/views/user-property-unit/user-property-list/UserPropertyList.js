@@ -219,9 +219,6 @@ const handleDelete = async (id) => {
           </CSVLink>
           </button>
         </div>
-        <Link to='/user-property-unit/add-user-property-unit'>
-          <button className="new-user-btn" >+ New Property</button>
-        </Link>
       </div>
       <div className="table-responsive">
       <table className="responsive-table" style={{overflow:'auto'}}>

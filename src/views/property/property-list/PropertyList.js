@@ -14,7 +14,7 @@ import Swal from 'sweetalert2';
 import axiosInstance from 'src/axiosInstance';
 import config from 'src/config';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
+import { FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
 const PropertyList = () => {
   const [data, setData] = useState([]);
   const [anchorEl, setAnchorEl] = useState(null);
@@ -274,11 +274,20 @@ const PropertyList = () => {
                   <td>{property.total_blocks}</td>
                   <td>{property.total_units}</td>
                   <td>{property.total_offices}</td>
-                  <td>
-                 <span className={`status-text ${property.status}`}>{property.status}</span>
-                </td>
-                   <td>
-                    <button
+                 <td>
+  <span className={`status-text ${property.status}`}>
+    {property.status === 'active' ? (
+      <>
+        <FaCheckCircle className="status-icon active-icon" />
+      </>
+    ) : (
+      <>
+        <FaTimesCircle className="status-icon inactive-icon" />
+      </>
+    )}
+  </span>
+</td>
+       <td>             <button
                     className="action-button"
                     onClick={(event) => handleClick(event, property.id)}>
                     Action

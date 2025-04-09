@@ -3,6 +3,15 @@ import '../../../css/form.css';
 import Swal from "sweetalert2";
 import { useNavigate, useParams } from "react-router-dom";
 import axiosInstance from "src/axiosInstance";
+import {
+  CInputGroup,
+  CInputGroupText,
+  CFormInput,
+  CFormSelect,
+} from '@coreui/react';
+import CIcon from '@coreui/icons-react';
+import {cilGarage,cilCheckCircle, cilToggleOff, cilHome } from '@coreui/icons';
+
 
 function UpdateGate(){
 const [formData, setFormData] = useState({
@@ -123,76 +132,112 @@ const [formData, setFormData] = useState({
   return(
   
     <div className="form-container">
-      <div className="page-header">
-   <form onSubmit={handleSubmit}>
-       <div className="form-note" style={{ textAlign: "right", marginBottom: "10px" }}>
-            <span className="required">*</span> Field is mandatory
-          </div>
-       <div className="user-details">
-          <div className="input-box">
-              <div className="details-container">
-                <span className="details">Property</span>
-                <span className="required">*</span>
-              </div>
-              <select name="property_id" value={formData.property_id} onChange={handleChange}>
-                <option value="">-Select Property-</option>
-                {properties.map((property) => (
-                  <option key={property.id} value={property.id}>
-                    {property.property_name}
-                  </option>
-                ))}
-              </select>
-              {errors.property_id && <p className="error">{errors.property_id}</p>}
-            </div>
-
-
+    <div className="page-header">
+ <form onSubmit={handleSubmit}>
+ <div className="form-note" style={{ textAlign: "right", marginBottom: "10px" }}>
+          <span className="required">*</span> Field is mandatory
+        </div>
+     <div className="user-details">
         <div className="input-box">
-          <div className="details-container">
-              <span className="details">Gate name</span>
+            <div className="details-container">
+              <span className="details">Property</span>
               <span className="required">*</span>
-        </div>
-             <input type="text" name="gate_name" value={formData.gate_name} onChange={handleChange} />
-             {errors.gate_name && <p className="error">{errors.gate_name}</p>}
-        </div>
-      
-         <div className="input-box">
-              <span className="details">Description</span>
-            <textarea 
-            name="gate_description"  value={formData.gate_description} onChange={handleChange} />
-        </div>
+            </div>
+             <CInputGroup>
+  <CInputGroupText className="input-icon">
+    <CIcon icon={cilHome} />
+  </CInputGroupText>
+  <CFormSelect
+    name="property_id"
+    value={formData.property_id}
+    onChange={handleChange}
+  >
+    <option value="">-Select Property-</option>
+    {properties.map((property) => (
+      <option key={property.id} value={property.id}>
+        {property.property_name}
+      </option>
+    ))}
+  </CFormSelect>
+</CInputGroup>
+            {errors.property_id && <p className="error">{errors.property_id}</p>}
+          </div>
 
-    <div className="input-box">
-       <div className="details-container">
-        <span className="details">Is main gate</span>
-        <span className="required">*</span>
-        </div>
-       <select name="is_main_gate" value={formData.is_main_gate} onChange={handleChange}>
-          <option>-Select-</option>
-          <option value="1">Yes</option>
-          <option value="0">No</option>
-       </select>
-       {errors.is_main_gate && <p className="error">{errors.is_main_gate}</p>}
-      </div>
 
       <div className="input-box">
-      <div className="details-container">
-        <span className="details">Status</span>
-        <span className="required">*</span>
-        </div>
-       <select name="status" value={formData.status} onChange={handleChange} >
-         <option value="">-Select-</option>
-         <option value="active">Active</option>
-         <option value="inactive">Inactive</option>
-       </select>
-       {errors.status && <p className="error">{errors.status}</p>}
+        <div className="details-container">
+            <span className="details">Gate name</span>
+            <span className="required">*</span>
       </div>
-     </div>
-     <hr/>
-    <div className="button-row">
-      <button type="submit" className="simple-button primary-button">Save</button>
-      <button type="button" className="simple-button secondary-button" onClick={handleCancel} >Cancel</button>
-     </div>
-  </form>
+      <CInputGroup>
+      <CInputGroupText className="input-icon">
+         <CIcon icon={cilGarage} />
+      </CInputGroupText>
+       <CFormInput
+          type="text"
+          name="gate_name"
+          value={formData.gate_name}
+          onChange={handleChange}
+        />
+     </CInputGroup>
+           {errors.gate_name && <p className="error">{errors.gate_name}</p>}
+      </div>
+  <div className="input-box">
+     <div className="details-container">
+      <span className="details">Is main gate</span>
+      <span className="required">*</span>
+      </div>
+      <CInputGroup>
+  <CInputGroupText className="input-icon">
+    <CIcon icon={cilCheckCircle} />
+  </CInputGroupText>
+  <CFormSelect
+    name="is_main_gate"
+    value={formData.is_main_gate}
+    onChange={handleChange}
+  >
+    <option>-Select-</option>
+    <option value="1">Yes</option>
+    <option value="0">No</option>
+  </CFormSelect>
+</CInputGroup>
+     {errors.is_main_gate && <p className="error">{errors.is_main_gate}</p>}
+    </div>
+
+    <div className="input-box">
+    <div className="details-container">
+      <span className="details">Status</span>
+      <span className="required">*</span>
+      </div>
+      <CInputGroup>
+  <CInputGroupText className="input-icon">
+    <CIcon icon={cilToggleOff} />
+  </CInputGroupText>
+  <CFormSelect
+    name="status"
+    value={formData.status}
+    onChange={handleChange}
+  >
+    <option value="">-Select-</option>
+    <option value="active">Active</option>
+    <option value="inactive">Inactive</option>
+  </CFormSelect>
+    </CInputGroup>
+     {errors.status && <p className="error">{errors.status}</p>}
+    </div>
+    <div className="input-box">
+            <span className="details">Description</span>
+            <textarea 
+          name="gate_description"  value={formData.gate_description} onChange={handleChange} />
+          {errors.gate_description && <p className="error">{errors.gate_description}</p>}
+      </div>
+
+   </div>
+  <div className="button-row">
+    <button type="submit" className="simple-button primary-button">Save</button>
+    <button type="button" className="simple-button secondary-button" onClick={handleCancel} >Cancel</button>
+   </div>
+</form>
 </div>
 </div>
   )

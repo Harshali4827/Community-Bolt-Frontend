@@ -5,7 +5,17 @@ import { jwtDecode } from "jwt-decode";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "src/axiosInstance";
+import {
+  CInputGroup,
+  CInputGroupText,
+  CFormInput,
+  CFormSelect,
+} from '@coreui/react';
+import CIcon from '@coreui/icons-react';
+import { cilHome,cilLocationPin, cilCheckCircle, cilImage, cilGlobeAlt, cilMap, cilBuilding, cilPaperPlane, cilGrid, cilViewModule, cilBriefcase, cilPool, cilDoor, cilCarAlt, cilGroup, cilBike, cilUserFemale, cilPhone, cilPeople, cilUser,cilMoney, cilToggleOff, cilEnvelopeClosed,cilChart, cilChartLine } from '@coreui/icons';
+
 const GOOGLE_MAPS_API_KEY = "AIzaSyAyufpVzzQOm5-z0H___ZEG9pN-P-aAA8M";
+
 
 function AddProperty(){
   const [formData, setFormData] = useState({
@@ -108,49 +118,29 @@ const handleChange = (e) => {
   }
 };
 
-
 const handleSubmit = async (e) => {
   e.preventDefault();
   let formErrors = {};
 
   if (!formData.property_name) formErrors.property_name = 'Property name is required';
-
   if (!formData.logo) formErrors.logo = 'This field is required';
-
   if (!formData.address ) formErrors.address = 'Address is required';
-
   if (!formData.status) formErrors.status = 'Status is required';
-
   if (!formData. country_id) formErrors.country_id = 'This field is required';
-
   if (!formData.city_id) formErrors.city_id = 'This field is required';
-
   if (!formData.state_id) formErrors.state_id  = 'This field is required';
-
   if (!formData.min_sub_members_allow) formErrors.min_sub_members_allow = 'This field is required';
-
   if (!formData.min_cars_allow ) formErrors.min_cars_allow = 'This field is required';
-
   if (!formData.min_bikes_allow) formErrors.min_bikes_allow = 'This field is required';
-
   if (!formData.min_house_helps_allow ) formErrors.min_house_helps_allow = 'This field is required';
-
   if (!formData.chairman_name) formErrors.chairman_name = 'This field is required';
-  
   if (!formData.chairman_contact_no) formErrors.chairman_contact_no = 'This field is required';
-
   if (!formData.chairman_email) formErrors.chairman_email = 'This field is required';
-  
   if (!formData.emergency_name) formErrors.emergency_name = 'This field is required';
-
   if (!formData.emergency_contact_no) formErrors.emergency_contact_no = 'This field is required';
-
   if (!formData.emergency_email) formErrors.emergency_email = 'This field is required';
-
   if (!formData.additional_parking_charges) formErrors.additional_parking_charges = 'This field is required';
-
   if (!formData.is_payment_gateway_visible) formErrors.is_payment_gateway_visible = 'This field is required';
-
   if (!formData.status) formErrors.status = 'This field is required';
 
   if (Object.keys(formErrors).length > 0) {
@@ -219,21 +209,35 @@ return(
           </div>
    <form onSubmit={handleSubmit}>
 
-    <div className="user-details">
-
-       <div className="input-box">
+      <div className="user-details">
+        <div className="input-box">
             <div className="details-container">
               <span className="details">Property name</span>
               <span className="required">*</span>
             </div>
-            <input type="text" name="property_name" 
-                 value={formData.property_name} onChange={handleChange}/>
-          {errors.property_name && <p className="error">{errors.property_name}</p>}
+            <CInputGroup className="input-icon">
+  <CInputGroupText><CIcon icon={cilHome} /></CInputGroupText>
+  <CFormInput
+    type="text"
+    name="property_name"
+    placeholder="Property Name"
+    value={formData.property_name}
+    onChange={handleChange}
+  />
+</CInputGroup>
+{errors.property_name && <p className="error">{errors.property_name}</p>}
           </div>
 
         <div className="input-box">
               <span className="details">Logo</span>
-          <input type="file" name="logo" onChange={handleChange} />
+          <CInputGroup className="input-icon">
+          <CInputGroupText><CIcon icon={cilImage} /></CInputGroupText>
+           <CFormInput
+                 type="file"
+                 name="logo"
+                 onChange={handleChange}
+              />
+          </CInputGroup>
           </div>
       
           <div className="input-box">
@@ -241,8 +245,16 @@ return(
               <span className="details">Address</span>
               <span className="required">*</span>
             </div>
-            <input type="text" name="address" 
-                 value={formData.address} onChange={handleChange}/>
+            <CInputGroup className="input-icon">
+          <CInputGroupText><CIcon icon={cilLocationPin} /></CInputGroupText>
+           <CFormInput
+    type="text"
+    name="address"
+    placeholder="Address"
+    value={formData.address}
+    onChange={handleChange}
+  />
+</CInputGroup>
           {errors.address && <p className="error">{errors.address}</p>}
           </div>
 
@@ -251,8 +263,16 @@ return(
         <span className="details">Country</span>
         <span className="required">*</span>
         </div>
-        <input type="text" name="country_id" 
-                 value={formData.country_id} onChange={handleChange}/>
+         <CInputGroup className="input-icon">
+          <CInputGroupText><CIcon icon={cilGlobeAlt} /></CInputGroupText>
+           <CFormInput
+    type="text"
+    name="country_id"
+    value={formData.country_id}
+    onChange={handleChange}
+  />
+</CInputGroup>
+          
           {errors.country_id && <p className="error">{errors.country_id}</p>}
       </div>
 
@@ -261,8 +281,16 @@ return(
         <span className="details">City</span>
         <span className="required">*</span>
         </div>
-        <input type="text" name="city_id" 
-                 value={formData.city_id} onChange={handleChange}/>
+<CInputGroup className="input-icon">
+          <CInputGroupText><CIcon icon={cilBuilding} /></CInputGroupText>
+           <CFormInput
+    type="text"
+    name="city_id"
+    value={formData.city_id}
+    onChange={handleChange}
+  />
+</CInputGroup>
+          
           {errors.city_id && <p className="error">{errors.city_id}</p>}
       </div>
       <div className="input-box">
@@ -270,100 +298,182 @@ return(
         <span className="details">State</span>
         <span className="required">*</span>
         </div>
-        <input type="text" name="state_id" 
-                 value={formData.state_id} onChange={handleChange}/>
+<CInputGroup className="input-icon">
+          <CInputGroupText><CIcon icon={cilMap} /></CInputGroupText>
+           <CFormInput
+    type="text"
+    name="state_id"
+    value={formData.state_id}
+    onChange={handleChange}
+  />
+</CInputGroup>
           {errors.state_id && <p className="error">{errors.state_id}</p>}
       </div>
       
       <div className="input-box">
         <span className="details">Google Location</span>
-        <input type="text" name="google_location" 
-                 value={formData.google_location} onChange={handleChange}/>
+                 <CInputGroup className="input-icon">
+          <CInputGroupText><CIcon icon={cilLocationPin} /></CInputGroupText>
+           <CFormInput
+    type="text"
+    name="google_location"
+    value={formData.google_location}
+    onChange={handleChange}
+  />
+</CInputGroup>
       </div>
-{/* 
-           <div className="input-box">
-            <div className="details-container">
-              <span className="details">Google Location</span>
-              <span className="required">*</span>
-            </div>
-            <LoadScript googleMapsApiKey={GOOGLE_MAPS_API_KEY} libraries={["places"]}>
-              <StandaloneSearchBox onLoad={(ref) => setSearchBox(ref)} onPlacesChanged={onPlacesChanged}>
-                <input type="text" placeholder="Search location..." required />
-              </StandaloneSearchBox>
-            </LoadScript>
-          </div> */}
-
           <div className="input-box">
               <span className="details">Latitude</span>
-            <input type="text" name="latitude" 
-                 value={formData.latitude} onChange={handleChange}/>
+          <CInputGroup className="input-icon">
+          <CInputGroupText><CIcon icon={cilChartLine} /></CInputGroupText>
+           <CFormInput
+    type="text"
+    name="latitude"
+    value={formData.latitude}
+    onChange={handleChange}
+  />
+</CInputGroup>
           </div>
 
           <div className="input-box">
               <span className="details">Longitude</span>
-            <input type="text" name="longitude" 
-                 value={formData.longitude} onChange={handleChange}/>
+                  <CInputGroup className="input-icon">
+          <CInputGroupText><CIcon icon={cilChart} /></CInputGroupText>
+           <CFormInput
+    type="text"
+    name="longitude"
+    value={formData.longitude}
+    onChange={handleChange}
+  />
+</CInputGroup>
           </div>
-     </div>
-     <hr/>
-     <div className="user-details">
       <div className="input-box">
         <span className="details">GST number</span>
-        <input type="text" name="gst_number" 
-                 value={formData.gst_number} onChange={handleChange}/>
+                   <CInputGroup className="input-icon">
+          <CInputGroupText><CIcon icon={cilPaperPlane} /></CInputGroupText>
+           <CFormInput
+    type="text"
+    name="gst_number"
+    value={formData.gst_number}
+    onChange={handleChange}
+  />
+</CInputGroup>
       </div>
       <div className="input-box">
         <span className="details">Total sectors</span>
-        <input type="text" name="total_sectors" 
-                 value={formData.total_sectors} onChange={handleChange}/>
+                   <CInputGroup className="input-icon">
+          <CInputGroupText><CIcon icon={cilBuilding} /></CInputGroupText>
+           <CFormInput
+    type="text"
+    name="total_sectors"
+    value={formData.total_sectors}
+    onChange={handleChange}
+  />
+</CInputGroup>
       </div>
 
       <div className="input-box">
         <span className="details">Total blocks</span>
-        <input type="text" name="total_blocks" 
-                 value={formData.total_blocks} onChange={handleChange}/>
+                   <CInputGroup className="input-icon">
+          <CInputGroupText><CIcon icon={cilGrid} /></CInputGroupText>
+           <CFormInput
+    type="text"
+    name="total_blocks"
+    value={formData.total_blocks}
+    onChange={handleChange}
+  />
+</CInputGroup>
       </div>
 
       <div className="input-box">
         <span className="details">Total units</span>
-        <input type="text" name="total_units" 
-                 value={formData.total_units} onChange={handleChange}/>
+                   <CInputGroup className="input-icon">
+          <CInputGroupText><CIcon icon={cilViewModule} /></CInputGroupText>
+           <CFormInput
+    type="text"
+    name="total_units"
+    value={formData.total_units}
+    onChange={handleChange}
+  />
+</CInputGroup>
       </div>
       <div className="input-box">
         <span className="details">Total offices</span>
-        <input type="text" name="total_offices" 
-                 value={formData.total_offices} onChange={handleChange}/>
+                   <CInputGroup className="input-icon">
+          <CInputGroupText><CIcon icon={cilBriefcase} /></CInputGroupText>
+           <CFormInput
+    type="text"
+    name="total_offices"
+    value={formData.total_offices}
+    onChange={handleChange}
+  />
+</CInputGroup>
       </div>
       <div className="input-box">
         <span className="details">Total amenities</span>
-        <input type="text" name="total_amenities" 
-                 value={formData.total_amenities} onChange={handleChange}/>
+                   <CInputGroup className="input-icon">
+          <CInputGroupText><CIcon icon={cilPool} /></CInputGroupText>
+           <CFormInput
+    type="text"
+    name="total_amenities"
+    value={formData.total_amenities}
+    onChange={handleChange}
+  />
+</CInputGroup>
       </div>
 
       <div className="input-box">
         <span className="details">Total gates</span>
-        <input type="text" name="total_gates" 
-                 value={formData.total_gates} onChange={handleChange}/>
+                   <CInputGroup className="input-icon">
+          <CInputGroupText><CIcon icon={cilDoor} /></CInputGroupText>
+           <CFormInput
+    type="text"
+    name="total_gates"
+    value={formData.total_gates}
+    onChange={handleChange}
+  />
+</CInputGroup>
       </div>
 
       <div className="input-box">
         <span className="details">Total parkings</span>
-        <input type="text" name="total_parkings" 
-                 value={formData.total_parkings} onChange={handleChange}/>
+            <CInputGroup className="input-icon">
+          <CInputGroupText><CIcon icon={cilCarAlt} /></CInputGroupText>
+           <CFormInput
+    type="text"
+    name="total_parkings"
+    value={formData.total_parkings}
+    onChange={handleChange}
+  />
+</CInputGroup>
       </div>
 
       <div className="input-box">
         <span className="details">Total guest parking</span>
-        <input type="text" name="total_guest_parking" 
-                 value={formData.total_guest_parking} onChange={handleChange}/>
+                   <CInputGroup className="input-icon">
+          <CInputGroupText><CIcon icon={cilCarAlt} /></CInputGroupText>
+           <CFormInput
+    type="text"
+    name="total_guest_parking"
+    value={formData.total_guest_parking}
+    onChange={handleChange}
+  />
+</CInputGroup>
       </div>
       <div className="input-box">
       <div className="details-container">
         <span className="details">Min sub members allow</span>
         <span className="required">*</span>
         </div>
-        <input type="text" name="min_sub_members_allow" 
-                 value={formData.min_sub_members_allow} onChange={handleChange}/>
+                   <CInputGroup className="input-icon">
+          <CInputGroupText><CIcon icon={cilGroup} /></CInputGroupText>
+           <CFormInput
+    type="text"
+    name="min_sub_members_allow"
+    value={formData.min_sub_members_allow}
+    onChange={handleChange}
+  />
+</CInputGroup>
           {errors.min_sub_members_allow && <p className="error">{errors.min_sub_members_allow}</p>}
       </div>
       <div className="input-box">
@@ -371,17 +481,31 @@ return(
         <span className="details">Min cars allow</span>
         <span className="required">*</span>
         </div>
-        <input type="text" name="min_cars_allow" 
-                 value={formData.min_cars_allow} onChange={handleChange}/>
           {errors.min_cars_allow && <p className="error">{errors.min_cars_allow}</p>}
+          <CInputGroup className="input-icon">
+          <CInputGroupText><CIcon icon={cilCarAlt} /></CInputGroupText>
+           <CFormInput
+    type="text"
+    name="min_cars_allow"
+    value={formData.min_cars_allow}
+    onChange={handleChange}
+  />
+</CInputGroup>
       </div>
       <div className="input-box">
       <div className="details-container">
         <span className="details">Min bikes allow</span>
         <span className="required">*</span>
         </div>
-        <input type="text" name="min_bikes_allow" 
-                 value={formData.min_bikes_allow} onChange={handleChange}/>
+                   <CInputGroup className="input-icon">
+          <CInputGroupText><CIcon icon={cilBike} /></CInputGroupText>
+           <CFormInput
+    type="text"
+    name="min_bikes_allow"
+    value={formData.min_bikes_allow}
+    onChange={handleChange}
+  />
+</CInputGroup>
           {errors.min_bikes_allow && <p className="error">{errors.min_bikes_allow}</p>}
       </div>
       <div className="input-box">
@@ -389,22 +513,31 @@ return(
         <span className="details">Min house helps allow</span>
         <span className="required">*</span>
         </div>
-        <input type="text" name="min_house_helps_allow" 
-                 value={formData.min_house_helps_allow} onChange={handleChange}/>
+                   <CInputGroup className="input-icon">
+          <CInputGroupText><CIcon icon={cilUserFemale} /></CInputGroupText>
+           <CFormInput
+    type="text"
+    name="min_house_helps_allow"
+    value={formData.min_house_helps_allow}
+    onChange={handleChange}
+  />
+</CInputGroup>
           {errors.min_house_helps_allow && <p className="error">{errors.min_house_helps_allow}</p>}
       </div>
-      </div>
-
-       <h2>Chairman Details</h2>
-      <hr/>
-      <div className="user-details">
       <div className="input-box">
       <div className="details-container">
         <span className="details">Chairman name</span>
         <span className="required">*</span>
         </div>
-        <input type="text" name="chairman_name" 
-                 value={formData.chairman_name} onChange={handleChange}/>
+<CInputGroup className="input-icon">
+          <CInputGroupText><CIcon icon={cilPeople} /></CInputGroupText>
+           <CFormInput
+    type="text"
+    name="chairman_name"
+    value={formData.chairman_name}
+    onChange={handleChange}
+  />
+</CInputGroup>
           {errors.chairman_name && <p className="error">{errors.chairman_name}</p>}
       </div>
 
@@ -413,8 +546,15 @@ return(
         <span className="details">Contact number</span>
         <span className="required">*</span>
         </div>
-        <input type="text" name="chairman_contact_no" 
-                 value={formData.chairman_contact_no} onChange={handleChange}/>
+                 <CInputGroup className="input-icon">
+          <CInputGroupText><CIcon icon={cilPhone} /></CInputGroupText>
+           <CFormInput
+    type="text"
+    name="chairman_contact_no"
+    value={formData.chairman_contact_no}
+    onChange={handleChange}
+  />
+</CInputGroup>
           {errors.chairman_contact_no && <p className="error">{errors.chairman_contact_no}</p>}
       </div>
 
@@ -423,22 +563,31 @@ return(
         <span className="details">Email</span>
         <span className="required">*</span>
         </div>
-        <input type="text" name="chairman_email" 
-                 value={formData.chairman_email} onChange={handleChange}/>
+                 <CInputGroup className="input-icon">
+          <CInputGroupText><CIcon icon={cilEnvelopeClosed} /></CInputGroupText>
+           <CFormInput
+    type="text"
+    name="chairman_email"
+    value={formData.chairman_email}
+    onChange={handleChange}
+  />
+</CInputGroup>
           {errors.chairman_email && <p className="error">{errors.chairman_email}</p>}
       </div>
-      </div>
-      
-      <h2>Emergency  Details</h2>
-      <hr/>
-      <div className="user-details">
       <div className="input-box">
       <div className="details-container">
         <span className="details">Emergency name</span>
         <span className="required">*</span>
         </div>
-        <input type="text" name="emergency_name" 
-                 value={formData.emergency_name} onChange={handleChange}/>
+                  <CInputGroup className="input-icon">
+          <CInputGroupText><CIcon icon={cilUser} /></CInputGroupText>
+           <CFormInput
+    type="text"
+    name="emergency_name"
+    value={formData.emergency_name}
+    onChange={handleChange}
+  />
+</CInputGroup>
           {errors.emergency_name && <p className="error">{errors.emergency_name}</p>}
       </div>
       <div className="input-box">
@@ -446,8 +595,15 @@ return(
         <span className="details">Emergency contact number</span>
         <span className="required">*</span>
         </div>
-        <input type="text" name="emergency_contact_no" 
-                 value={formData.emergency_contact_no} onChange={handleChange}/>
+                   <CInputGroup className="input-icon">
+          <CInputGroupText><CIcon icon={cilPhone} /></CInputGroupText>
+           <CFormInput
+    type="text"
+    name="emergency_contact_no"
+    value={formData.emergency_contact_no}
+    onChange={handleChange}
+  />
+</CInputGroup>
           {errors.emergency_contact_no && <p className="error">{errors.emergency_contact_no}</p>}
       </div>
       <div className="input-box">
@@ -455,21 +611,31 @@ return(
         <span className="details">Emergency email</span>
         <span className="required">*</span>
         </div>
-        <input type="text" name="emergency_email" 
-                 value={formData.emergency_email} onChange={handleChange}/>
+                   <CInputGroup className="input-icon">
+          <CInputGroupText><CIcon icon={cilEnvelopeClosed} /></CInputGroupText>
+           <CFormInput
+    type="text"
+    name="emergency_email"
+    value={formData.emergency_email}
+    onChange={handleChange}
+  />
+</CInputGroup>
           {errors.emergency_email && <p className="error">{errors.emergency_email}</p>}
       </div>
-
-     </div>
-      <hr/>
-     <div className="user-details">
       <div className="input-box">
       <div className="details-container">
         <span className="details">Additional parking charges</span>
         <span className="required">*</span>
         </div>
-        <input type="text" name="additional_parking_charges" 
-                 value={formData.additional_parking_charges} onChange={handleChange}/>
+          <CInputGroup className="input-icon">
+          <CInputGroupText><CIcon icon={cilMoney} /></CInputGroupText>
+           <CFormInput
+    type="text"
+    name="additional_parking_charges"
+    value={formData.additional_parking_charges}
+    onChange={handleChange}
+  />
+</CInputGroup>
           {errors.additional_parking_charges && <p className="error">{errors.additional_parking_charges}</p>}
       </div>
       <div className="input-box">
@@ -477,12 +643,20 @@ return(
         <span className="details">Is payment gateway visible</span>
         <span className="required">*</span>
         </div>
-       <select name="is_payment_gateway_visible" 
-                 value={formData.is_payment_gateway_visible} onChange={handleChange}>
-        <option value="">-Select-</option>
-        <option value="yes">Yes</option>
-        <option value="no">No</option>
-       </select>
+     <CInputGroup>
+    <CInputGroupText className="input-icon">
+      <CIcon icon={cilToggleOff} />
+    </CInputGroupText>
+    <CFormSelect
+      name="is_payment_gateway_visible"
+      value={formData.is_payment_gateway_visible}
+      onChange={handleChange}
+    >
+      <option value="">-Select-</option>
+      <option value="yes">Yes</option>
+    <option value="no">No</option>
+    </CFormSelect>
+      </CInputGroup>
        {errors.is_payment_gateway_visible && <p className="error">{errors.is_payment_gateway_visible}</p>}
       </div>
       <div className="input-box">
@@ -490,11 +664,20 @@ return(
         <span className="details">Status</span>
         <span className="required">*</span>
         </div>
-       <select name="status" value={formData.status} onChange={handleChange}>
-         <option value="">-Select-</option>
-         <option value="active">Active</option>
-         <option value="inactive">Inactive</option>
-       </select>
+        <CInputGroup>
+    <CInputGroupText className="input-icon">
+      <CIcon icon={cilCheckCircle} />
+    </CInputGroupText>
+    <CFormSelect
+      name="status"
+      value={formData.status}
+      onChange={handleChange}
+    >
+      <option value="">-Select-</option>
+      <option value="active">Active</option>
+      <option value="inactive">Inactive</option>
+    </CFormSelect>
+      </CInputGroup>
        {errors.status && <p className="error">{errors.status}</p>}
       </div>
     </div>

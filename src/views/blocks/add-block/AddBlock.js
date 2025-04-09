@@ -4,7 +4,14 @@ import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "src/axiosInstance";
 import { jwtDecode } from "jwt-decode";
-
+import {
+  CInputGroup,
+  CInputGroupText,
+  CFormInput,
+  CFormSelect,
+} from '@coreui/react';
+import CIcon from '@coreui/icons-react';
+import { cilBuilding, cilCheckCircle,cilGrid,cilHome, cilLayers, cilViewModule } from '@coreui/icons';
 function AddBlock(){
 const [formData, setFormData] = useState({
         property_id: '',
@@ -184,14 +191,23 @@ const [formData, setFormData] = useState({
                 <span className="details">Property Name</span>
                 <span className="required">*</span>
               </div>
-              <select name="property_id" value={formData.property_id} onChange={handleChange}>
-                    <option value="">-Select Property-</option>
-                    {properties.map((property) => (
-                    <option key={property.id} value={property.id}>
-                        {property.property_name}
-                    </option>
-                    ))}
-              </select>
+              <CInputGroup>
+    <CInputGroupText className="input-icon">
+      <CIcon icon={cilHome} />
+    </CInputGroupText>
+    <CFormSelect
+      name="property_id"
+      value={formData.property_id}
+      onChange={handleChange}
+    >
+      <option value="">-Select Property-</option>
+      {properties.map((property) => (
+        <option key={property.id} value={property.id}>
+          {property.property_name}
+        </option>
+      ))}
+    </CFormSelect>
+  </CInputGroup>
               {errors.property_id && <p className="error">{errors.property_id}</p>}
             </div>
 
@@ -200,14 +216,24 @@ const [formData, setFormData] = useState({
                 <span className="details">Property sector</span>
                 <span className="required">*</span>
               </div>
-              <select name="property_sector_id" value={formData.property_sector_id} onChange=        {handleChange}>
-                 <option value="">-Select Sector-</option>
+
+      <CInputGroup>
+    <CInputGroupText className="input-icon">
+      <CIcon icon={cilBuilding} />
+    </CInputGroupText>
+    <CFormSelect
+      name="property_sector_id"
+      value={formData.property_sector_id}
+      onChange={handleChange}
+    >
+      <option value="">-Select Sector-</option>
                     {sectors.map((sector) => (
                     <option key={sector.id} value={sector.id}>
                       {sector.sector_name}
                     </option>
-                    ))}
-                 </select>
+      ))}
+    </CFormSelect>
+  </CInputGroup>
 
               {errors.property_sector_id && <p className="error">{errors.property_sector_id}</p>}
             </div>
@@ -217,7 +243,15 @@ const [formData, setFormData] = useState({
               <span className="details">Block name</span>
               <span className="required">*</span>
             </div>
-            <input type="text" name="block_name"  value={formData.block_name} onChange={handleChange} />
+            <CInputGroup className="input-icon">
+          <CInputGroupText><CIcon icon={cilGrid} /></CInputGroupText>
+           <CFormInput
+               type="text"
+               name="block_name"
+               value={formData.block_name}
+               onChange={handleChange}
+             />
+             </CInputGroup>
             {errors.block_name && <p className="error">{errors.block_name}</p>}
         </div>
     
@@ -226,7 +260,15 @@ const [formData, setFormData] = useState({
               <span className="details">Total units</span>
               <span className="required">*</span>
             </div>
-            <input type="text" name="total_units"  value={formData.total_units} onChange={handleChange} />
+            <CInputGroup className="input-icon">
+          <CInputGroupText><CIcon icon={cilLayers} /></CInputGroupText>
+           <CFormInput
+               type="text"
+               name="total_units"
+               value={formData.total_units}
+               onChange={handleChange}
+             />
+             </CInputGroup>
             {errors.total_units && <p className="error">{errors.total_units}</p>}
         </div>
 
@@ -235,7 +277,15 @@ const [formData, setFormData] = useState({
               <span className="details">Unit number start from</span>
               <span className="required">*</span>
             </div>
-            <input type="text" name="unit_number_start_from"  value={formData.unit_number_start_from} onChange={handleChange} />
+            <CInputGroup className="input-icon">
+          <CInputGroupText><CIcon icon={cilViewModule} /></CInputGroupText>
+           <CFormInput
+               type="text"
+               name="unit_number_start_from"
+               value={formData.unit_number_start_from}
+               onChange={handleChange}
+             />
+             </CInputGroup>
             {errors.unit_number_start_from && <p className="error">{errors.unit_number_start_from}</p>}
         </div>
 
@@ -244,7 +294,15 @@ const [formData, setFormData] = useState({
               <span className="details">Unit number end to</span>
               <span className="required">*</span>
             </div>
-            <input type="text" name="unit_number_end_to"  value={formData.unit_number_end_to} onChange={handleChange} />
+            <CInputGroup className="input-icon">
+          <CInputGroupText><CIcon icon={cilViewModule} /></CInputGroupText>
+           <CFormInput
+               type="text"
+               name="unit_number_end_to"
+               value={formData.unit_number_end_to}
+               onChange={handleChange}
+             />
+             </CInputGroup>
             {errors.unit_number_end_to && <p className="error">{errors.unit_number_end_to}</p>}
         </div>
       <div className="input-box">
@@ -252,16 +310,24 @@ const [formData, setFormData] = useState({
         <span className="details">Status</span>
         <span className="required">*</span>
         </div>
-       <select name="status" value={formData.status} onChange={handleChange} >
-         <option value="">-Select-</option>
-         <option value="active">Active</option>
-         <option value="inactive">Inactive</option>
-       </select>
+        <CInputGroup>
+    <CInputGroupText className="input-icon">
+      <CIcon icon={cilCheckCircle} />
+    </CInputGroupText>
+    <CFormSelect
+      name="status"
+      value={formData.status}
+      onChange={handleChange}
+    >
+      <option value="">-Select-</option>
+      <option value="active">Active</option>
+      <option value="inactive">Inactive</option>
+    </CFormSelect>
+      </CInputGroup>
        {errors.status && <p className="error">{errors.status}</p>}
       </div>
 
      </div>
-     <hr/>
     <div className="button-row">
       <button type="submit" className="simple-button primary-button">Save</button>
       <button type="button" className="simple-button secondary-button" onClick={handleCancel} >Cancel</button>

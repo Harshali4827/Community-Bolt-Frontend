@@ -206,7 +206,7 @@ const handleDelete = async (id) => {
           </button>
         </div>
         <Link to='/users/add-user'>
-          <button className="new-user-btn" >+ New User</button>
+          <button className="new-user-btn" >+ New Member</button>
         </Link>
       </div>
       <div className="table-responsive">

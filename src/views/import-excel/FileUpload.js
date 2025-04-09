@@ -131,7 +131,7 @@ const FileUpload = () => {
       </div>
 
       <button onClick={handleUpload} className="import-button">
-        Upload File
+        Import Data
       </button>
     </div>
   );
