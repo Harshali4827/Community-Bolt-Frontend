@@ -4,25 +4,51 @@ import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "src/axiosInstance";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { jwtDecode } from "jwt-decode";
 import {
   CInputGroup,
   CInputGroupText,
   CFormInput,
   CFormSelect,
-  CNav,
-  CNavItem,
-  CNavLink,
-  CTabContent,
-  CTabPane
 } from '@coreui/react';
 import CIcon from '@coreui/icons-react';
-import { cilHome, cilLocationPin, cilCheckCircle, cilImage, cilGlobeAlt, cilMap, cilBuilding, cilPaperPlane, cilGrid, cilViewModule, cilBriefcase, cilPool, cilDoor, cilCarAlt, cilGroup, cilBike, cilUserFemale, cilPhone, cilPeople, cilUser, cilMoney, cilToggleOff, cilEnvelopeClosed, cilChart, cilChartLine, cilLayers, cilElevator, cilGarage, cilListRich, cilBank, cilBarcode, cilContact, cilCreditCard, cilDollar, cilList, cilLockLocked, cilShieldAlt, cilToggleOn, cilUserFollow, cilWallet, cilTransfer } from '@coreui/icons';
-
+import { cilHome,cilLocationPin, cilCheckCircle, cilImage, cilGlobeAlt, cilMap, cilBuilding, cilPaperPlane, cilGrid, cilViewModule, cilBriefcase, cilPool, cilDoor, cilCarAlt, cilGroup, cilBike, cilUserFemale, cilPhone, cilPeople, cilUser,cilMoney, cilToggleOff, cilEnvelopeClosed,cilChart, cilChartLine, cilLayers, cilElevator, cilGarage, cilListRich, cilBank,cilBarcode,cilContact,cilCreditCard,cilDollar,cilList,cilLockLocked,cilShieldAlt, cilToggleOn, cilUserFollow, cilWallet, cilTransfer } from '@coreui/icons';
 function AddProperty() {
   const [formData, setFormData] = useState({
-    // ... your existing formData state
+    property_name: '',
+    logo: '',
+    address: '',
+    country_id: '',
+    city_id: '',
+    state_id: '',
+    google_location: '',
+    latitude: '',
+    longitude: '',
+    gst_number: '',
+    total_sectors: '0',
+    total_blocks: '0',
+    total_units: '0',
+    total_offices: '0',
+    total_amenities: '0',
+    total_gates: '0',
+    total_parkings: '0',
+    total_guest_parking: '0',
+    min_sub_members_allow: '',
+    min_cars_allow: '',
+    min_bikes_allow: '',
+    min_house_helps_allow: '',
+    chairman_name: '',
+    chairman_contact_no: '',
+    chairman_email: '',
+    emergency_name: '',
+    emergency_contact_no: '',
+    emergency_email: '',
+    additional_parking_charges: '',
+    is_payment_gateway_visible: '',
+    status: 'active',
+    ip_address: '',
+    created_by: ''
   });
 
   const [sectors, setSectors] = useState([]);
@@ -33,17 +59,7 @@ function AddProperty() {
   const [offices, setOffices] = useState([]);
   const [amenityMasters, setAmenityMasters] = useState(false);
   const [errors, setErrors] = useState({});
-  const [activeTab, setActiveTab] = useState('sectors');
   const navigate = useNavigate();
-  const [tabsInitialized, setTabsInitialized] = useState({
-    sectors: false,
-    gates: false,
-    assets: false,
-    amenities: false,
-    banks: false,
-    offices: false
-  });
-
   const addSector = () => {
     setSectors([...sectors, { 
       sector_name: '', 
@@ -92,34 +108,6 @@ function AddProperty() {
   const addAmenity = () => setAmenities([...amenities,{property_sector_id:'',property_block_id:'',property_unit_id:'', amenity_id:'',amenity_details:''}])
 
   const addOffice = () => setOffices([...offices,{property_sector_id:'',property_block_id:'',property_unit_id:'',office_name:'',office_description:'',office_contact:''}])
-
-  useEffect(() => {
-    if (activeTab === 'sectors' && !tabsInitialized.sectors && sectors.length === 0) {
-      addSector();
-      setTabsInitialized(prev => ({...prev, sectors: true}));
-    }
-    if (activeTab === 'gates' && !tabsInitialized.gates && gates.length === 0) {
-      addGate();
-      setTabsInitialized(prev => ({...prev, gates: true}));
-    }
-    if (activeTab === 'assets' && !tabsInitialized.assets && assets.length === 0) {
-      addAssets();
-      setTabsInitialized(prev => ({...prev, assets: true}));
-    }
-    if (activeTab === 'amenities' && !tabsInitialized.amenities && amenities.length === 0) {
-       addAmenity();
-      setTabsInitialized(prev => ({...prev, amenities: true}));
-    }
-    if (activeTab === 'banks' && !tabsInitialized.banks && banks.length === 0) {
-       addBanks();
-      setTabsInitialized(prev => ({...prev, banks: true}));
-    }
-    if (activeTab === 'offices' && !tabsInitialized.offices && offices.length === 0) {
-       addOffice();
-      setTabsInitialized(prev => ({...prev, offices: true}));
-    }
-  }, [activeTab, tabsInitialized, sectors.length, gates.length, assets.length, amenities.length, banks.length, offices.length]);
-
 
   const handleInputChange = (e, indexes = {}) => {
     const { sectorIndex, blockIndex, unitIndex, gateIndex, assetIndex, bankIndex, amenityIndex, officeIndex} = indexes;
@@ -292,10 +280,54 @@ function AddProperty() {
       ip_address: formData.ip_address,
       created_by: formData.created_by
     }));
+
+     const banksData = banks.map(bank => ({
+      bank_name: bank.bank_name,
+      bank_branch: bank.bank_branch,
+      bank_ifsc: bank.bank_ifsc,
+      bank_account_number: bank.bank_account_number,
+      bank_account_type: bank.bank_account_type,
+      bank_account_name: bank.bank_account_name,
+      bank_account_holder: bank.bank_account_holder,
+      is_primary: bank.is_primary,
+      is_payment_gateway: bank.is_payment_gateway,
+      payment_gateway_name: bank.payment_gateway_name,
+      merchant_name: bank.merchant_name,
+      payment_gateway_mode: bank.payment_gateway_mode,
+      live_key_id: bank.live_key_id,
+      live_secret_key: bank.live_secret_key,
+      live_account_number: bank.live_account_number,
+      test_key_id: bank.test_key_id,
+      test_secret_key: bank.test_secret_key,
+      test_account_number: bank.test_account_number,
+      currency: bank.currency,
+      payment_gateway_status: bank.payment_gateway_status,
+      status:bank.status,
+      ip_address: formData.ip_address,
+      created_by: formData.created_by
+    }));
+    const amenitiesData = amenities.map(amenity => ({
+      amenity_id: amenity.amenity_id,
+      amenity_details: amenity.amenity_details,
+      ip_address: formData.ip_address,
+      created_by: formData.created_by
+    }));
+    const officesData = offices.map(office => ({
+      office_name: office.office_name,
+      office_description: office.office_description,
+      office_contact: office.office_contact,
+      ip_address: formData.ip_address,
+      created_by: formData.created_by
+    }));
+
     form.append('sectors', JSON.stringify(sectorsData));
     form.append('blocks', JSON.stringify(blocksData));
     form.append('units', JSON.stringify(unitsData));
     form.append('gates', JSON.stringify(gatesData));
+    form.append('assets', JSON.stringify(assetsData));
+    form.append('banks', JSON.stringify(banksData));
+    form.append('amenities', JSON.stringify(amenitiesData));
+    form.append('offices', JSON.stringify(officesData));
 
     try {
       const response = await axiosInstance.post('/add-all', form, {
@@ -342,32 +374,8 @@ function AddProperty() {
     if (!formData.is_payment_gateway_visible) errors.is_payment_gateway_visible = 'Required'
     return errors;
   };
- 
+
   const handleCancel = () => navigate('/property/property-list');
-  const removeItem = (section, index) => {
-    switch(section) {
-      case 'sectors':
-        setSectors(sectors.filter((_, i) => i !== index));
-        break;
-      case 'gates':
-        setGates(gates.filter((_, i) => i !== index));
-        break;
-      case 'assets':
-        setAssets(assets.filter((_, i) => i !== index));
-        break;
-      case 'amenities':
-        setAmenities(amenities.filter((_, i) => i !== index));
-        break;
-      case 'banks':
-        setBanks(banks.filter((_, i) => i !== index));
-        break;
-      case 'offices':
-        setOffices(offices.filter((_, i) => i !== index));
-        break;
-      default:
-        break;
-    }
-  };
 
   return (
     <div className="form-container">
@@ -377,8 +385,8 @@ function AddProperty() {
         </div>
         <form onSubmit={handleSubmit}>
           
-          <div className="user-details">
-             <div className="input-box">
+        <div className="user-details">
+        <div className="input-box">
             <div className="details-container">
               <span className="details">Property name</span>
               <span className="required">*</span>
@@ -827,84 +835,31 @@ function AddProperty() {
       </CInputGroup>
        {errors.is_payment_gateway_visible && <p className="error">{errors.is_payment_gateway_visible}</p>}
       </div>
+            <div className="button-all">
+              <button type="button" className="custom-button mb-2 px-2 py-1 bg-blue-500 text-white rounded" onClick={addSector}>
+                <FontAwesomeIcon icon={faPlus} />&nbsp; Add Sector
+              </button>
+              <button type="button" className="custom-button mb-2 px-2 py-1 bg-blue-500 text-white rounded" onClick={addGate}>
+                <FontAwesomeIcon icon={faPlus} />&nbsp; Add Gate
+              </button>
+              <button type="button" className="custom-button mb-2 px-2 py-1 bg-blue-500 text-white rounded" onClick={addAssets}>
+                <FontAwesomeIcon icon={faPlus} />&nbsp; Add Assets
+              </button>
+              <button type="button" className="custom-button mb-2 px-2 py-1 bg-blue-500 text-white rounded" onClick={addBanks}>
+                <FontAwesomeIcon icon={faPlus} />&nbsp; Add Bank
+              </button>
+              <button type="button" className="custom-button mb-2 px-2 py-1 bg-blue-500 text-white rounded" onClick={addAmenity}>
+                <FontAwesomeIcon icon={faPlus} />&nbsp; Add Amenity
+              </button>
+              <button type="button" className="custom-button mb-2 px-2 py-1 bg-blue-500 text-white rounded" onClick={addOffice}>
+                <FontAwesomeIcon icon={faPlus} />&nbsp; Add Office
+              </button>
+            </div>
           </div>
-
-          <CNav variant="tabs" className="mt-4 mb-3">
-            <CNavItem>
-              <CNavLink
-                active={activeTab === 'sectors'}
-                onClick={() => setActiveTab('sectors')}
-              >
-                Sectors
-              </CNavLink>
-            </CNavItem>
-            <CNavItem>
-              <CNavLink
-                active={activeTab === 'gates'}
-                onClick={() => setActiveTab('gates')}
-              >
-                Gates
-              </CNavLink>
-            </CNavItem>
-            <CNavItem>
-              <CNavLink
-                active={activeTab === 'assets'}
-                onClick={() => setActiveTab('assets')}
-              >
-                Assets
-              </CNavLink>
-            </CNavItem>
-            <CNavItem>
-              <CNavLink
-                active={activeTab === 'banks'}
-                onClick={() => setActiveTab('banks')}
-              >
-                Banks
-              </CNavLink>
-            </CNavItem>
-            <CNavItem>
-              <CNavLink
-                active={activeTab === 'amenities'}
-                onClick={() => setActiveTab('amenities')}
-              >
-                Amenities
-              </CNavLink>
-            </CNavItem>
-            <CNavItem>
-              <CNavLink
-                active={activeTab === 'offices'}
-                onClick={() => setActiveTab('offices')}
-              >
-                Offices
-              </CNavLink>
-            </CNavItem>
-          </CNav>
-
-          <CTabContent>
-            <CTabPane visible={activeTab === 'sectors'}>
-              
-               {sectors.map((sector, sectorIndex) => (
-              <div key={sectorIndex} className="mb-4 p-2 border rounded">
-                 <div className="title">
-  <h5>Sector {sectorIndex + 1}</h5>
-
-  <div className="button-all">
-    <button 
-      type="button" 
-      className="custom-button"
-      onClick={addSector}
-    >
-      <FontAwesomeIcon icon={faPlus} />&nbsp; Add Sector
-    </button>
-    <button 
-      type="button" 
-      className="close-button"
-      onClick={() => removeItem('sectors', sectorIndex)}
-    >
-      <FontAwesomeIcon icon={faTimes} />
-    </button>
-  </div>
-</div>
+          <hr />
+          {sectors.map((sector, sectorIndex) => (
+            <div key={sectorIndex} className="mb-4 p-2 border rounded">
+               <h5>Sector {sectorIndex + 1}</h5>
                <div className="user-details">
               <div className="input-box">
                 <span className="details">Sector Name</span>
@@ -1012,107 +967,69 @@ function AddProperty() {
             </div>
           ))}
 
-            </CTabPane>
-            <CTabPane visible={activeTab === 'gates'}>
-                       {gates.map((gate, index) => (
-                     <div key={index} className="mb-4 p-2 border rounded">
-                   <div className="title">
-                     <h5>Gate {index + 1}</h5>
+{gates.map((gate, index) => (
+     <div key={index} className="mb-4 p-2 border rounded">
+        <h5>Gate {index+1}</h5>
+      <div className="user-details">
+        <div className="input-box">
+          <div className="details-container">
+              <span className="details">Gate name</span>
+              <span className="required">*</span>
+        </div>
+             <CInputGroup>
+        <CInputGroupText className="input-icon">
+           <CIcon icon={cilGarage} />
+        </CInputGroupText>
+         <CFormInput
+            type="text"
+            name="gate_name"
+            value={gate.gate_name} onChange={(e) => handleInputChange(e, { gateIndex: index })} 
+          />
+       </CInputGroup>
+             {errors.gate_name && <p className="error">{errors.gate_name}</p>}
+        </div>
+      
+         <div className="input-box">
+              <span className="details">Description</span>
+              <textarea 
+            name="gate_description"  value={gate.gate_description} onChange={(e) => handleInputChange(e, { gateIndex: index })}
+            />
+            {errors.gate_description && <p className="error">{errors.gate_description}</p>}
+        </div>
 
-                 <div className="button-all">
-                    <button 
-                      type="button" 
-                      className="custom-button"
-                      onClick={addGate}
-                    >
-                     <FontAwesomeIcon icon={faPlus} />&nbsp; Add Gate
-                   </button>
-                  <button 
-                       type="button" 
-                       className="close-button"
-                       onClick={() => removeItem('gates', index)}
-                  >
-                   <FontAwesomeIcon icon={faTimes} />
-               </button>
-              </div>
-             </div>
+    <div className="input-box">
+       <div className="details-container">
+        <span className="details">Is main gate</span>
+        <span className="required">*</span>
+        </div>
+       <CInputGroup>
+    <CInputGroupText className="input-icon">
+      <CIcon icon={cilCheckCircle} />
+    </CInputGroupText>
+    <CFormSelect
+      name="is_main_gate"
+      value={gate.is_main_gate} onChange={(e) => handleInputChange(e, { gateIndex: index })}
+    >
+      <option>-Select-</option>
+      <option value="1">Yes</option>
+      <option value="0">No</option>
+    </CFormSelect>
+  </CInputGroup>
+       {errors.is_main_gate && <p className="error">{errors.is_main_gate}</p>}
+      </div>
+     </div>
+     </div>
+     ))} 
 
-            <div className="user-details">
-              <div className="input-box">
-                  <span className="details">Gate name</span>
-                <CInputGroup>
-                  <CInputGroupText className="input-icon">
-                    <CIcon icon={cilGarage} />
-                  </CInputGroupText>
-                  <CFormInput
-                    type="text"
-                    name="gate_name"
-                    value={gate.gate_name}
-                    onChange={(e) => handleInputChange(e, { gateIndex: index })}
-                  />
-                </CInputGroup>
-                {errors.gate_name && <p className="error">{errors.gate_name}</p>}
-              </div>
-              
-              <div className="input-box">
-                <span className="details">Description</span>
-                <textarea
-                  name="gate_description"
-                  value={gate.gate_description}
-                  onChange={(e) => handleInputChange(e, { gateIndex: index })}
-                />
-                {errors.gate_description && <p className="error">{errors.gate_description}</p>}
-              </div>
-
-              <div className="input-box">
-                  <span className="details">Is main gate</span>
-                <CInputGroup>
-                  <CInputGroupText className="input-icon">
-                    <CIcon icon={cilCheckCircle} />
-                  </CInputGroupText>
-                  <CFormSelect
-                    name="is_main_gate"
-                    value={gate.is_main_gate}
-                    onChange={(e) => handleInputChange(e, { gateIndex: index })}
-                  >
-                    <option>-Select-</option>
-                    <option value="1">Yes</option>
-                    <option value="0">No</option>
-                  </CFormSelect>
-                </CInputGroup>
-                {errors.is_main_gate && <p className="error">{errors.is_main_gate}</p>}
-              </div>
-            </div>
-          </div>
-        ))}
-      </CTabPane>
-            <CTabPane visible={activeTab === 'assets'}>
-            {assets.map ((asset,index) => (
+{assets.map ((asset,index) => (
           <div key={index} className="mb-4 p-2 border rounded">
-              <div className="title">
-                     <h5>Asset {index + 1}</h5>
-
-                 <div className="button-all">
-                    <button 
-                      type="button" 
-                      className="custom-button"
-                      onClick={addAssets}
-                    >
-                     <FontAwesomeIcon icon={faPlus} />&nbsp; Add Asset
-                   </button>
-                  <button 
-                       type="button" 
-                       className="close-button"
-                       onClick={() => removeItem('assets', index)}
-                  >
-                   <FontAwesomeIcon icon={faTimes} />
-               </button>
-              </div>
-             </div>
-
+            <h5>Asset {index+1}</h5>
             <div className="user-details">
          <div className="input-box">
+           <div className="details-container">
               <span className="details">Asset name</span>
+              <span className="required">*</span>
+           </div>
              <CInputGroup className="input-icon">
           <CInputGroupText><CIcon icon={cilBuilding} /></CInputGroupText>
            <CFormInput
@@ -1131,36 +1048,18 @@ function AddProperty() {
      </div>
      </div>
      ))}
-              </CTabPane>
 
-            <CTabPane visible={activeTab === 'banks'}>
-            {banks.map((bank,i) =>(
+{banks.map((bank,i) =>(
   <div key={i} className="mb-4 p-2 border rounded">
-   <div className="title">
-                     <h5>Bank {i+1}</h5>
-
-                 <div className="button-all">
-                    <button 
-                      type="button" 
-                      className="custom-button"
-                      onClick={addBanks}
-                    >
-                     <FontAwesomeIcon icon={faPlus} />&nbsp; Add Bank
-                   </button>
-                  <button 
-                       type="button" 
-                       className="close-button"
-                       onClick={() => removeItem('banks',i)}
-                  >
-                   <FontAwesomeIcon icon={faTimes} />
-               </button>
-              </div>
-             </div>
-
+    <h5>Bank{i+1}</h5>
               <div className="user-details">
                   <div className="input-box">
+                    <div className="details-container">
                         <span className="details">Bank name</span>
-           <CInputGroup className="input-icon">
+                        <span className="required">*</span>
+                  </div>
+
+<CInputGroup className="input-icon">
           <CInputGroupText><CIcon icon={cilBank} /></CInputGroupText>
            <CFormInput
                type="text"
@@ -1172,9 +1071,12 @@ function AddProperty() {
                   </div>
                 
                    <div className="input-box">
+                      <div className="details-container">
                         <span className="details">Branch</span>
+                        <span className="required">*</span>
+                      </div>
                       <CInputGroup className="input-icon">
-                     <CInputGroupText><CIcon icon={cilListRich} /></CInputGroupText>
+          <CInputGroupText><CIcon icon={cilListRich} /></CInputGroupText>
                       <CFormInput
                type="text"
                name="bank_branch"
@@ -1184,7 +1086,10 @@ function AddProperty() {
                       {errors.bank_branch && <p className="error">{errors.bank_branch}</p>}
                   </div> 
                   <div className="input-box">
+                      <div className="details-container">
                         <span className="details">IFSC</span>
+                        <span className="required">*</span>
+                      </div>
                       <CInputGroup className="input-icon">
           <CInputGroupText><CIcon icon={cilBarcode} /></CInputGroupText>
            <CFormInput
@@ -1196,7 +1101,10 @@ function AddProperty() {
                       {errors.bank_ifsc && <p className="error">{errors.bank_ifsc}</p>}
                   </div>
                   <div className="input-box">
+                      <div className="details-container">
                         <span className="details">Account number</span>
+                        <span className="required">*</span>
+                      </div>
                       <CInputGroup className="input-icon">
           <CInputGroupText><CIcon icon={cilWallet} /></CInputGroupText>
            <CFormInput
@@ -1209,7 +1117,10 @@ function AddProperty() {
                   </div>
           
                   <div className="input-box">
+                      <div className="details-container">
                         <span className="details">Account type</span>
+                        <span className="required">*</span>
+                      </div>
                       <CInputGroup className="input-icon">
           <CInputGroupText><CIcon icon={cilList} /></CInputGroupText>
            <CFormInput
@@ -1221,7 +1132,10 @@ function AddProperty() {
                       {errors.bank_account_type && <p className="error">{errors.bank_account_type}</p>}
                   </div>
                   <div className="input-box">
+                      <div className="details-container">
                         <span className="details">Account name</span>
+                        <span className="required">*</span>
+                      </div>
                       <CInputGroup className="input-icon">
           <CInputGroupText><CIcon icon={cilUser} /></CInputGroupText>
            <CFormInput
@@ -1233,7 +1147,11 @@ function AddProperty() {
                       {errors.bank_account_name && <p className="error">{errors.bank_account_name}</p>}
                   </div>
                   <div className="input-box">
+                      <div className="details-container">
                         <span className="details">Account holder</span>
+                        <span className="required">*</span>
+                      </div>
+
                       <CInputGroup className="input-icon">
           <CInputGroupText><CIcon icon={cilContact} /></CInputGroupText>
            <CFormInput
@@ -1244,8 +1162,11 @@ function AddProperty() {
              </CInputGroup>
                       {errors.bank_account_holder && <p className="error">{errors.bank_account_holder}</p>}
                   </div>
-                 <div className="input-box">
+                  <div className="input-box">
+                      <div className="details-container">
                         <span className="details">Is primary</span>
+                        <span className="required">*</span>
+                      </div>
                     <CInputGroup>
     <CInputGroupText className="input-icon">
       <CIcon icon={cilCheckCircle} />
@@ -1261,8 +1182,13 @@ function AddProperty() {
       </CInputGroup>
                       {errors.is_primary && <p className="error">{errors.is_primary}</p>}
                   </div>
-                   <div className="input-box">
+          
+                 
+                  <div className="input-box">
+                      <div className="details-container">
                         <span className="details">Is payment gateway</span>
+                        <span className="required">*</span>
+                      </div>
                       <CInputGroup>
     <CInputGroupText className="input-icon">
       <CIcon icon={cilCreditCard} />
@@ -1282,7 +1208,10 @@ function AddProperty() {
                   {bank.is_payment_gateway === "yes" && (
                       <>
                         <div className="input-box">
+                          <div className="details-container">
                             <span className="details">Payment gateway name</span>
+                            <span className="required">*</span>
+                          </div>
                           <CInputGroup className="input-icon">
           <CInputGroupText><CIcon icon={cilCreditCard} /></CInputGroupText>
            <CFormInput
@@ -1295,7 +1224,10 @@ function AddProperty() {
                         </div>
           
                         <div className="input-box">
+                          <div className="details-container">
                             <span className="details">Merchant name</span>
+                            <span className="required">*</span>
+                          </div>
                           <CInputGroup className="input-icon">
              <CInputGroupText><CIcon icon={cilUserFollow} /></CInputGroupText>
              <CFormInput
@@ -1308,8 +1240,11 @@ function AddProperty() {
                         </div>
           
                         <div className="input-box">
+                          <div className="details-container">
                             <span className="details">Payment gateway mode</span>
-                     <CInputGroup>
+                            <span className="required">*</span>
+                          </div>
+                  <CInputGroup>
                          <CInputGroupText className="input-icon">
                          <CIcon icon={cilTransfer} />
                       </CInputGroupText>
@@ -1411,7 +1346,10 @@ function AddProperty() {
              </CInputGroup>
                   </div>
                   <div className="input-box">
+                      <div className="details-container">
                         <span className="details">Payment gateway status</span>
+                        <span className="required">*</span>
+                      </div>
                  <CInputGroup>
     <CInputGroupText className="input-icon">
       <CIcon icon={cilToggleOn} />
@@ -1430,35 +1368,16 @@ function AddProperty() {
                </div>
                </div>
      ))}
-  </CTabPane>
 
-
-            <CTabPane visible={activeTab === 'amenities'}>
-            {amenities.map((amenity,i) => (
-              <div key={i} className="mb-4 p-2 border rounded">
-                  <div className="title">
-                     <h5>Amenity {i+1}</h5>
-
-                 <div className="button-all">
-                    <button 
-                      type="button" 
-                      className="custom-button"
-                      onClick={addAmenity}
-                    >
-                     <FontAwesomeIcon icon={faPlus} />&nbsp; Add Amenity
-                   </button>
-                  <button 
-                       type="button" 
-                       className="close-button"
-                       onClick={() => removeItem('amenities',i)}
-                  >
-                   <FontAwesomeIcon icon={faTimes} />
-               </button>
-              </div>
-             </div>
+{amenities.map((amenity,i) => (
+  <div key={i} className="mb-4 p-2 border rounded">
+    <h5>Amenity{i+1}</h5>
         <div className="user-details">
           <div className="input-box">
+          <div className="details-container">
             <span className="details">Amenity id</span>
+            <span className="required" >*</span>
+            </div>
                   <CInputGroup>
                <CInputGroupText className="input-icon">
                   <CIcon icon={cilPool} />
@@ -1491,35 +1410,17 @@ function AddProperty() {
           </div>
          </div>
          </div>
-        ))}
-    </CTabPane>
+     ))}
 
-          <CTabPane visible={activeTab === 'offices'}>
-          {offices.map((office,i) =>(
-              <div key={i} className="mb-4 p-2 border rounded">
-               <div className="title">
-                     <h5>Office {i+1}</h5>
-
-                 <div className="button-all">
-                    <button 
-                      type="button" 
-                      className="custom-button"
-                      onClick={addOffice}
-                    >
-                     <FontAwesomeIcon icon={faPlus} />&nbsp; Add Office
-                   </button>
-                  <button 
-                       type="button" 
-                       className="close-button"
-                       onClick={() => removeItem('offices',i)}
-                  >
-                   <FontAwesomeIcon icon={faTimes} />
-               </button>
-              </div>
-             </div>
+     {offices.map((office,i) =>(
+      <div key={i} className="mb-4 p-2 border rounded">
+        <h5>Office{i+1}</h5>
       <div className="user-details">
      <div className="input-box">
+     <div className="details-container">
        <span className="details">Office name</span>
+       <span className="required">*</span>
+       </div>
           <CInputGroup>
         <CInputGroupText className="input-icon">
            <CIcon icon={cilBriefcase} />
@@ -1540,7 +1441,10 @@ function AddProperty() {
      </div>
      
      <div className="input-box">
+     <div className="details-container">
        <span className="details">Contact</span>
+       <span className="required">*</span>
+       </div>
        <CInputGroup>
         <CInputGroupText className="input-icon">
            <CIcon icon={cilPhone} />
@@ -1556,13 +1460,10 @@ function AddProperty() {
     </div>
     </div>
      ))}
-            </CTabPane>
-          </CTabContent>
-
-          <div className="button-row">
-            <button type="submit" className="simple-button primary-button">Save</button>
-            <button type="button" className="simple-button secondary-button" onClick={handleCancel}>Cancel</button>
-          </div>
+<div className="button-row">
+      <button type="submit" className="simple-button primary-button">Save</button>
+      <button type="button" className="simple-button secondary-button" onClick={handleCancel} >Cancel</button>
+     </div>
         </form>
       </div>
     </div>
@@ -1570,3 +1471,4 @@ function AddProperty() {
 }
 
 export default AddProperty;
+

@@ -22,7 +22,7 @@ const UsersList = () => {
   const [menuId, setMenuId] = useState(null);
   const [filterRecords, setFilterRecords] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [rowsPerPage, setRowsPerPage] = useState(7);
+  const [rowsPerPage, setRowsPerPage] = useState(15);
   const printableRef = useRef();
   useEffect(() => {
     fetchData();
@@ -264,9 +264,18 @@ const handleDelete = async (id) => {
                     anchorEl={anchorEl}
                     open={menuId === user.id}
                     onClose={handleClose}>
-                     <Link to={`/user-property-unit/user-property/${user.id}`}>
-                         <MenuItem style={{ color: 'black'}}>Property</MenuItem>
+                     <Link className='Link' to={`/user-property-unit/user-property/${user.id}`}>
+                         <MenuItem>Property</MenuItem>
                      </Link> 
+                     <Link className='Link' 
+                           to={`/user-property-unit/add-user-property-unit`}
+                           state={{ userId: user.id }}
+                           >
+                         <MenuItem>Add property</MenuItem>
+                     </Link> 
+                     <Link className='Link' to={`/users/update-user/${user.id}`}>
+                       <MenuItem>Edit</MenuItem>
+                     </Link>
                     <MenuItem onClick={() => handleDelete(user.id)}>Delete</MenuItem>
                   </Menu>
                 </td>

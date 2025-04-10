@@ -15,6 +15,7 @@ import axiosInstance from 'src/axiosInstance';
 import config from 'src/config';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
+import ViewProperty from '../view-property/ViewProperty';
 const PropertyList = () => {
   const [data, setData] = useState([]);
   const [anchorEl, setAnchorEl] = useState(null);
@@ -23,7 +24,8 @@ const PropertyList = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(7);
   const printableRef = useRef();
-
+  const [selectedProperty, setSelectedProperty] = useState(null);
+  const [openDialog, setOpenDialog] = useState(false); 
   useEffect(() => {
     fetchData();
   }, []);
@@ -157,6 +159,15 @@ const PropertyList = () => {
     });
   };
   
+  const handlePropertyClick = (property) => {
+    setSelectedProperty(property);
+    setOpenDialog(true);
+  };
+
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+    setSelectedProperty(null);
+  };
   const renderPagination = () => {
     return (
       <div className="pagination">
@@ -251,7 +262,14 @@ const PropertyList = () => {
               currentRecords.map((property, index) => (
                 <tr key={index}>
                   <td>{index+1}</td>
-                  <td>{property.property_name }</td>
+                  <td>
+                  <span 
+                  className="clickable--name" 
+                  onClick={() => handlePropertyClick(property)}
+                >
+                  {property.property_name }
+                </span>
+                  </td>
                   <td>
                        {property.logo ? (
                           <img
@@ -310,6 +328,12 @@ const PropertyList = () => {
         </tbody>
       </table>
       </div>
+
+      <ViewProperty
+        open={openDialog}
+        onClose={handleCloseDialog}
+        property={selectedProperty}
+      />
       <div className="pagination-options-container">
           <div className="rows-per-page">
          <label htmlFor="rows-per-page">Rows per page:</label>

@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import '../../../css/form.css';
-import { jwtDecode } from "jwt-decode";
 import Swal from "sweetalert2";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axiosInstance from "src/axiosInstance";
 import {
   CInputGroup,
@@ -11,8 +10,8 @@ import {
   CFormSelect,
 } from '@coreui/react';
 import CIcon from '@coreui/icons-react';
-import { cilBookmark, cilBuilding, cilCheckCircle,cilClipboard,cilEnvelopeClosed,cilGrid,cilHome, cilImage, cilMedicalCross, cilPhone, cilUser } from '@coreui/icons';
-function AddUser(){
+import { cilBookmark,cilClipboard,cilEnvelopeClosed,cilImage, cilMedicalCross, cilPhone, cilUser } from '@coreui/icons';
+function UpdateUser(){
   const [formData, setFormData] = useState({
     title: '',
     full_name: '',
@@ -20,48 +19,27 @@ function AddUser(){
     email:'',
     pan_number :'',
     aadhar_number:'',
-    ip_address :'',
-    profile_photo:'',
     blood_group:''
   });
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
+  const {id} = useParams();
 
-  const getIPAddress = async () => {
-    try {
-        const response = await fetch('https://api64.ipify.org?format=json');
-        const data = await response.json();
-        return data.ip;
-    } catch (error) {
-        console.error("Error fetching IP address:", error);
-        return '';
-    }
-  };
-
-useEffect(() => {
-    const fetchUserData = async () => {
-        try {
-            const token = localStorage.getItem("token");
-            if (token) {
-                const decodedToken = jwtDecode(token);
-                const userId = decodedToken.userId; 
-
-                const ip = await getIPAddress();
-
-                setFormData((prevData) => ({
-                    ...prevData,
-                    user_category: userId,
-                    ip_address: ip
-                }));
-            }
-        } catch (error) {
-            console.error("Error decoding token:", error);
-        }
-    };
-
+  useEffect(() => {
     fetchUserData();
-}, []);
-
+  }, [id])
+  
+  const fetchUserData = async () => {
+      try {
+        const response = await axiosInstance.get(`/user/${id}`);
+        console.log('Fetched data:', response.data);
+        if (response.data) {
+            setFormData(response.data);
+          }
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+      }
+    };
 const handleChange = (e) => {
   const { name, value, type, files } = e.target;
   if (type === "file") {
@@ -88,16 +66,8 @@ const handleSubmit = async (e) => {
     return;
   }
 
-  const form = new FormData();
-  for (let key in formData) {
-      form.append(key, formData[key]);
-  }
-  console.log("Form Data:", Object.fromEntries(form.entries()));
-
   try {
-    const response = await axiosInstance.post('/register',form,{
-      headers: { "Content-Type": "multipart/form-data", }
-     });
+    const response = await axiosInstance.put(`/user/${id}`,formData);
     const Toast = Swal.mixin({
       toast: true,
       position: "top-end",
@@ -256,19 +226,6 @@ return(
              </CInputGroup>
           {errors.aadhar_number && <p className="error">{errors.aadhar_number}</p>}
       </div>
-       <div className="input-box">
-              <span className="details">Profile photo</span>
-              <CInputGroup className="input-icon">
-          <CInputGroupText><CIcon icon={cilImage} /></CInputGroupText>
-           <CFormInput
-               type="text"
-               name="profile_photo"
-               value={formData.profile_photo}
-               onChange={handleChange}
-               accept="image/*"
-             />
-             </CInputGroup>
-      </div>
       <div className="input-box">
         <span className="details">Blood group</span>
           <CInputGroup className="input-icon">
@@ -291,4 +248,4 @@ return(
 </div>
   )
 };
-export default AddUser;
+export default UpdateUser;

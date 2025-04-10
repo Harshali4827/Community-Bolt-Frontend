@@ -23,7 +23,7 @@ import './scss/style.scss'
 const _nav = [
   {
     component: CNavItem,
-    name: <Translation>{(t) => t('dashboard')}</Translation>,
+    name: <Translation>{(t) => t('Dashboard')}</Translation>,
     to: '/dashboard',
     icon: <CIcon icon={cilSpeedometer} customClassName="nav-icon" />,
   },

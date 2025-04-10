@@ -7,7 +7,9 @@ const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'))
 const UsersList = React.lazy(() => import('./views/users/users-list/UsersList')) 
 
 const AddUser = React.lazy(() => import('./views/users/add-users/AddUser'))
+const UpdateUser = React.lazy(() => import('./views/users/update-user/UpdateUser'))
 const UserPropertyList = React.lazy(() => import('./views/user-property-unit/user-property-list/UserPropertyList'))
+
 const UserAllProperty = React.lazy(() => import('./views/user-property-unit/user-property/UserAllProperty'))
 const AddUserPropertyUnit = React.lazy(() => import('./views/user-property-unit/add-property-unit/AddPropertyUnit'))
 
@@ -82,7 +84,7 @@ const routes = [
     element: UsersList,
   },
   { path: '/users/add-user', name: 'Add User/Member', element: AddUser },
-
+  { path:'/users/update-user/:id', name:'Update User/Member', element: UpdateUser},
   {
     path: '/user-property-list',
     name: <Translation>{(t) => t('Member Property Units')}</Translation>,

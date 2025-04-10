@@ -1,12 +1,21 @@
 import React, { useEffect, useState } from "react";
 import '../../../css/form.css';
 import Swal from "sweetalert2";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import axiosInstance from "src/axiosInstance";
-
+import {
+  CInputGroup,
+  CInputGroupText,
+  CFormInput,
+  CFormSelect,
+} from '@coreui/react';
+import CIcon from '@coreui/icons-react';
+import { cilAddressBook, cilBaby, cilBadge, cilBank, cilBike, cilBuilding, cilCalendar, cilCarAlt, cilChartPie, cilCheckCircle,cilChild,cilElevator,cilGrid,cilGroup,cilHome,cilLayers, cilMagnifyingGlass, cilPhone, cilSettings, cilUser, cilUserFemale, cilUserFollow, cilUserX, cilWallet } from '@coreui/icons';
 function AddPropertyUnit(){
+  const location = useLocation();
+  const userId = location.state?.userId;
 const [formData, setFormData] = useState({
-        user_id:'',
+        user_id: userId || '',
         property_id: '',
         property_sector_id: '',
         property_block_id: '',
@@ -301,14 +310,7 @@ return(
                 <span className="details">User name</span>
                 <span className="required">*</span>
               </div>
-              <select name="user_id" value={formData.user_id} onChange={handleChange}>
-                <option value="">-Select user-</option>
-                {users.map((user) => (
-                  <option key={user.id} value={user.id}>
-                    {user.full_name}
-                  </option>
-                ))}
-              </select>
+              <input type="text" name='user_id' value={formData.user_id} onChange={handleChange}/>
               {errors.user_id && <p className="error">{errors.user_id}</p>}
             </div>
           <div className="input-box">
@@ -316,46 +318,74 @@ return(
                 <span className="details">Property</span>
                 <span className="required">*</span>
               </div>
-               <select name="property_id" value={formData.property_id} onChange={handleChange}>
-                    <option value="">-Select Property-</option>
-                    {properties.map((property) => (
-                    <option key={property.id} value={property.id}>
-                        {property.property_name}
-                    </option>
-                    ))}
-              </select>
+              <CInputGroup>
+    <CInputGroupText className="input-icon">
+      <CIcon icon={cilHome} />
+    </CInputGroupText>
+    <CFormSelect
+      name="property_id"
+      value={formData.property_id}
+      onChange={handleChange}
+    >
+      <option value="">-Select Property-</option>
+      {properties.map((property) => (
+        <option key={property.id} value={property.id}>
+          {property.property_name}
+        </option>
+      ))}
+    </CFormSelect>
+  </CInputGroup>
               {errors.property_id && <p className="error">{errors.property_id}</p>}
             </div>
 
-        <div className="input-box">
+            <div className="input-box">
               <div className="details-container">
                 <span className="details">Property sector</span>
                 <span className="required">*</span>
               </div>
-              <select name="property_sector_id" value={formData.property_sector_id} onChange=        {handleChange}>
-                 <option value="">-Select Sector-</option>
+
+      <CInputGroup>
+    <CInputGroupText className="input-icon">
+      <CIcon icon={cilBuilding} />
+    </CInputGroupText>
+    <CFormSelect
+      name="property_sector_id"
+      value={formData.property_sector_id}
+      onChange={handleChange}
+    >
+      <option value="">-Select Sector-</option>
                     {sectors.map((sector) => (
                     <option key={sector.id} value={sector.id}>
                       {sector.sector_name}
                     </option>
-                    ))}
-                 </select>
+      ))}
+    </CFormSelect>
+  </CInputGroup>
+
               {errors.property_sector_id && <p className="error">{errors.property_sector_id}</p>}
             </div>
-
-          <div className="input-box">
+              <div className="input-box">
               <div className="details-container">
                 <span className="details">Property block</span>
                 <span className="required">*</span>
               </div>
-             <select name="property_block_id" value={formData.property_block_id} onChange={handleChange}>
-                    <option value="">-Select Block-</option>
+        <CInputGroup>
+    <CInputGroupText className="input-icon">
+      <CIcon icon={cilGrid} />
+    </CInputGroupText>
+    <CFormSelect
+      name="property_block_id"
+      value={formData.property_block_id}
+      onChange={handleChange}
+    >
+       <option value="">-Select Block-</option>
                     {blocks.map((block) => (
                     <option key={block.id} value={block.id}>
                            {block.block_name}
                     </option>
-                    ))}
-                 </select>
+      ))}
+    </CFormSelect>
+  </CInputGroup>
               {errors.property_block_id && <p className="error">{errors.property_block_id}</p>}
             </div>
 
@@ -364,51 +394,88 @@ return(
                 <span className="details">Property unit</span>
                 <span className="required">*</span>
               </div>
-              <select name="property_unit_id" value={formData.property_unit_id} onChange={handleChange}>
-                <option value="">-Select Unit-</option>
+              <CInputGroup>
+               <CInputGroupText className="input-icon">
+                  <CIcon icon={cilLayers} />
+                   </CInputGroupText>
+           <CFormSelect
+      name="property_unit_id"
+      value={formData.property_unit_id}
+      onChange={handleChange}
+    >
+        <option value="">-Select Unit-</option>
                 {units.map((unit) => (
                   <option key={unit.id} value={unit.id}>
                    {unit.unit_number}
                   </option>
-                ))}
-              </select>
+      ))}
+    </CFormSelect>
+  </CInputGroup>
               {errors.property_unit_id && <p className="error">{errors.property_unit_id}</p>}
             </div>
+
 
       <div className="input-box">
       <div className="details-container">
         <span className="details">Floor number</span>
         <span className="required">*</span>
         </div>
-        <input type="text" name="floor_number" value={formData.floor_number} onChange={handleChange}/>
+        <CInputGroup className="input-icon">
+          <CInputGroupText><CIcon icon={cilElevator} /></CInputGroupText>
+           <CFormInput
+               type="text"
+               name="floor_number"
+               value={formData.floor_number}
+               onChange={handleChange}
+             />
+             </CInputGroup>
       </div>
      
       <div className="input-box">
         <span className="details">Unit status</span>
-        <input type="text" name="unit_status_id" value={formData.unit_status_id} onChange={handleChange}/>
+        <CInputGroup className="input-icon">
+          <CInputGroupText><CIcon icon={cilCheckCircle} /></CInputGroupText>
+           <CFormInput
+               type="text"
+               name="unit_status_id"
+               value={formData.unit_status_id}
+               onChange={handleChange}
+             />
+             </CInputGroup>
       </div>
       <div className="input-box">
         <span className="details">Unit combination</span>
-        <input type="text" name="unit_combination" value={formData.unit_combination} onChange={handleChange}/>
+        <CInputGroup className="input-icon">
+          <CInputGroupText><CIcon icon={cilSettings} /></CInputGroupText>
+           <CFormInput
+               type="text"
+               name="unit_combination"
+               value={formData.unit_combination}
+               onChange={handleChange}
+             />
+             </CInputGroup>
       </div>
 
       <div className="input-box">
     <span className="details">Membership no</span>
-  <input
-    type="text"
-    name="membership_no"
-    value={formData.membership_no}
-    onChange={handleChange}
-  />
+       <CInputGroup className="input-icon">
+          <CInputGroupText><CIcon icon={cilBadge} /></CInputGroupText>
+           <CFormInput
+               type="text"
+               name="membership_no"
+               value={formData.membership_no}
+               onChange={handleChange}
+             />
+             </CInputGroup>
 </div>
 
       <div className="input-box">
               <div className="details-container">
-                <span className="details">User name</span>
+                <span className="details">User role</span>
                 <span className="required">*</span>
               </div>
               <select name="user_role_id" value={formData.user_role_id} onChange={handleChange}>
-                <option value="">-Select user-</option>
+                <option value="">-Select role-</option>
                 {usersRole.map((user) => (
                   <option key={user.id} value={user.id}>
                     {user.role_name}
@@ -419,16 +486,40 @@ return(
             </div>
       <div className="input-box">
         <span className="details">Share holding no</span>
-        <input type="text" name="share_holding_no" value={formData.share_holding_no} onChange={handleChange}/>
+        <CInputGroup className="input-icon">
+          <CInputGroupText><CIcon icon={cilWallet} /></CInputGroupText>
+           <CFormInput
+               type="text"
+               name="share_holding_no"
+               value={formData.share_holding_no}
+               onChange={handleChange}
+             />
+             </CInputGroup>
       </div>
           <div className="input-box">
               <span className="details">Share certificate nos</span>
-             <input type="text" name="share_certificate_nos" value={formData.share_certificate_nos} onChange={handleChange} />
+             <CInputGroup className="input-icon">
+          <CInputGroupText><CIcon icon={cilAddressBook} /></CInputGroupText>
+           <CFormInput
+               type="text"
+               name="share_certificate_nos"
+               value={formData.share_certificate_nos}
+               onChange={handleChange}
+             />
+             </CInputGroup>
              {errors.share_certificate_nos && <p className="error">{errors.share_certificate_nos}</p>}
           </div>
           <div className="input-box">
               <span className="details">Share certificate bank name</span>
-             <input type="text" name="share_certificate_bank_name" value={formData.share_certificate_bank_name} onChange={handleChange} />
+             <CInputGroup className="input-icon">
+          <CInputGroupText><CIcon icon={cilBank} /></CInputGroupText>
+           <CFormInput
+               type="text"
+               name="share_certificate_bank_name"
+               value={formData.share_certificate_bank_name}
+               onChange={handleChange}
+             />
+             </CInputGroup>
              {errors.share_certificate_bank_name && <p className="error">{errors.share_certificate_bank_name}</p>}
           </div>
           <div className="input-box">
@@ -436,7 +527,15 @@ return(
               <span className="details">Kids count</span>
               <span className="required">*</span>
            </div>
-             <input type="text" name="kids_count" value={formData.kids_count} onChange={handleChange} />
+             <CInputGroup className="input-icon">
+          <CInputGroupText><CIcon icon={cilChild} /></CInputGroupText>
+           <CFormInput
+               type="text"
+               name="kids_count"
+               value={formData.kids_count}
+               onChange={handleChange}
+             />
+             </CInputGroup>
              {errors.kids_count && <p className="error">{errors.kids_count}</p>}
           </div>
           <div className="input-box">
@@ -444,7 +543,15 @@ return(
               <span className="details">Senior citizen count</span>
               <span className="required">*</span>
            </div>
-             <input type="text" name=" senior_citizen_count" value={formData. senior_citizen_count} onChange={handleChange} />
+             <CInputGroup className="input-icon">
+          <CInputGroupText><CIcon icon={cilGroup} /></CInputGroupText>
+           <CFormInput
+               type="text"
+               name="senior_citizen_count"
+               value={formData.floorsenior_citizen_count_number}
+               onChange={handleChange}
+             />
+             </CInputGroup>
              {errors.senior_citizen_count && <p className="error">{errors. senior_citizen_count}</p>}
           </div>
           <div className="input-box">
@@ -452,7 +559,15 @@ return(
               <span className="details">Male count</span>
               <span className="required">*</span>
            </div>
-             <input type="text" name="male_count" value={formData.male_count} onChange={handleChange} />
+             <CInputGroup className="input-icon">
+          <CInputGroupText><CIcon icon={cilUser} /></CInputGroupText>
+           <CFormInput
+               type="text"
+               name="male_count"
+               value={formData.male_count}
+               onChange={handleChange}
+             />
+             </CInputGroup>
              {errors.male_count && <p className="error">{errors.male_count}</p>}
           </div>
           <div className="input-box">
@@ -460,7 +575,15 @@ return(
               <span className="details">Femele count</span>
               <span className="required">*</span>
            </div>
-             <input type="text" name="female_count" value={formData.female_count} onChange={handleChange} />
+             <CInputGroup className="input-icon">
+          <CInputGroupText><CIcon icon={cilUserFemale} /></CInputGroupText>
+           <CFormInput
+               type="text"
+               name="female_count"
+               value={formData.female_count}
+               onChange={handleChange}
+             />
+             </CInputGroup>
              {errors.female_count && <p className="error">{errors.female_count}</p>}
           </div>
           <div className="input-box">
@@ -468,7 +591,15 @@ return(
               <span className="details">Total people count</span>
               <span className="required">*</span>
            </div>
-             <input type="text" name="total_people_count" value={formData.total_people_count} onChange={handleChange} />
+             <CInputGroup className="input-icon">
+          <CInputGroupText><CIcon icon={cilChartPie} /></CInputGroupText>
+           <CFormInput
+               type="text"
+               name="total_people_count"
+               value={formData.total_people_count}
+               onChange={handleChange}
+             />
+             </CInputGroup>
              {errors.total_people_count && <p className="error">{errors.total_people_count}</p>}
           </div>
           <div className="input-box">
@@ -476,7 +607,15 @@ return(
               <span className="details">Alloted 4 wheel parking count</span>
               <span className="required">*</span>
            </div>
-             <input type="text" name="alloted_four_wheel_parking_count " value={formData.alloted_four_wheel_parking_count } onChange={handleChange} />
+             <CInputGroup className="input-icon">
+          <CInputGroupText><CIcon icon={cilCarAlt} /></CInputGroupText>
+           <CFormInput
+               type="text"
+               name="alloted_four_wheel_parking_count"
+               value={formData.alloted_four_wheel_parking_count}
+               onChange={handleChange}
+             />
+             </CInputGroup>
              {errors.alloted_four_wheel_parking_count  && <p className="error">{errors.alloted_four_wheel_parking_count }</p>}
           </div>
           <div className="input-box">
@@ -484,16 +623,40 @@ return(
               <span className="details">Alloted 2 wheel parking count</span>
               <span className="required">*</span>
            </div>
-             <input type="text" name="alloted_two_wheel_parking_count " value={formData.alloted_two_wheel_parking_count} onChange={handleChange} />
+             <CInputGroup className="input-icon">
+          <CInputGroupText><CIcon icon={cilBike} /></CInputGroupText>
+           <CFormInput
+               type="text"
+               name="alloted_two_wheel_parking_count"
+               value={formData.alloted_two_wheel_parking_count}
+               onChange={handleChange}
+             />
+             </CInputGroup>
              {errors.alloted_two_wheel_parking_count && <p className="error">{errors.alloted_two_wheel_parking_count}</p>}
           </div>
           <div className="input-box">
               <span className="details">Club due date</span>
-             <input type="date" name="club_due_date" value={formData.club_due_date  } onChange={handleChange} />
+             <CInputGroup className="input-icon">
+          <CInputGroupText><CIcon icon={cilCalendar} /></CInputGroupText>
+           <CFormInput
+               type="text"
+               name="club_due_date"
+               value={formData.club_due_date}
+               onChange={handleChange}
+             />
+             </CInputGroup>
           </div>
           <div className="input-box">
               <span className="details">Four sos number</span>
-             <input type="text" name="four_sos_number" value={formData.four_sos_number} onChange={handleChange} />
+             <CInputGroup className="input-icon">
+          <CInputGroupText><CIcon icon={cilPhone} /></CInputGroupText>
+           <CFormInput
+               type="text"
+               name="four_sos_number"
+               value={formData.four_sos_number}
+               onChange={handleChange}
+             />
+             </CInputGroup>
           </div>
           <div className="input-box">
     <span className="details">Nominee names and per</span>

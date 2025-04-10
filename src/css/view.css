@@ -1,0 +1,38 @@
+.gate-details {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 16px;
+    min-width: 400px;
+  }
+  
+  .detail-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 2px 0;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .detail-label {
+    font-weight: bold;
+    color: #555;
+    min-width: 120px;
+  }
+  
+  .detail-value {
+    color: #333;
+    text-align: right;
+    flex-grow: 1;
+  }
+  
+  .status-icon {
+    margin-right: 8px;
+  }
+  
+  .active-icon {
+    color: #4caf50;
+  }
+  
+  .inactive-icon {
+    color: #f44336;
+  }
