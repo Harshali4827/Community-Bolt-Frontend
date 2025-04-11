@@ -11,7 +11,7 @@ import {
   CFormTextarea
 } from '@coreui/react';
 import CIcon from '@coreui/icons-react';
-import { cilBuilding, cilGarage,cilCheckCircle, cilToggleOff, cilHome } from '@coreui/icons';
+import { cilBuilding, cilGarage,cilCheckCircle, cilToggleOff, cilHome, cilListRich } from '@coreui/icons';
 
 function UpdateAssets(){
 const [formData, setFormData] = useState({
@@ -200,7 +200,17 @@ const [formData, setFormData] = useState({
       </div>
       <div className="input-box">
               <span className="details">Description</span>
-            <textarea name="asset_description"  value={formData.asset_description} onChange={handleChange} />
+              <CInputGroup>
+          <CInputGroupText className="input-icon">
+           <CIcon icon={cilListRich} />
+        </CInputGroupText>
+         <CFormInput
+            type="text"
+            name="asset_description"
+            value={formData.asset_description}
+            onChange={handleChange}
+          />
+       </CInputGroup>
         </div>
      </div>
     <div className="button-row">

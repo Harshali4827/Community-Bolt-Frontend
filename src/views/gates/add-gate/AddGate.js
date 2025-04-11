@@ -12,7 +12,7 @@ import {
   CFormTextarea
 } from '@coreui/react';
 import CIcon from '@coreui/icons-react';
-import {cilGarage,cilCheckCircle, cilToggleOff, cilHome } from '@coreui/icons';
+import {cilGarage,cilCheckCircle, cilToggleOff, cilHome, cilListRich } from '@coreui/icons';
 
 
 function AddGate(){
@@ -253,9 +253,17 @@ const [formData, setFormData] = useState({
       </div>
       <div className="input-box">
               <span className="details">Description</span>
-              <textarea 
-            name="gate_description"  value={formData.gate_description} onChange={handleChange} />
-            {errors.gate_description && <p className="error">{errors.gate_description}</p>}
+          <CInputGroup>
+          <CInputGroupText className="input-icon">
+           <CIcon icon={cilListRich} />
+        </CInputGroupText>
+         <CFormInput
+            type="text"
+            name="gate_description"
+            value={formData.gate_description}
+            onChange={handleChange}
+          />
+       </CInputGroup>
         </div>
 
      </div>

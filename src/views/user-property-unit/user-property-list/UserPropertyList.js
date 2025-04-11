@@ -13,7 +13,7 @@ import '../../../css/table.css';
 import Swal from 'sweetalert2';
 import axiosInstance from 'src/axiosInstance';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
+import ViewPropertyUnit from '../view-property-unit/ViewPropertyUnit';
 const UserPropertyList = () => {
   const [data, setData] = useState([]);
   const [anchorEl, setAnchorEl] = useState(null);
@@ -22,6 +22,8 @@ const UserPropertyList = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(7);
   const printableRef = useRef();
+  const [selectedUnit, setSelectedUnit] = useState(null);
+  const [openDialog, setOpenDialog] = useState(false); 
   useEffect(() => {
     fetchData();
   }, []);
@@ -159,7 +161,16 @@ const handleDelete = async (id) => {
       }
     });
   };
+ 
+  const handleUnitClick = (units) => {
+    setSelectedUnit(units);
+    setOpenDialog(true);
+  };
 
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+    setSelectedUnit(null);
+  };
   const renderPagination = () => {
     return (
       <div className="pagination">
@@ -258,7 +269,14 @@ const handleDelete = async (id) => {
               currentRecords.map((units, index) => (
                 <tr key={index}>
                   <td>{index+1}</td>
-                  <td>{units.user_name}</td>
+                  <td>
+                  <span 
+                  className="clickable--name" 
+                  onClick={() => handleUnitClick(units)}
+                >
+                  {units.user_name}
+                </span>
+                  </td>
                   <td>{units.property_name}</td>
                   <td>{units.sector_name}</td>
                   <td>{units.block_name}</td>
@@ -289,6 +307,9 @@ const handleDelete = async (id) => {
                     anchorEl={anchorEl}
                     open={menuId === units.id}
                     onClose={handleClose}>
+                    <Link className='Link' to={`/update-property-unit/${units.id}`}>
+                         <MenuItem style={{ color: 'black'}}>Edit</MenuItem>
+                     </Link>
                     <MenuItem onClick={() => handleDelete(units.id)}>Delete</MenuItem>
                   </Menu>
                 </td>
@@ -299,6 +320,11 @@ const handleDelete = async (id) => {
         </tbody>
       </table>
       </div>
+      <ViewPropertyUnit
+        open={openDialog}
+        onClose={handleCloseDialog}
+        units={selectedUnit}
+      />
       <div className="pagination-options-container">
           <div className="rows-per-page">
          <label htmlFor="rows-per-page">Rows per page:</label>

@@ -20,7 +20,7 @@ const SectorsList = () => {
   const [menuId, setMenuId] = useState(null);
   const [filterRecords, setFilterRecords] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [rowsPerPage, setRowsPerPage] = useState(7);
+  const [rowsPerPage, setRowsPerPage] = useState(15);
   const printableRef = useRef();
   useEffect(() => {
     fetchData();
@@ -247,7 +247,7 @@ const handleDelete = async (id) => {
                     anchorEl={anchorEl}
                     open={menuId === sector.id}
                     onClose={handleClose}>
-                     <Link to={`/sectors/update-sectors/${sector.id}`}>
+                     <Link className='Link' to={`/sectors/update-sectors/${sector.id}`}>
                          <MenuItem style={{ color: 'black'}}>Edit</MenuItem>
                      </Link>
                     <MenuItem onClick={() => handleDelete(sector.id)}>Delete</MenuItem>

@@ -12,7 +12,7 @@ const UserPropertyList = React.lazy(() => import('./views/user-property-unit/use
 
 const UserAllProperty = React.lazy(() => import('./views/user-property-unit/user-property/UserAllProperty'))
 const AddUserPropertyUnit = React.lazy(() => import('./views/user-property-unit/add-property-unit/AddPropertyUnit'))
-
+const UpdatePropertyUnit = React.lazy(() => import('./views/user-property-unit/update-property-unit/UpdatePropertyUnit'))
 const UserProperty = React.lazy(() => import('./views/user-property/property-list/PropertyList'))
 const FileUpload = React.lazy(() => import('./views/import-excel/FileUpload'))
 
@@ -95,7 +95,7 @@ const routes = [
   { path: '/user-property', name: 'Members Property', element: UserProperty },
   { path: '/user-property-unit/user-property/:id',name:'Member Property', element: UserAllProperty},
   { path:'/user-property-unit/add-user-property-unit', name:'Add Member Property Unit', element:AddUserPropertyUnit},
-
+  { path:'/update-property-unit/:id', name:'Update Member Property Unit', element: UpdatePropertyUnit},
   {
     path: '/import-excel',
     name: <Translation>{(t) => t('Upload Members Property Data')}</Translation>,

@@ -14,6 +14,7 @@ import Swal from 'sweetalert2';
 import axiosInstance from 'src/axiosInstance';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
+import ViewBank from '../view-bank/ViewBank';
 const BankList = () => {
   const [data, setData] = useState([]);
   const [anchorEl, setAnchorEl] = useState(null);
@@ -22,6 +23,8 @@ const BankList = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(7);
   const printableRef = useRef();
+  const [selectedBank, setSelectedBank] = useState(null);
+  const [openDialog, setOpenDialog] = useState(false); 
   useEffect(() => {
     fetchData();
   }, []);
@@ -151,7 +154,15 @@ const handleDelete = async (id) => {
       }
     });
   };
+  const handleBankClick = (bank) => {
+    setSelectedBank(bank);
+    setOpenDialog(true);
+  };
 
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+    setSelectedBank(null);
+  };
   const renderPagination = () => {
     return (
       <div className="pagination">
@@ -246,7 +257,14 @@ const handleDelete = async (id) => {
                 <tr key={index}>
                   <td>{index+1}</td>
                   <td>{bank.property_name}</td>
-                  <td>{bank.bank_name}</td>
+                  <td>
+                  <span 
+                  className="clickable--name" 
+                  onClick={() => handleBankClick(bank)}
+                >
+                  {bank.bank_name }
+                </span>
+                  </td>
                   <td>{bank.bank_branch}</td>
                   <td>{bank.bank_ifsc}</td>
                   <td>{bank.bank_account_number}</td>
@@ -293,6 +311,11 @@ const handleDelete = async (id) => {
         </tbody>
       </table>
       </div>
+      <ViewBank
+        open={openDialog}
+        onClose={handleCloseDialog}
+        bank={selectedBank}
+      />
       <div className="pagination-options-container">
           <div className="rows-per-page">
          <label htmlFor="rows-per-page">Rows per page:</label>

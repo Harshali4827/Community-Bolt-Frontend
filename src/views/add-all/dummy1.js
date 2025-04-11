@@ -22,39 +22,7 @@ import { cilHome, cilLocationPin, cilCheckCircle, cilImage, cilGlobeAlt, cilMap,
 
 function AddProperty() {
   const [formData, setFormData] = useState({
-    property_name: '',
-    logo: '',
-    address: '',
-    country_id: '',
-    city_id: '',
-    state_id: '',
-    google_location: '',
-    latitude: '',
-    longitude: '',
-    gst_number: '',
-    total_sectors: '0',
-    total_blocks: '0',
-    total_units: '0',
-    total_offices: '0',
-    total_amenities: '0',
-    total_gates: '0',
-    total_parkings: '0',
-    total_guest_parking: '0',
-    min_sub_members_allow: '',
-    min_cars_allow: '',
-    min_bikes_allow: '',
-    min_house_helps_allow: '',
-    chairman_name: '',
-    chairman_contact_no: '',
-    chairman_email: '',
-    emergency_name: '',
-    emergency_contact_no: '',
-    emergency_email: '',
-    additional_parking_charges: '',
-    is_payment_gateway_visible: '',
-    status: 'active',
-    ip_address: '',
-    created_by: ''
+    // ... your existing formData state
   });
 
   const [sectors, setSectors] = useState([]);
@@ -324,54 +292,10 @@ function AddProperty() {
       ip_address: formData.ip_address,
       created_by: formData.created_by
     }));
-
-     const banksData = banks.map(bank => ({
-      bank_name: bank.bank_name,
-      bank_branch: bank.bank_branch,
-      bank_ifsc: bank.bank_ifsc,
-      bank_account_number: bank.bank_account_number,
-      bank_account_type: bank.bank_account_type,
-      bank_account_name: bank.bank_account_name,
-      bank_account_holder: bank.bank_account_holder,
-      is_primary: bank.is_primary,
-      is_payment_gateway: bank.is_payment_gateway,
-      payment_gateway_name: bank.payment_gateway_name,
-      merchant_name: bank.merchant_name,
-      payment_gateway_mode: bank.payment_gateway_mode,
-      live_key_id: bank.live_key_id,
-      live_secret_key: bank.live_secret_key,
-      live_account_number: bank.live_account_number,
-      test_key_id: bank.test_key_id,
-      test_secret_key: bank.test_secret_key,
-      test_account_number: bank.test_account_number,
-      currency: bank.currency,
-      payment_gateway_status: bank.payment_gateway_status,
-      status:bank.status,
-      ip_address: formData.ip_address,
-      created_by: formData.created_by
-    }));
-    const amenitiesData = amenities.map(amenity => ({
-      amenity_id: amenity.amenity_id,
-      amenity_details: amenity.amenity_details,
-      ip_address: formData.ip_address,
-      created_by: formData.created_by
-    }));
-    const officesData = offices.map(office => ({
-      office_name: office.office_name,
-      office_description: office.office_description,
-      office_contact: office.office_contact,
-      ip_address: formData.ip_address,
-      created_by: formData.created_by
-    }));
-
     form.append('sectors', JSON.stringify(sectorsData));
     form.append('blocks', JSON.stringify(blocksData));
     form.append('units', JSON.stringify(unitsData));
     form.append('gates', JSON.stringify(gatesData));
-    form.append('assets', JSON.stringify(assetsData));
-    form.append('banks', JSON.stringify(banksData));
-    form.append('amenities', JSON.stringify(amenitiesData));
-    form.append('offices', JSON.stringify(officesData));
 
     try {
       const response = await axiosInstance.post('/add-all', form, {
@@ -956,63 +880,6 @@ function AddProperty() {
             </CNavItem>
           </CNav>
 
-
-          <div className="add-buttons-container">
-            {activeTab === 'sectors' && (
-              <button 
-                type="button" 
-                className="add-section-button"
-                onClick={addSector}
-              >
-                <FontAwesomeIcon icon={faPlus} /> Add Sector
-              </button>
-            )}
-            {activeTab === 'gates' && (
-              <button 
-                type="button" 
-                className="add-section-button"
-                onClick={addGate}
-              >
-                <FontAwesomeIcon icon={faPlus} /> Add Gate
-              </button>
-            )}
-            {activeTab === 'assets' && (
-              <button 
-                type="button" 
-                className="add-section-button"
-                onClick={addAssets}
-              >
-                <FontAwesomeIcon icon={faPlus} /> Add Asset
-              </button>
-            )}
-             {activeTab === 'banks' && (
-              <button 
-                type="button" 
-                className="add-section-button"
-                onClick={addBanks}
-              >
-                <FontAwesomeIcon icon={faPlus} /> Add Bank
-              </button>
-            )}
-             {activeTab === 'amenities' && (
-              <button 
-                type="button" 
-                className="add-section-button"
-                onClick={addAmenity}
-              >
-                <FontAwesomeIcon icon={faPlus} /> Add Amenity
-              </button>
-            )}
-            {activeTab === 'offices' && (
-              <button 
-                type="button" 
-                className="add-section-button"
-                onClick={addOffice}
-              >
-                <FontAwesomeIcon icon={faPlus} /> Add Office
-              </button>
-            )}
-          </div>
           <CTabContent>
             <CTabPane visible={activeTab === 'sectors'}>
               
@@ -1021,15 +888,22 @@ function AddProperty() {
                  <div className="title">
   <h5>Sector {sectorIndex + 1}</h5>
 
-  {sectorIndex > 0 && (
-      <button 
+  <div className="button-all">
+    <button 
+      type="button" 
+      className="custom-button"
+      onClick={addSector}
+    >
+      <FontAwesomeIcon icon={faPlus} />&nbsp; Add Sector
+    </button>
+    <button 
       type="button" 
       className="close-button"
       onClick={() => removeItem('sectors', sectorIndex)}
     >
       <FontAwesomeIcon icon={faTimes} />
     </button>
-  )}
+  </div>
 </div>
                <div className="user-details">
               <div className="input-box">
@@ -1045,17 +919,7 @@ function AddProperty() {
               
               <div className="input-box">
                 <span className="details">Description</span>
-              
-                <CInputGroup>
-          <CInputGroupText className="input-icon">
-           <CIcon icon={cilListRich} />
-        </CInputGroupText>
-         <CFormInput
-            type="text"
-            name="sector_description"
-            value={sector.sector_description} onChange={(e) => handleInputChange(e, {sectorIndex})}
-          />
-       </CInputGroup>
+                <textarea name="sector_description" value={sector.sector_description} onChange={(e) => handleInputChange(e, {sectorIndex})} />
               </div>
 
               <button type="button" onClick={() => addBlock(sectorIndex)} className="mb-2 px-2 py-1 bg-blue-500 text-white rounded add-block-btn">
@@ -1154,16 +1018,23 @@ function AddProperty() {
                      <div key={index} className="mb-4 p-2 border rounded">
                    <div className="title">
                      <h5>Gate {index + 1}</h5>
-                     {index > 0 &&(
-                            <button 
-                            type="button" 
-                            className="close-button"
-                            onClick={() => removeItem('gates', index)}
-                       >
-                        <FontAwesomeIcon icon={faTimes} />
-                    </button>
-                     )}
-          
+
+                 <div className="button-all">
+                    <button 
+                      type="button" 
+                      className="custom-button"
+                      onClick={addGate}
+                    >
+                     <FontAwesomeIcon icon={faPlus} />&nbsp; Add Gate
+                   </button>
+                  <button 
+                       type="button" 
+                       className="close-button"
+                       onClick={() => removeItem('gates', index)}
+                  >
+                   <FontAwesomeIcon icon={faTimes} />
+               </button>
+              </div>
              </div>
 
             <div className="user-details">
@@ -1185,17 +1056,11 @@ function AddProperty() {
               
               <div className="input-box">
                 <span className="details">Description</span>
-          <CInputGroup>
-          <CInputGroupText className="input-icon">
-           <CIcon icon={cilListRich} />
-        </CInputGroupText>
-         <CFormInput
-            type="text"
-            name="gate_description"
-            value={gate.gate_description}
-            onChange={(e) => handleInputChange(e, { gateIndex: index })}
-          />
-       </CInputGroup>
+                <textarea
+                  name="gate_description"
+                  value={gate.gate_description}
+                  onChange={(e) => handleInputChange(e, { gateIndex: index })}
+                />
                 {errors.gate_description && <p className="error">{errors.gate_description}</p>}
               </div>
 
@@ -1226,15 +1091,23 @@ function AddProperty() {
           <div key={index} className="mb-4 p-2 border rounded">
               <div className="title">
                      <h5>Asset {index + 1}</h5>
-                  {index > 0 && (
+
+                 <div className="button-all">
                     <button 
-                    type="button" 
-                    className="close-button"
-                    onClick={() => removeItem('assets', index)}
+                      type="button" 
+                      className="custom-button"
+                      onClick={addAssets}
                     >
-                  <FontAwesomeIcon icon={faTimes} />
-                </button>
-                  )} 
+                     <FontAwesomeIcon icon={faPlus} />&nbsp; Add Asset
+                   </button>
+                  <button 
+                       type="button" 
+                       className="close-button"
+                       onClick={() => removeItem('assets', index)}
+                  >
+                   <FontAwesomeIcon icon={faTimes} />
+               </button>
+              </div>
              </div>
 
             <div className="user-details">
@@ -1265,15 +1138,23 @@ function AddProperty() {
   <div key={i} className="mb-4 p-2 border rounded">
    <div className="title">
                      <h5>Bank {i+1}</h5>
-                  { i > 0 && (
-                     <button 
-                     type="button" 
-                     className="close-button"
-                     onClick={() => removeItem('banks',i)}
-                >
-                 <FontAwesomeIcon icon={faTimes} />
-                 </button>
-                  )}
+
+                 <div className="button-all">
+                    <button 
+                      type="button" 
+                      className="custom-button"
+                      onClick={addBanks}
+                    >
+                     <FontAwesomeIcon icon={faPlus} />&nbsp; Add Bank
+                   </button>
+                  <button 
+                       type="button" 
+                       className="close-button"
+                       onClick={() => removeItem('banks',i)}
+                  >
+                   <FontAwesomeIcon icon={faTimes} />
+               </button>
+              </div>
              </div>
 
               <div className="user-details">
@@ -1557,15 +1438,23 @@ function AddProperty() {
               <div key={i} className="mb-4 p-2 border rounded">
                   <div className="title">
                      <h5>Amenity {i+1}</h5>
-                    { i > 0 && (
-                       <button 
+
+                 <div className="button-all">
+                    <button 
+                      type="button" 
+                      className="custom-button"
+                      onClick={addAmenity}
+                    >
+                     <FontAwesomeIcon icon={faPlus} />&nbsp; Add Amenity
+                   </button>
+                  <button 
                        type="button" 
                        className="close-button"
                        onClick={() => removeItem('amenities',i)}
                   >
                    <FontAwesomeIcon icon={faTimes} />
                </button>
-                    )}
+              </div>
              </div>
         <div className="user-details">
           <div className="input-box">
@@ -1610,15 +1499,23 @@ function AddProperty() {
               <div key={i} className="mb-4 p-2 border rounded">
                <div className="title">
                      <h5>Office {i+1}</h5>
-                 {i > 0 && (
-                   <button 
-                   type="button" 
-                   className="close-button"
-                   onClick={() => removeItem('offices',i)}
-                   >
-                  <FontAwesomeIcon icon={faTimes} />
-                  </button>
-                 )}
+
+                 <div className="button-all">
+                    <button 
+                      type="button" 
+                      className="custom-button"
+                      onClick={addOffice}
+                    >
+                     <FontAwesomeIcon icon={faPlus} />&nbsp; Add Office
+                   </button>
+                  <button 
+                       type="button" 
+                       className="close-button"
+                       onClick={() => removeItem('offices',i)}
+                  >
+                   <FontAwesomeIcon icon={faTimes} />
+               </button>
+              </div>
              </div>
       <div className="user-details">
      <div className="input-box">

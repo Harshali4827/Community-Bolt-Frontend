@@ -9,11 +9,9 @@ import {
   CSidebarHeader,
   CSidebarToggler,
 } from '@coreui/react-pro'
-import CIcon from '@coreui/icons-react'
 
 import { AppSidebarNav } from './AppSidebarNav'
-
-// sidebar nav config
+import logo from '../assets/images/logo.svg'
 import navigation from '../_nav'
 
 const AppSidebar = () => {
@@ -32,10 +30,10 @@ const AppSidebar = () => {
       }}
     >
       <CSidebarHeader className="bg-primary border-bottom">
-        <CSidebarBrand as={NavLink} to="/" style={{textDecoration:'none',display:'flex'}}>
-          {/* s */}
-          <h3 style={{height:'24px',fontWeight:'700'}}>Community Bolt</h3>
-        </CSidebarBrand>
+    <CSidebarBrand as={NavLink} to="/" style={{display:'flex',textDecoration:'none'}}>
+       <img src={logo} alt="Community Bolt Logo" height="32" />
+       <h5 style={{height:'12px',fontWeight:'700'}}>Community Bolt</h5>
+    </CSidebarBrand>
         <CCloseButton
           className="d-lg-none"
           dark

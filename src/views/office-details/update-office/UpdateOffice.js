@@ -10,7 +10,7 @@ import {
   CFormSelect,
 } from '@coreui/react';
 import CIcon from '@coreui/icons-react';
-import { cilBriefcase, cilBuilding, cilCheckCircle,cilGrid,cilHome, cilLayers, cilPhone} from '@coreui/icons';
+import { cilBriefcase, cilBuilding, cilCheckCircle,cilGrid,cilHome, cilLayers, cilListRich, cilPhone} from '@coreui/icons';
 function UpdateOffice(){
 const [formData, setFormData] = useState({
         property_id: '',
@@ -370,7 +370,17 @@ return(
       </div>
       <div className="input-box">
         <span className="details">Description</span>
-        <textarea name="office_description" value={formData.office_description} onChange={handleChange}  />
+        <CInputGroup>
+          <CInputGroupText className="input-icon">
+           <CIcon icon={cilListRich} />
+        </CInputGroupText>
+         <CFormInput
+            type="text"
+            name="office_description"
+            value={formData.office_description}
+            onChange={handleChange}
+          />
+       </CInputGroup>
       </div>
      </div>
     <div className="button-row">

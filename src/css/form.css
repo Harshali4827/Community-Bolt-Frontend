@@ -259,3 +259,25 @@
     color: #b91c1c;
   }
   
+  .add-buttons-container {
+    margin: 15px 0;
+    text-align: right;
+  }
+  
+  .add-section-button {
+    background-color: #577891;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+  }
+  
+  .add-section-button:hover {
+    background-color: #4e728d;
+  }
+  

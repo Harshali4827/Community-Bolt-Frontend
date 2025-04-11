@@ -11,7 +11,7 @@ import {
   CFormSelect,
 } from '@coreui/react';
 import CIcon from '@coreui/icons-react';
-import { cilBuilding, cilCheckCircle,cilGrid,cilHome } from '@coreui/icons';
+import { cilBuilding, cilCheckCircle,cilGrid,cilHome, cilListRich } from '@coreui/icons';
 function AddSector(){
 const [formData, setFormData] = useState({
         property_id: '',
@@ -219,7 +219,17 @@ const [formData, setFormData] = useState({
       </div>
       <div className="input-box">
               <span className="details">Description</span>
-            <textarea name="sector_description"  value={formData.sector_description} onChange={handleChange} />
+            <CInputGroup>
+          <CInputGroupText className="input-icon">
+           <CIcon icon={cilListRich} />
+        </CInputGroupText>
+         <CFormInput
+            type="text"
+            name="sector_description"
+            value={formData.sector_description}
+            onChange={handleChange}
+          />
+       </CInputGroup>
         </div>
      </div>
     <div className="button-row">

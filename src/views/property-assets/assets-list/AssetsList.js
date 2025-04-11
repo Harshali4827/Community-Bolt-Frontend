@@ -252,7 +252,7 @@ const handleDelete = async (id) => {
                     anchorEl={anchorEl}
                     open={menuId === assets.id}
                     onClose={handleClose}>
-                     <Link to={`/property-assets/update-assets/${assets.id}`}>
+                     <Link className='Link' to={`/property-assets/update-assets/${assets.id}`}>
                          <MenuItem style={{ color: 'black'}}>Edit</MenuItem>
                      </Link>
                     <MenuItem onClick={() => handleDelete(assets.id)}>Delete</MenuItem>
