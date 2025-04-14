@@ -32,7 +32,7 @@ const AppSidebar = () => {
       <CSidebarHeader className="bg-primary border-bottom">
     <CSidebarBrand as={NavLink} to="/" style={{display:'flex',textDecoration:'none'}}>
        <img src={logo} alt="Community Bolt Logo" height="32" />
-       <h5 style={{height:'12px',fontWeight:'700'}}>Community Bolt</h5>
+       <h5 style={{height:'12px',fontWeight:'700', padding:'5px'}}>Community Bolt</h5>
     </CSidebarBrand>
         <CCloseButton
           className="d-lg-none"

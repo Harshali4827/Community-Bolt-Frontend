@@ -177,19 +177,19 @@ function AddProperty() {
       return;
     } 
     
-    if (officeIndex !== undefined) {
-      const updatedOffices = [...offices];
-      updatedOffices[officeIndex][name] = value;
-      setOffices(updatedOffices);
-      return;
-    }
-  
     if (amenityIndex !== undefined) {
       const updatedAmenities = [...amenities];
       updatedAmenities[amenityIndex][name] = value;
       setAmenities(updatedAmenities);
       return;
     }  
+
+    if (officeIndex !== undefined) {
+      const updatedOffices = [...offices];
+      updatedOffices[officeIndex][name] = value;
+      setOffices(updatedOffices);
+      return;
+    }
     const updatedSectors = [...sectors];
     if (unitIndex !== undefined) {
       updatedSectors[sectorIndex].blocks[blockIndex].units[unitIndex][name] = value;
@@ -1182,24 +1182,7 @@ function AddProperty() {
                 </CInputGroup>
                 {errors.gate_name && <p className="error">{errors.gate_name}</p>}
               </div>
-              
-              <div className="input-box">
-                <span className="details">Description</span>
-          <CInputGroup>
-          <CInputGroupText className="input-icon">
-           <CIcon icon={cilListRich} />
-        </CInputGroupText>
-         <CFormInput
-            type="text"
-            name="gate_description"
-            value={gate.gate_description}
-            onChange={(e) => handleInputChange(e, { gateIndex: index })}
-          />
-       </CInputGroup>
-                {errors.gate_description && <p className="error">{errors.gate_description}</p>}
-              </div>
-
-              <div className="input-box">
+                 <div className="input-box">
                   <span className="details">Is main gate</span>
                 <CInputGroup>
                   <CInputGroupText className="input-icon">
@@ -1216,6 +1199,22 @@ function AddProperty() {
                   </CFormSelect>
                 </CInputGroup>
                 {errors.is_main_gate && <p className="error">{errors.is_main_gate}</p>}
+              </div>
+                
+              <div className="input-box">
+                <span className="details">Description</span>
+          <CInputGroup>
+          <CInputGroupText className="input-icon">
+           <CIcon icon={cilListRich} />
+        </CInputGroupText>
+         <CFormInput
+            type="text"
+            name="gate_description"
+            value={gate.gate_description}
+            onChange={(e) => handleInputChange(e, { gateIndex: index })}
+          />
+       </CInputGroup>
+                {errors.gate_description && <p className="error">{errors.gate_description}</p>}
               </div>
             </div>
           </div>
@@ -1252,8 +1251,17 @@ function AddProperty() {
       
          <div className="input-box">
               <span className="details">Description</span>
-            <textarea name="asset_description" value={asset.asset_description} onChange={(e) => handleInputChange(e, { assetIndex: index })}
- />
+            <CInputGroup>
+          <CInputGroupText className="input-icon">
+           <CIcon icon={cilListRich} />
+        </CInputGroupText>
+         <CFormInput
+            type="text"
+            name="asset_description"
+            value={asset.asset_description}
+            onChange={(e) => handleInputChange(e, { assetIndex: index })}
+          />
+       </CInputGroup>
         </div>
      </div>
      </div>
@@ -1635,14 +1643,8 @@ function AddProperty() {
        </CInputGroup>
        {errors.office_name && <p className="error">{errors.office_name}</p>}
      </div>
-
-     <div className="input-box">
-       <span className="details">Description</span>
-       <textarea name="office_description" value={office.office_description} onChange={(e) => handleInputChange(e, { officeIndex: i })}
-       />
-     </div>
-     
-     <div className="input-box">
+    
+    <div className="input-box">
        <span className="details">Contact</span>
        <CInputGroup>
         <CInputGroupText className="input-icon">
@@ -1655,6 +1657,20 @@ function AddProperty() {
           />
        </CInputGroup>
        {errors.office_contact && <p className="error">{errors.office_contact}</p>}
+     </div>
+     <div className="input-box">
+       <span className="details">Description</span>
+          <CInputGroup>
+          <CInputGroupText className="input-icon">
+           <CIcon icon={cilListRich} />
+        </CInputGroupText>
+         <CFormInput
+            type="text"
+            name="office_description"
+            value={office.office_description}
+            onChange={(e) => handleInputChange(e, { officeIndex: i })}
+          />
+       </CInputGroup>
      </div>
     </div>
     </div>

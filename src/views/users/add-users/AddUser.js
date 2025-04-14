@@ -11,7 +11,7 @@ import {
   CFormSelect,
 } from '@coreui/react';
 import CIcon from '@coreui/icons-react';
-import { cilBookmark, cilBuilding, cilCheckCircle,cilClipboard,cilEnvelopeClosed,cilGrid,cilHome, cilImage, cilMedicalCross, cilPhone, cilUser } from '@coreui/icons';
+import { cilApplicationsSettings, cilBookmark,cilCalendar,cilClipboard,cilClock,cilEnvelopeClosed,cilGlobeAlt,cilHome, cilImage, cilLockLocked, cilMedicalCross, cilPeople, cilPhone, cilShieldAlt, cilUser } from '@coreui/icons';
 function AddUser(){
   const [formData, setFormData] = useState({
     title: '',
@@ -25,6 +25,7 @@ function AddUser(){
     blood_group:''
   });
   const [errors, setErrors] = useState({});
+  const [userRoles, setUserRoles] = useState([]);
   const navigate = useNavigate();
 
   const getIPAddress = async () => {
@@ -62,6 +63,23 @@ useEffect(() => {
     fetchUserData();
 }, []);
 
+useEffect(() => {
+  const fetchUserRole = async () => {
+    try {
+      const response = await axiosInstance.get('/users-role');
+      setUserRoles(response.data);
+    } catch (error) {
+      console.error("Error fetching roles:", error);
+      Swal.fire({
+        title: 'Error!',
+        text: 'Failed to load user role',
+        icon: 'error',
+        confirmButtonText: 'OK',
+      });
+    }
+  };
+fetchUserRole();
+}, []);
 const handleChange = (e) => {
   const { name, value, type, files } = e.target;
   if (type === "file") {
@@ -225,6 +243,43 @@ return(
       </div>
       <div className="input-box">
       <div className="details-container">
+        <span className="details">Gender</span>
+        <span className="required">*</span>
+        </div>
+        <CInputGroup>
+    <CInputGroupText className="input-icon">
+      <CIcon icon={cilBookmark} />
+    </CInputGroupText>
+    <CFormSelect
+      name="gender"
+      value={formData.gender}
+      onChange={handleChange}
+    >
+        <option value="">-Select-</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+    </CFormSelect>
+      </CInputGroup>
+          {errors.gender && <p className="error">{errors.gender}</p>}
+      </div>
+      <div className="input-box">
+      <div className="details-container">
+        <span className="details">Date of birth</span>
+        <span className="required">*</span>
+        </div>
+            <CInputGroup className="input-icon">
+          <CInputGroupText><CIcon icon={cilCalendar} /></CInputGroupText>
+           <CFormInput
+               type="date"
+               name="dob"
+               value={formData.dob}
+               onChange={handleChange}
+             />
+             </CInputGroup>
+          {errors.dob && <p className="error">{errors.dob}</p>}
+      </div>
+      <div className="input-box">
+      <div className="details-container">
         <span className="details">Pan number</span>
         <span className="required">*</span>
         </div>
@@ -261,13 +316,32 @@ return(
               <CInputGroup className="input-icon">
           <CInputGroupText><CIcon icon={cilImage} /></CInputGroupText>
            <CFormInput
-               type="text"
+               type="file"
                name="profile_photo"
                value={formData.profile_photo}
                onChange={handleChange}
                accept="image/*"
              />
              </CInputGroup>
+      </div>
+      <div className="input-box">
+        <span className="details">User category</span>
+        <CInputGroup>
+    <CInputGroupText className="input-icon">
+      <CIcon icon={cilPeople} />
+    </CInputGroupText>
+    <CFormSelect
+      name="user_category"
+      value={formData.user_category}
+      onChange={handleChange}
+    >
+        <option value="">-Select-</option>
+                    <option value="1">Male</option>
+                    <option value="2">Female</option>
+                    <option value="3">Kid</option>
+                    <option value="4">Senior citizen</option>
+    </CFormSelect>
+      </CInputGroup>
       </div>
       <div className="input-box">
         <span className="details">Blood group</span>
@@ -280,6 +354,67 @@ return(
                onChange={handleChange}
              />
              </CInputGroup>
+      </div>
+      <div className="input-box">
+        <span className="details">App access</span>
+        <CInputGroup>
+    <CInputGroupText className="input-icon">
+      <CIcon icon={cilApplicationsSettings}/>
+    </CInputGroupText>
+    <CFormSelect
+      name="app_access"
+      value={formData.app_access}
+      onChange={handleChange}
+    >
+        <option value="">-Select-</option>
+                    <option value="1">Yes</option>
+                    <option value="0">No</option>
+    </CFormSelect>
+      </CInputGroup>
+      </div>
+      <div className="input-box">
+        <span className="details">Country</span>
+          <CInputGroup className="input-icon">
+          <CInputGroupText><CIcon icon={cilGlobeAlt} /></CInputGroupText>
+           <CFormInput
+               type="text"
+               name="blood_group"
+               value={formData.blood_group}
+               onChange={handleChange}
+             />
+             </CInputGroup>
+      </div>
+      <div className="input-box">
+        <span className="details">Timezone</span>
+          <CInputGroup className="input-icon">
+          <CInputGroupText><CIcon icon={cilClock} /></CInputGroupText>
+           <CFormInput
+               type="text"
+               name="timezone"
+               value={formData.timezone}
+               onChange={handleChange}
+             />
+             </CInputGroup>
+      </div>
+      <div className="input-box">
+        <span className="details">Role</span>
+        <CInputGroup>
+    <CInputGroupText className="input-icon">
+      <CIcon icon={cilShieldAlt} />
+    </CInputGroupText>
+    <CFormSelect
+      name="user_role_id"
+      value={formData.user_role_id}
+      onChange={handleChange}
+    >
+      <option value="">-Select role-</option>
+      {userRoles.map((role) => (
+        <option key={role.id} value={role.id}>
+          {role.role_name}
+        </option>
+      ))}
+    </CFormSelect>
+  </CInputGroup>
       </div>
     </div>
     <div className="button-row">

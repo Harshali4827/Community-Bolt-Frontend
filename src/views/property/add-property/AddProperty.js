@@ -13,10 +13,7 @@ import {
 } from '@coreui/react';
 import CIcon from '@coreui/icons-react';
 import { cilHome,cilLocationPin, cilCheckCircle, cilImage, cilGlobeAlt, cilMap, cilBuilding, cilPaperPlane, cilGrid, cilViewModule, cilBriefcase, cilPool, cilDoor, cilCarAlt, cilGroup, cilBike, cilUserFemale, cilPhone, cilPeople, cilUser,cilMoney, cilToggleOff, cilEnvelopeClosed,cilChart, cilChartLine } from '@coreui/icons';
-
 const GOOGLE_MAPS_API_KEY = "AIzaSyAyufpVzzQOm5-z0H___ZEG9pN-P-aAA8M";
-
-
 function AddProperty(){
   const [formData, setFormData] = useState({
     property_name: '',
@@ -58,6 +55,10 @@ function AddProperty(){
   const [latitude, setLatitude] = useState("");
   const [longitude, setLongitude] = useState("");
   const [searchBox, setSearchBox] = useState(null);
+  const [countries, setCountries] = useState([]);
+  const [states, setStates] = useState([]);
+  const [loadingStates, setLoadingStates] = useState(false);
+
   const navigate = useNavigate();
 
   const onPlacesChanged = () => {
@@ -109,12 +110,56 @@ useEffect(() => {
     fetchUserData();
 }, []);
 
-const handleChange = (e) => {
+
+useEffect(() => {
+  const fetchCountry = async () => {
+    try {
+      const response = await axiosInstance.get('/country');
+      setCountries(response.data);
+    } catch (error) {
+      console.error("Error fetching country:", error);
+      Swal.fire({
+        title: 'Error!',
+        text: 'Failed to load country',
+        icon: 'error',
+        confirmButtonText: 'OK',
+      });
+    }
+  };
+
+  fetchCountry ();
+}, []);
+
+const handleChange = async (e) => {
   const { name, value, type, files } = e.target;
   if (type === "file") {
       setFormData((prevData) => ({ ...prevData, [name]: files[0] }));
   } else {
       setFormData((prevData) => ({ ...prevData, [name]: value }));
+  }
+
+  if (name === "country_id" && value) {
+    try {
+      setLoadingStates(true);
+      const response = await axiosInstance.get(`/states/${value}`);
+      setStates(response.data);
+      // Reset state and city when country changes
+      setFormData(prev => ({
+        ...prev,
+        state_id: '',
+        city_id: ''
+      }));
+    } catch (error) {
+      console.error("Error fetching states:", error);
+      Swal.fire({
+        title: 'Error!',
+        text: 'Failed to load states',
+        icon: 'error',
+        confirmButtonText: 'OK',
+      });
+    } finally {
+      setLoadingStates(false);
+    }
   }
 };
 
@@ -263,17 +308,24 @@ return(
         <span className="details">Country</span>
         <span className="required">*</span>
         </div>
-         <CInputGroup className="input-icon">
-          <CInputGroupText><CIcon icon={cilGlobeAlt} /></CInputGroupText>
-           <CFormInput
-    type="text"
-    name="country_id"
-    value={formData.country_id}
-    onChange={handleChange}
-  />
-</CInputGroup>
-          
-          {errors.country_id && <p className="error">{errors.country_id}</p>}
+<CInputGroup>
+    <CInputGroupText className="input-icon">
+      <CIcon icon={cilGlobeAlt} />
+    </CInputGroupText>
+    <CFormSelect
+      name="country_id"
+      value={formData.country_id}
+      onChange={handleChange}
+    >
+      <option value="">-Select Country-</option>
+      {countries.map((country) => (
+        <option key={country.id} value={country.id}>
+          {country.name}
+        </option>
+      ))}
+    </CFormSelect>
+  </CInputGroup>
+  {errors.country_id && <p className="error">{errors.country_id}</p>}
       </div>
 
       <div className="input-box">
@@ -298,15 +350,22 @@ return(
         <span className="details">State</span>
         <span className="required">*</span>
         </div>
-<CInputGroup className="input-icon">
-          <CInputGroupText><CIcon icon={cilMap} /></CInputGroupText>
-           <CFormInput
-    type="text"
-    name="state_id"
-    value={formData.state_id}
-    onChange={handleChange}
-  />
-</CInputGroup>
+        <CInputGroup className="input-icon">
+    <CInputGroupText><CIcon icon={cilMap} /></CInputGroupText>
+    <CFormSelect
+      name="state_id"
+      value={formData.state_id}
+      onChange={handleChange}
+      disabled={!formData.country_id || loadingStates}
+    >
+      <option value="">-Select State-</option>
+      {states.map((state) => (
+        <option key={state.id} value={state.id}>
+          {state.state_name}
+        </option>
+      ))}
+    </CFormSelect>
+  </CInputGroup>
           {errors.state_id && <p className="error">{errors.state_id}</p>}
       </div>
       

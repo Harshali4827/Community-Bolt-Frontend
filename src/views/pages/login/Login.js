@@ -18,21 +18,30 @@ import { cilEnvelopeClosed} from '@coreui/icons'
 import axiosInstance from 'src/axiosInstance'
 import loader from '../../../assets/images/cb_logo_100.gif'
 import logo from '../../../assets/images/logo.svg'
+import ReCAPTCHA from 'react-google-recaptcha'
 import './login.css';
+const SITE_KEY = "6LeRixUrAAAAAKyQIil-w-ynRUCKn5QBnBNswa2G"
+//const SITE_KEY = "6LevThQrAAAAAOqZhTnASTKx1xoWer4wccc6GMm1"
 const Login = () => {
   const [email, setEmail] = useState('')
   const [mobileNumber, setMobileNumber] = useState('')
   const [errors, setErrors] = useState({})
   const [loading, setLoading] = useState(false)
+  const [captchaToken, setCaptchaToken] = useState('')
   const navigate = useNavigate()
 
   const handleLogin = async (e) => {
     e.preventDefault()
     setErrors({})
     setLoading(true)
+    if (!captchaToken) {
+      setErrors({ captcha: 'Please verify you are not a robot.' })
+      setLoading(false)
+      return
+    }
 
     try {
-      const response = await axiosInstance.post('/check-email', { email, mobileNumber })
+      const response = await axiosInstance.post('/check-email', { email, mobileNumber,captchaToken, })
 
       if (response.status === 200) {
         navigate('/verify-otp', { state: { email } })
@@ -98,6 +107,14 @@ const Login = () => {
                 </CInputGroup> */}
                 {errors.mobileNumber && <p className="text-danger small">{errors.mobileNumber}</p>}
                 {errors.general && <p className="text-danger small">{errors.general}</p>}
+                    <div className="mb-3 text-center recaptcha-container">
+                       <ReCAPTCHA
+                       sitekey={SITE_KEY}
+                       onChange={(token) => setCaptchaToken(token)}
+                       />
+                    </div>
+
+                {errors.captcha && <p className="text-danger small">{errors.captcha}</p>}
 
                 <div className="d-flex justify-content-center mt-3">
                   <CButton type="submit" color="primary" className="px-5" disabled={loading}>

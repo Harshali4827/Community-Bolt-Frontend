@@ -10,7 +10,7 @@ import {
   CFormSelect,
 } from '@coreui/react';
 import CIcon from '@coreui/icons-react';
-import { cilAddressBook,cilBadge, cilBank, cilBike, cilBuilding, cilCalendar, cilCarAlt, cilChartPie, cilCheckCircle,cilChild,cilElevator,cilGrid,cilGroup,cilHome,cilLayers, cilPhone, cilSettings, cilUser, cilUserFemale, cilWallet } from '@coreui/icons';
+import { cilAddressBook,cilBadge, cilBank, cilBike, cilBuilding, cilCalendar, cilCarAlt, cilChartPie, cilCheckCircle,cilChild,cilElevator,cilGrid,cilGroup,cilHome,cilLayers, cilPhone, cilSettings, cilUser, cilUserFemale, cilUserPlus, cilWallet } from '@coreui/icons';
 function UpdatePropertyUnit(){
   const location = useLocation();
   const userId = location.state?.userId;
@@ -111,7 +111,10 @@ const [formData, setFormData] = useState({
             try {
               const response = await axiosInstance.get(`/sectors/property/${formData.property_id}`);
               setSectors(response.data);
-              setFormData(prev => ({ ...prev, property_sector_id: "", property_block_id: "" })); 
+              const sectorExists = response.data.some(sector => sector.id === formData.property_sector_id);
+              if(!sectorExists){
+                setFormData(prev => ({ ...prev, property_sector_id: "", property_block_id: "" })); 
+              }
             } catch (error) {
               console.error("Error fetching sectors:", error);
             }
@@ -127,7 +130,10 @@ const [formData, setFormData] = useState({
             try {
               const response = await axiosInstance.get(`/blocks/sectors/${formData.property_sector_id}`);
               setBlocks(response.data);
-              setFormData(prev => ({ ...prev, property_block_id: "" }));
+              const blockExists = response.data.some(block => block.id === formData.property_block_id);
+              if(!blockExists){
+                setFormData(prev => ({ ...prev, property_block_id: "" }));
+              }
             } catch (error) {
               console.error("Error fetching blocks:", error);
             }
@@ -143,7 +149,11 @@ const [formData, setFormData] = useState({
             try {
               const response = await axiosInstance.get(`/units/blocks/${formData.property_block_id}`);
               setUnits(response.data);
-              setFormData(prev => ({ ...prev, property_unit_id: "" }));
+              const unitExists = response.data.some(unit => unit.id === formData.property_unit_id);
+              if(!unitExists){
+                setFormData(prev => ({ ...prev, property_unit_id: "" }));
+              }
+
             } catch (error) {
               console.error("Error fetching units:", error);
             }
@@ -326,8 +336,17 @@ return(
                 <span className="details">User name</span>
                 <span className="required">*</span>
               </div>
-              <input type="text" name='user_id' value={formData.user_id} onChange={handleChange}/>
-              {errors.user_id && <p className="error">{errors.user_id}</p>}
+              <CInputGroup className="input-icon">
+          <CInputGroupText><CIcon icon={cilUser} /></CInputGroupText>
+           <CFormInput
+               type="text"
+               name="user_id"
+               value={formData.user_id}
+               onChange={handleChange}
+             />
+             </CInputGroup>
+             {errors.user_id && <p className="error">{errors.user_id}</p>}
+
             </div>
           <div className="input-box">
               <div className="details-container">
@@ -490,14 +509,23 @@ return(
                 <span className="details">User role</span>
                 <span className="required">*</span>
               </div>
-              <select name="user_role_id" value={formData.user_role_id} onChange={handleChange}>
-                <option value="">-Select role-</option>
+              <CInputGroup>
+    <CInputGroupText className="input-icon">
+      <CIcon icon={cilUser} />
+    </CInputGroupText>
+    <CFormSelect
+      name="user_role_id"
+      value={formData.user_role_id}
+      onChange={handleChange}
+    >
+     <option value="">-Select role-</option>
                 {usersRole.map((user) => (
                   <option key={user.id} value={user.id}>
                     {user.role_name}
                   </option>
                 ))}
-              </select>
+    </CFormSelect>
+  </CInputGroup>
               {errors.user_role_id && <p className="error">{errors.user_role_id}</p>}
             </div>
       <div className="input-box">
@@ -564,7 +592,7 @@ return(
            <CFormInput
                type="text"
                name="senior_citizen_count"
-               value={formData.floorsenior_citizen_count_number}
+               value={formData.senior_citizen_count}
                onChange={handleChange}
              />
              </CInputGroup>
@@ -676,12 +704,15 @@ return(
           </div>
           <div className="input-box">
     <span className="details">Nominee names and per</span>
-  <textarea
-    type="text"
-    name="nominee_names_and_per"
-    value={formData.nominee_names_and_per}
-    onChange={handleChange}
-  />
+  <CInputGroup className="input-icon">
+          <CInputGroupText><CIcon icon={cilUserPlus} /></CInputGroupText>
+           <CFormInput
+               type="text"
+               name="nominee_names_and_per"
+               value={formData.nominee_names_and_per}
+               onChange={handleChange}
+             />
+             </CInputGroup>
 </div>
      </div>
     <div className="button-row">

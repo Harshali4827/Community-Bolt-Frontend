@@ -14,9 +14,7 @@
     align-items: center;
     z-index: 9999;
   }
-  
-
-.login-background {
+  .login-background {
     position: fixed;
     top: 0;
     left: 0;
@@ -30,12 +28,28 @@
   }
   
   .login-container {
-    /* background-color: rgba(255, 255, 255, 0.85); */
     width: 100%;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+  }
+  
+  .recaptcha-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+  
+  .g-recaptcha {
+    transform: scale(0.9);
+    transform-origin: center;
+  }
+  
+  @media (max-width: 480px) {
+    .g-recaptcha {
+      transform: scale(0.8);
+    }
   }
   

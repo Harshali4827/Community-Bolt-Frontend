@@ -1,9 +1,8 @@
-
+import { element } from 'prop-types'
 import React from 'react'
 import { Translation } from 'react-i18next'
 
 const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'))
-
 const UsersList = React.lazy(() => import('./views/users/users-list/UsersList')) 
 
 const AddUser = React.lazy(() => import('./views/users/add-users/AddUser'))
@@ -61,6 +60,24 @@ const OfficeList = React.lazy(() => import('./views/office-details/office-list/O
 const UpdateOffice = React.lazy(() => import('./views/office-details/update-office/UpdateOffice'))
 
 const AddAll = React.lazy(() => import ('./views/add-all/AddAll'));
+
+//Ledgers
+
+const AddGroup = React.lazy(() => import ('./views/ledgers/group/add-group/AddGroup'));
+const GroupList = React.lazy(() => import ('./views/ledgers/group/group-list/GroupList'));
+const UpdateGroup = React.lazy(() => import ('./views/ledgers/group/update-group/UpdateGroup'));
+
+const AddSubgroup = React.lazy(() => import('./views/ledgers/subgroup/add-subgroup/AddSubgroup'));
+const SubgroupList = React.lazy(() => import('./views/ledgers/subgroup/subgroup-list/SubgroupList'));
+const UpdateSubgroup = React.lazy(() => import('./views/ledgers/subgroup/update-subgroup/UpdateSubgroup'))
+
+const AddChildGroup = React.lazy(() => import('./views/ledgers/child-group/add-childgroup/AddChildGroup'))
+const UpdateChildGroup = React.lazy(() => import('./views/ledgers/child-group/update-childgroup/UpdateChildGroup'))
+const ChildGroupList = React.lazy(() => import('./views/ledgers/child-group/childgroup-list/ChildGroupList'))
+
+const AddLedger = React.lazy(() => import('./views/ledgers/ledger/add-ledger/AddLedger'))
+const LedgersList = React.lazy(() => import('./views/ledgers/ledger/ledgers-list/LedgersList'))
+const UpdateLedger = React.lazy(() => import('./views/ledgers/ledger/update-ledger/UpdateLedger'))
 
 // Plugins
 const Calendar = React.lazy(() => import('./views/plugins/calendar/Calendar'))
@@ -204,6 +221,23 @@ const routes = [
   { path: '/office-details/update-office/:id', name: 'Update Office Details', element: UpdateOffice},
 
   { path: '/add-all', name: 'Add All Details Under Property', element: AddAll},
+
+  { path: '/ledgers/add-group', name: 'Add Account Ledger Group', element: AddGroup},
+  { path: '/ledgers/group-list', name: 'Account Ledger Groups', element: GroupList},
+  { path: '/ledgers/update-group/:id', name:'Update Ledger Group', element: UpdateGroup },
+
+  { path:'/ledgers/add-subgroup', name: 'Add Account Ledger Subgroup', element: AddSubgroup},
+  { path:'/ledgers/subgroup-list', name:'Account Ledger Subgroups', element: SubgroupList},
+  { path:'/ledgers/update-subgroup/:id', name:'Update Ledger Subgroup', element: UpdateSubgroup},
+  
+  { path:'/ledgers/add-childgroup', name:'Add Account Ledger ChildGroup', element: AddChildGroup},
+  { path:'/ledgers/childgroup-list', name:'Account Ledger ChildGroups', element:ChildGroupList },
+  { path:'/ledgers/update-childgroup/:id', name:'Update Account Ledger ChildGroup', element:UpdateChildGroup},
+
+  { path:'/ledgers/add-ledger', name:'Add Account Ledger', element: AddLedger},
+  { path:'/ledgers/ledgers-list', name:'Accout Ledgers', element: LedgersList},
+  { path:'/ledgers/update-ledger/:id', name:'Update Ledger', element: UpdateLedger},
+
  {
     path: '/plugins',
     name: <Translation>{(t) => t('plugins')}</Translation>,
